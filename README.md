@@ -1,4 +1,3 @@
-mywishlist
-==========
+# myWishList
 
-Code for creating My WishList App.
+Application to create a wishlist of products.
