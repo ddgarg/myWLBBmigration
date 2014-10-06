@@ -1,5 +1,6 @@
 {
-    
+    "port": ["PORT", 8001],
+
     "express": {
         "view cache": false,
         "view engine": "dust",
