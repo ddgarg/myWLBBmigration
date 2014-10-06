@@ -10,7 +10,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="./" class="navbar-brand" style="font-size: 30px"><i>Wish List</i></a>
+            <a href="./" class="navbar-brand" style="font-size: 30px"><i>My Wish List</i></a>
         </div>
         <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
             <div class="right-offset">
@@ -27,12 +27,14 @@
                     <li class="dropdown">
                         <a id="drop6" role="button" data-toggle="dropdown" data-target="#" href="./">More <span class="caret"></span></a>
                         <ul id="menu3" class="dropdown-menu" role="menu" aria-labelledby="drop6">
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://twitter.com/fat">Action</a></li>
                             <li role="presentation"><a role="menuitem" tabindex="-1" href="http://twitter.com/fat">Another action</a></li>
                             <li role="presentation"><a role="menuitem" tabindex="-1" href="http://twitter.com/fat">Something else here</a></li>
                             <li role="presentation" class="divider"></li>
                             <li role="presentation"><a role="menuitem" tabindex="-1" href="http://twitter.com/fat">Separated link</a></li>
                         </ul>
+                    </li>
+                    <li>
+                        <a class="logout" role="menuitem" tabindex="-1" onclick="fblogout();">Logout</a>
                     </li>
                 </ul>
             </div>

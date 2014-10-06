@@ -741,3 +741,8 @@ a
     font-size:7em;
     display:block;
 }
+
+.logout {
+    color:blue;
+    cursor:pointer;
+}
