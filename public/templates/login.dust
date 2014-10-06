@@ -53,7 +53,7 @@
             var form = document.createElement("form");
             form.setAttribute("method", method);
             form.setAttribute("action", path);
-            console.log(params);
+
             for(var key in params) {
                 if(params.hasOwnProperty(key)) {
                     var hiddenField = document.createElement("input");
@@ -71,16 +71,16 @@
 
         function  fbLogin (){
             FB.login(function(response) {
-                var fbAuthResponse = response.authResponse;
-                    {!if authenticated load mywishlist page!}
-                    if (response.authResponse) {
-                        post('/mywishlist', {accessToken : fbAuthResponse.accessToken, userId : fbAuthResponse.userID, signedRequest : fbAuthResponse.signedRequest});
-                    }
-                    {!else redirect the user to login page!}
-                    else {
-                        window.location="/login";
-                        {!console.log('User cancelled login or did not fully authorize.');!}
-                    }
+
+                {!if authenticated load mywishlist page!}
+                if (response.authResponse) {
+                    post('/mywishlist', {accessToken : fbAuthResponse.accessToken, userId : fbAuthResponse.userID, signedRequest : fbAuthResponse.signedRequest});
+                }
+                {!else redirect the user to login page!}
+                else {
+                    window.location="/login";
+                    {!console.log('User cancelled login or did not fully authorize.');!}
+                }
             },{scope: 'public_profile,email,publish_actions,user_friends,user_birthday'}); {!required permissions!}
         };
 
