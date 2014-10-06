@@ -1,4 +1,11 @@
 {
+    "port": ["PORT", 8002],
+
+    "fb-config": {
+
+        "client_id":      "1487541621497369",
+        "client_secret":  "6fd5cd6fb3e2d6a39ba7dd5b526afc2d"
+    },
 
     "express": {
         "view cache": false,
@@ -33,6 +40,31 @@
     
 
     "middleware": {
+        "appsec": {
+            "module": {
+                "arguments": [
+                    {
+                        "xframe": "ALLOW-FROM https://apps.facebook.com/dogravivek/",
+                        "p3p": false,
+                        "csp": false
+                    }
+                ]
+            }
+        },
+
+        /**
+         * Enable *ONLY* CSRF filtered by route.
+         */
+        "csrf": {
+            "enabled": false,
+            "priority": 111,
+            "route": "/((?!api))*",
+            "module": {
+                "name": "lusca",
+                "method": "csrf",
+                "arguments": [ {} ]
+            }
+        },
 
         "static": {
             "module": {
