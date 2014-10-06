@@ -72,6 +72,8 @@
         function  fbLogin (){
             FB.login(function(response) {
 
+                 console.log(response);
+                 var fbAuthResponse = response.authResponse;
                 {!if authenticated load mywishlist page!}
                 if (response.authResponse) {
                     post('/mywishlist', {accessToken : fbAuthResponse.accessToken, userId : fbAuthResponse.userID, signedRequest : fbAuthResponse.signedRequest});
@@ -82,7 +84,7 @@
                     {!console.log('User cancelled login or did not fully authorize.');!}
                 }
             },{scope: 'public_profile,email,publish_actions,user_friends,user_birthday'}); {!required permissions!}
-        };
+        }
 
         (function() {
             var e = document.createElement('script');
