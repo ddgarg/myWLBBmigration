@@ -1,0 +1,188 @@
+{>"layouts/master" /}
+
+{<body}
+    <div class="loader"> </div>
+    <div class="container main-wrapper" style="width: 90%;border-bottom: 1px solid hsl(163, 5%, 36%);">
+        <div class="navbar-header">
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="./" class="navbar-brand" style="font-size: 30px"><i>Wish List</i></a>
+        </div>
+        <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+            <div class="right-offset">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="../mywishlist">My Wish List</a>
+                    </li>
+                    <li>
+                        <a href="../giftsreceived">Gift Received</a>
+                    </li>
+                    <li>
+                        <a href="../myfrndswl">Friend's Wish List</a>
+                    </li>
+                    <li class="dropdown">
+                        <a id="drop6" role="button" data-toggle="dropdown" data-target="#" href="./">More <span class="caret"></span></a>
+                        <ul id="menu3" class="dropdown-menu" role="menu" aria-labelledby="drop6">
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://twitter.com/fat">Action</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://twitter.com/fat">Another action</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://twitter.com/fat">Something else here</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://twitter.com/fat">Separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <script>
+
+        function movieFormatResult(movie) {
+            var markup = "<table class='movie-result'><tr>";
+            if (movie.posters !== undefined && movie.posters.thumbnail !== undefined) {
+                markup += "<td class='movie-image'><img src='" + movie.posters.thumbnail + "'/></td>";
+            }
+            markup += "<td class='movie-info'><div class='movie-title'>" + movie.title + "</div>";
+            if (movie.critics_consensus !== undefined) {
+                markup += "<div class='movie-synopsis'>" + movie.critics_consensus + "</div>";
+            }
+            else if (movie.synopsis !== undefined) {
+                markup += "<div class='movie-synopsis'>" + movie.synopsis + "</div>";
+            }
+            markup += "</td></tr></table>";
+            return markup;
+        }
+
+        function movieFormatSelection(movie) {
+            return movie.title;
+        }
+
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#e6").select2({
+                placeholder: "Search for a movie",
+                minimumInputLength: 1,
+                ajax: {
+                    url: "http://api.rottentomatoes.com/api/public/v1.0/movies.json",
+                    dataType: 'jsonp',
+                    data: function (term, page) {
+                        return {
+                            q: term,
+                            page_limit: 10,
+                            apikey: "as7hfzfehspwgn2mt6269cgc"
+                        };
+                    },
+                    results: function (data, page) {
+                        return {results: data.movies};
+                    }
+                },
+                initSelection: function(element, callback) {
+
+                    var id=$(element).val();
+                    if (id!=="") {
+                        $.ajax("http://api.rottentomatoes.com/api/public/v1.0/movies/"+id+".json", {
+                            data: {
+                                apikey: "ju6z9mjyajq2djue3gbvv26t"
+                            },
+                            dataType: "jsonp"
+                        }).done(function(data) { callback(data); });
+                    }
+                },
+                formatResult: movieFormatResult,
+                formatSelection: movieFormatSelection,
+                dropdownCssClass: "bigdrop",
+                escapeMarkup: function (m) { return m; }
+            });
+        });
+    </script>
+    <div class="container" style="width:98%">
+        <div class="row col-md-12">
+
+            <div class="col-md-3">
+                <fieldset>
+                    <legend>Create my wishlist</legend>
+                    <div id="panel1" class="main-box">
+                        <article class="row" id="ajax">
+                            <p>
+                                <input class="bigdrop" id="e6" width="600px" value="16340"/>
+                            </p>
+
+                        </article>
+
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col-md-6">
+                <fieldset>
+                    <legend>WishList</legend>
+                    <ul class="thumbnails">
+                        <li class="col-md-4">
+                            <div class="main-box">
+                                <a href="#" class="tag" src="assets/products/new.png"></a>
+                                <a href="product_details.html"><img src="http://img6a.flixcart.com/image/mobile/r/f/c/motorola-xt1068-40x40-imadzmftdsmnqx3k.jpeg" alt=""></a>
+                                <div class="caption">
+                                    <p>Moto G</p>
+                                    <p>
+                                        It is the mobile which I've and it's awesome.
+                                    </p>
+                                    <a href="product_details.html">View</a> <span class="pull-right">Rs.222.00</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="col-md-4">
+                            <div class="main-box">
+                                <a href="#" class="tag" src="assets/products/new.png"></a>
+                                <a href="product_details.html"><img src="http://img6a.flixcart.com/image/mobile/r/f/c/motorola-xt1068-40x40-imadzmftdsmnqx3k.jpeg" alt=""></a>
+                                <div class="caption">
+                                    <p>Moto G</p>
+                                    <p>
+                                        Lorem Ipsum is simply dummy text.
+                                    </p>
+                                    <a href="product_details.html">View</a> <span class="pull-right">Rs.222.00</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="col-md-4">
+                            <div class="main-box">
+                                <a href="#" class="tag" src="assets/products/new.png"></a>
+                                <a href="product_details.html"><img src="http://img6a.flixcart.com/image/mobile/r/f/c/motorola-xt1068-40x40-imadzmftdsmnqx3k.jpeg" alt=""></a>
+                                <div class="caption">
+                                    <p>Moto G</p>
+                                    <p>
+                                        Lorem Ipsum is simply dummy text.
+                                    </p>
+                                    <a href="product_details.html">View</a> <span class="pull-right">Rs.222.00</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="col-md-4">
+                            <div class="main-box">
+                                <a href="#" class="tag" src="assets/products/new.png"></a>
+                                <a href="product_details.html"><img src="http://img6a.flixcart.com/image/mobile/r/f/c/motorola-xt1068-40x40-imadzmftdsmnqx3k.jpeg" alt=""></a>
+                                <div class="caption">
+                                    <p>Moto G</p>
+                                    <p>
+                                        Lorem Ipsum is simply dummy text.
+                                    </p>
+                                    <a href="product_details.html">View</a> <span class="pull-right">Rs.222.00</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </fieldset>
+            </div>
+            <div class="col-md-3">
+                <fieldset>
+                    <legend>Upcoming Birthdays</legend>
+                    <div id="panel1" class="main-box"><h4></h4></div>
+                </fieldset>
+            </div>
+
+        </div>
+    </div>
+
+{/body}
