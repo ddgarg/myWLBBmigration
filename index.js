@@ -17,11 +17,18 @@ options = {
         next(null, config);
     }
 };
-
-port = process.env.PORT || 8002;
-
 app = express();
+
+port = process.env.PORT || 8000;
+
+
 app.use(kraken(options));
+
+
+// Uncomment below changes to run on http. make sure to comment https changes.
+//app.listen(port, function () {
+//    console.log('[%s] Listening on http://localhost:%d', app.settings.env, port);
+//});
 
 server = https.createServer(options, app);
 server.listen(port, function () {
