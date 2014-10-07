@@ -56,11 +56,11 @@
 
         function  fbLogin (){
             FB.login(function(response) {
-
                 console.log(response);
+
                 var fbAuthResponse = response.authResponse;
                 {!if authenticated load mywishlist page!}
-                    if (response.authResponse) {
+                if (response.authResponse) {
                     post('/mywishlist', {accessToken : fbAuthResponse.accessToken, userId : fbAuthResponse.userID, signedRequest : fbAuthResponse.signedRequest});
                 }
                 {! else redirect the user to login page!}

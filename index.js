@@ -4,6 +4,7 @@ var fs = require('fs');
 var https = require('https');
 var express = require('express');
 var kraken = require('kraken-js');
+var db = require('./lib/database.js');
 
 var options, app, server, port;
 
@@ -13,6 +14,7 @@ options = {
     cert: fs.readFileSync('./cacert.cert'),
     onconfig: function (config, next) {
 
+         db.config(config.get('databaseConfig'))
         //any config setup/overrides here
         next(null, config);
     }

@@ -40,83 +40,90 @@
             </div>
         </nav>
     </div>
-    <script>
+    {!<script>!}
 
-        function movieFormatResult(movie) {
-            var markup = "<table class='movie-result'><tr>";
-            if (movie.posters !== undefined && movie.posters.thumbnail !== undefined) {
-                markup += "<td class='movie-image'><img src='" + movie.posters.thumbnail + "'/></td>";
-            }
-            markup += "<td class='movie-info'><div class='movie-title'>" + movie.title + "</div>";
-            if (movie.critics_consensus !== undefined) {
-                markup += "<div class='movie-synopsis'>" + movie.critics_consensus + "</div>";
-            }
-            else if (movie.synopsis !== undefined) {
-                markup += "<div class='movie-synopsis'>" + movie.synopsis + "</div>";
-            }
-            markup += "</td></tr></table>";
-            return markup;
-        }
+        {!function movieFormatResult(movie) {!}
+            {!var markup = "<table class='movie-result'><tr>";!}
+            {!if (movie.posters !== undefined && movie.posters.thumbnail !== undefined) {!}
+                {!markup += "<td class='movie-image'><img src='" + movie.posters.thumbnail + "'/></td>";!}
+            {!}!}
+            {!markup += "<td class='movie-info'><div class='movie-title'>" + movie.title + "</div>";!}
+            {!if (movie.critics_consensus !== undefined) {!}
+                {!markup += "<div class='movie-synopsis'>" + movie.critics_consensus + "</div>";!}
+            {!}!}
+            {!else if (movie.synopsis !== undefined) {!}
+                {!markup += "<div class='movie-synopsis'>" + movie.synopsis + "</div>";!}
+            {!}!}
+            {!markup += "</td></tr></table>";!}
+            {!return markup;!}
+        {!}!}
 
-        function movieFormatSelection(movie) {
-            return movie.title;
-        }
+        {!function movieFormatSelection(movie) {!}
+            {!return movie.title;!}
+        {!}!}
 
-    </script>
-    <script>
-        $(document).ready(function() {
-            $("#e6").select2({
-                placeholder: "Search for a movie",
-                minimumInputLength: 1,
-                ajax: {
-                    url: "http://api.rottentomatoes.com/api/public/v1.0/movies.json",
-                    dataType: 'jsonp',
-                    data: function (term, page) {
-                        return {
-                            q: term,
-                            page_limit: 10,
-                            apikey: "as7hfzfehspwgn2mt6269cgc"
-                        };
-                    },
-                    results: function (data, page) {
-                        return {results: data.movies};
-                    }
-                },
-                initSelection: function(element, callback) {
+    {!</script>!}
+    {!<script>!}
+        {!$(document).ready(function() {!}
+            {!$("#e6").select2({!}
+                {!placeholder: "Search for a movie",!}
+                {!minimumInputLength: 1,!}
+                {!ajax: {!}
+                    {!url: "http://api.rottentomatoes.com/api/public/v1.0/movies.json",!}
+                    {!dataType: 'jsonp',!}
+                    {!data: function (term, page) {!}
+                        {!return {!}
+                            {!q: term,!}
+                            {!page_limit: 10,!}
+                            {!apikey: "as7hfzfehspwgn2mt6269cgc"!}
+                        {!};!}
+                    {!},!}
+                    {!results: function (data, page) {!}
+                        {!return {results: data.movies};!}
+                    {!}!}
+                {!},!}
+                {!initSelection: function(element, callback) {!}
 
-                    var id=$(element).val();
-                    if (id!=="") {
-                        $.ajax("http://api.rottentomatoes.com/api/public/v1.0/movies/"+id+".json", {
-                            data: {
-                                apikey: "ju6z9mjyajq2djue3gbvv26t"
-                            },
-                            dataType: "jsonp"
-                        }).done(function(data) { callback(data); });
-                    }
-                },
-                formatResult: movieFormatResult,
-                formatSelection: movieFormatSelection,
-                dropdownCssClass: "bigdrop",
-                escapeMarkup: function (m) { return m; }
-            });
-        });
-    </script>
+                    {!var id=$(element).val();!}
+                    {!if (id!=="") {!}
+                        {!$.ajax("http://api.rottentomatoes.com/api/public/v1.0/movies/"+id+".json", {!}
+                            {!data: {!}
+                                {!apikey: "ju6z9mjyajq2djue3gbvv26t"!}
+                            {!},!}
+                            {!dataType: "jsonp"!}
+                        {!}).done(function(data) { callback(data); });!}
+                    {!}!}
+                {!},!}
+                {!formatResult: movieFormatResult,!}
+                {!formatSelection: movieFormatSelection,!}
+                {!dropdownCssClass: "bigdrop",!}
+                {!escapeMarkup: function (m) { return m; }!}
+            {!});!}
+        {!});!}
+    {!</script>!}
     <div class="container" style="width:98%">
         <div class="row col-md-12">
-
             <div class="col-md-3">
                 <fieldset>
-                    <legend>Create my wishlist</legend>
-                    <div id="panel1" class="main-box">
-                        <article class="row" id="ajax">
-                            <p>
-                                <input class="bigdrop" id="e6" width="600px" value="16340"/>
-                            </p>
-
-                        </article>
-
-                    </div>
+                    <legend>Add a new product</legend>
+                    <form method="POST" action="/mywishlist/addproduct">
+                        <input name="name" placeholder="Product Name"><br>
+                        <input type="hidden" name="_csrf" value="{_csrf}">
+                        <input type="submit" value="Search">
+                    </form>
                 </fieldset>
+                {!<fieldset>!}
+                    {!<legend>Create my wishlist</legend>!}
+                    {!<div id="panel1" class="main-box">!}
+                        {!<article class="row" id="ajax">!}
+                            {!<p>!}
+                                {!<input class="bigdrop" id="e6" width="600px" value="16340"/>!}
+                            {!</p>!}
+
+                        {!</article>!}
+
+                    {!</div>!}
+                {!</fieldset>!}
             </div>
             <div class="col-md-6">
                 <fieldset>

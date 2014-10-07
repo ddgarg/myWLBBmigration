@@ -1,6 +1,11 @@
 {
     "port": ["PORT", 8002],
 
+    "databaseConfig": {
+        "host": "localhost",
+        "database": "myWL"
+    },
+
     "fb-config": {
 
         "client_id":      "1487541621497369",
