@@ -30,9 +30,9 @@ module.exports = function (router) {
 
         // extending short lived access token to long lived one
         fbgraph.extendAccessToken({
-            "access_token":    req.body.accessToken
-            , "client_id":      fbConfig.client_id
-            , "client_secret":  fbConfig.client_secret
+            'access_token':    req.body.accessToken,
+            'client_id':      fbConfig.client_id,
+            'client_secret':  fbConfig.client_secret
         }, function (err, facebookRes) {
             if (err){
                 console.log(err);
@@ -79,15 +79,15 @@ module.exports = function (router) {
 
     var createUserFromFb = function(req, res, callback) {
         var options = {
-            timeout:  3000
-            , pool:     { maxSockets:  Infinity }
-            , headers:  { connection:  "keep-alive" }
+            timeout:  3000,
+            pool:     { maxSockets:  Infinity },
+            tion:  'keep-alive'
         };
 
         fbgraph.setAccessToken(req.session.fbAccessToken);
         fbgraph
             .setOptions(options)
-            .get("/me", function(err, fbres) {
+            .get('/me', function(err, fbres) {
                 if (err) {
                     console.log(err);
 

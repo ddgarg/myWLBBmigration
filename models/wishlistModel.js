@@ -83,5 +83,5 @@ var wishlistSchema = mongoose.Schema({
 });
 
 exports.wishlistModel = function(){
-    return mongoose.model('wishlistInfo', userSchema);
+    return mongoose.model('wishlistInfo', wishlistSchema);
 };

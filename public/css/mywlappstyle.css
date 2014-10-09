@@ -491,7 +491,6 @@ html, body, p, h1, h2, h3, h4, h5, em, i, table, tr, td, th, form, input, textar
 }
 .img-responsive, .main-box>img, .main-box a>img, .carousel-inner>.item>img, .carousel-inner>.item>a>img {
     display: block;
-    width: 100% \9;
     max-width: 100%;
     height: auto;
 }
@@ -538,59 +537,6 @@ input:focus
     -ms-transition:0.5s ease;
     transition:0.5s ease;
     box-shadow: 0px 0px 5px 1px #161718;
-}
-
-button
-{
-    background: #ff5f32;
-    border-radius:50%;
-    border:10px solid #222526;
-    font-size:0.9em;
-    color:#fff;
-    font-weight:bold;
-    cursor:pointer;
-    width:85px;
-    height:85px;
-    position:absolute;
-    right: -42px;
-    top: 54px;
-    text-align:center;
-    -webkit-transition:0.5s ease;
-    -moz-transition:0.5s ease;
-    -o-transition:0.5s ease;
-    -ms-transition:0.5s ease;
-    transition:0.5s ease;
-}
-
-button:hover
-{
-    background:#222526;
-    border-color:#ff5f32;
-    -webkit-transition:0.5s ease;
-    -moz-transition:0.5s ease;
-    -o-transition:0.5s ease;
-    -ms-transition:0.5s ease;
-    transition:0.5s ease;
-}
-
-button i
-{
-    font-size:20px;
-    -webkit-transition:0.5s ease;
-    -moz-transition:0.5s ease;
-    -o-transition:0.5s ease;
-    -ms-transition:0.5s ease;
-    transition:0.5s ease;
-}
-
-button:hover i
-{
-    color:#ff5f32;
-    -webkit-transition:0.5s ease;
-    -moz-transition:0.5s ease;
-    -o-transition:0.5s ease;
-    -ms-transition:0.5s ease;
-    transition:0.5s ease;
 }
 
 *:focus{outline:none;}
@@ -744,4 +690,19 @@ a
 .logout {
     color:blue;
     cursor:pointer;
+}
+
+.large-modal {
+    margin: 30px auto;
+    width:95%;
+    height:95%;
+}
+
+.text-center
+{
+    text-align: center !important;
+}
+
+.thumbnail {
+    height:330px;
 }

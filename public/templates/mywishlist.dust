@@ -2,7 +2,7 @@
 
 {<body}
     <div class="loader"> </div>
-    <div class="container main-wrapper" style="width: 90%;border-bottom: 1px solid hsl(163, 5%, 36%);">
+    <div class="container main-wrapper" style="border-bottom: 1px solid hsl(163, 5%, 36%);">
         <div class="navbar-header">
             <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -13,7 +13,7 @@
             <a href="./" class="navbar-brand" style="font-size: 30px"><i>My Wish List</i></a>
         </div>
         <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
-            <div class="right-offset">
+            {!<div class="right-offset">!}
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                         <a href="../mywishlist">My Wish List</a>
@@ -37,93 +37,122 @@
                         <a class="logout" role="menuitem" tabindex="-1" onclick="fblogout();">Logout</a>
                     </li>
                 </ul>
-            </div>
+            {!</div>!}
         </nav>
     </div>
-    {!<script>!}
+    <script>
 
-        {!function movieFormatResult(movie) {!}
-            {!var markup = "<table class='movie-result'><tr>";!}
-            {!if (movie.posters !== undefined && movie.posters.thumbnail !== undefined) {!}
-                {!markup += "<td class='movie-image'><img src='" + movie.posters.thumbnail + "'/></td>";!}
-            {!}!}
-            {!markup += "<td class='movie-info'><div class='movie-title'>" + movie.title + "</div>";!}
-            {!if (movie.critics_consensus !== undefined) {!}
-                {!markup += "<div class='movie-synopsis'>" + movie.critics_consensus + "</div>";!}
-            {!}!}
-            {!else if (movie.synopsis !== undefined) {!}
-                {!markup += "<div class='movie-synopsis'>" + movie.synopsis + "</div>";!}
-            {!}!}
-            {!markup += "</td></tr></table>";!}
-            {!return markup;!}
-        {!}!}
+        jQuery.fn.ajaxify = function (selector, success, error) {
 
-        {!function movieFormatSelection(movie) {!}
-            {!return movie.title;!}
-        {!}!}
+            if (arguments.length === 2) {
+                error = success;
+                success = selector;
+                selector = undefined;
+            }
 
-    {!</script>!}
-    {!<script>!}
-        {!$(document).ready(function() {!}
-            {!$("#e6").select2({!}
-                {!placeholder: "Search for a movie",!}
-                {!minimumInputLength: 1,!}
-                {!ajax: {!}
-                    {!url: "http://api.rottentomatoes.com/api/public/v1.0/movies.json",!}
-                    {!dataType: 'jsonp',!}
-                    {!data: function (term, page) {!}
-                        {!return {!}
-                            {!q: term,!}
-                            {!page_limit: 10,!}
-                            {!apikey: "as7hfzfehspwgn2mt6269cgc"!}
-                        {!};!}
-                    {!},!}
-                    {!results: function (data, page) {!}
-                        {!return {results: data.movies};!}
-                    {!}!}
-                {!},!}
-                {!initSelection: function(element, callback) {!}
+            return this.on('submit', function (e) {
 
-                    {!var id=$(element).val();!}
-                    {!if (id!=="") {!}
-                        {!$.ajax("http://api.rottentomatoes.com/api/public/v1.0/movies/"+id+".json", {!}
-                            {!data: {!}
-                                {!apikey: "ju6z9mjyajq2djue3gbvv26t"!}
-                            {!},!}
-                            {!dataType: "jsonp"!}
-                        {!}).done(function(data) { callback(data); });!}
-                    {!}!}
-                {!},!}
-                {!formatResult: movieFormatResult,!}
-                {!formatSelection: movieFormatSelection,!}
-                {!dropdownCssClass: "bigdrop",!}
-                {!escapeMarkup: function (m) { return m; }!}
-            {!});!}
-        {!});!}
-    {!</script>!}
-    <div class="container" style="width:98%">
+                jQuery.ajax({
+                    url: this.action,
+                    method: this.method || 'GET',
+                    data: (typeof selector === 'undefined' ? $(this).serialize() : $(this).find(selector).serialize())
+                }).done(jQuery.proxy(success, this)).fail(jQuery.proxy(error, this));
+
+                e.preventDefault();
+            });
+        };
+
+        function addToWL(id){
+
+
+            $.ajax({
+                url: '/products/addtowl',
+                method: 'POST',
+                cache: false,
+                data: {
+                    asin: this.id
+                }
+            }).done(function(response){
+                console.log(response);
+            }).fail(function(){
+                 alert('failed');
+             });
+        }
+        jQuery(document).ready(function ($) {
+
+            $('form').ajaxify(function (response) {
+
+                console.log(response.products);
+
+                var item;
+                var fetchedProds = response.products;
+
+                var pList   = $('ul#fetchedProducts.thumbnails');
+
+                $('ul#fetchedProducts.thumbnails > li').remove();
+
+                $.each(fetchedProds, function(i)
+                {
+                    if(fetchedProds[i].asin) {
+
+                        var li = $('<li/>')
+                                .addClass('col-md-3')
+                                .attr('id', fetchedProds[i].asin)
+                                .appendTo(pList);
+
+                        var Odiv = $('<div/>')
+                                .addClass('thumbnail')
+                                .appendTo(li);
+                        var aImg = $('<a/>')
+                                .attr('href', fetchedProds[i].item_link)
+                                .attr('target', '_blank')
+                                .appendTo(Odiv);
+                        var Img = $('<img/>')
+                                .attr('src', fetchedProds[i].item_image)
+                                .appendTo(aImg);
+                        var Idiv =  $('<div/>')
+                                .addClass('caption')
+                                .appendTo(Odiv);
+                        var Tp  =  $('<p/>')
+                                .addClass('text-center')
+                                .text(fetchedProds[i].item_title)
+                                .appendTo(Idiv);
+                        var Va  = $('<a/>')
+                                .attr('href', fetchedProds[i].item_link)
+                                .attr('target', '_blank')
+                                .text('View')
+                                .appendTo(Idiv);
+                        var Vs  =  $('<span/>')
+                                .addClass('pull-right')
+                                .text(fetchedProds[i].price)
+                                .appendTo(Idiv);
+
+                        var Wbtn= $('<button/>')
+                                .addClass('btn btn-primary pull-right')
+                                .attr('id', fetchedProds[i].asin)
+                                .attr('onclick', 'addToWL(this.id)')
+                                .text('Add to Wish List')
+                                .appendTo(Odiv);
+                    }
+                });
+            $('#myModal').modal('show');
+            }, function (xhr, error) {
+                alert('error');
+            })
+        });
+    </script>
+
+    <div class="container">
         <div class="row col-md-12">
             <div class="col-md-3">
                 <fieldset>
                     <legend>Add a new product</legend>
                     <form method="POST" action="/products/searchproducts">
-                        <input name="name" placeholder="Product Name"><br>
+                        <input name="name" placeholder="Product Name" required="true" title="Please enter a product name."><br>
                         <input type="hidden" name="_csrf" value="{_csrf}">
                         <input type="submit" value="Search">
                     </form>
                 </fieldset>
-                {!<fieldset>!}
-                    {!<legend>Create my wishlist</legend>!}
-                    {!<div id="panel1" class="main-box">!}
-                        {!<article class="row" id="ajax">!}
-                            {!<p>!}
-                                {!<input class="bigdrop" id="e6" width="600px" value="16340"/>!}
-                            {!</p>!}
-
-                        {!</article>!}
-
-                    {!</div>!}
-                {!</fieldset>!}
             </div>
             <div class="col-md-6">
                 <fieldset>
@@ -191,6 +220,29 @@
                 </fieldset>
             </div>
 
+        </div>
+    </div>
+    <!-- Button trigger modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="large-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Add to Your WishList</h4>
+                </div>
+                <div class="modal-body">
+
+                    <ul class="thumbnails" id="fetchedProducts">
+
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
         </div>
     </div>
 

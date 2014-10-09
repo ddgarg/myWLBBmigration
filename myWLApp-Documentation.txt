@@ -38,3 +38,4 @@ module.exports = function (req, res) {
 };
 
 4. While adding any new node module make sure to add in package.json use ==>> eg. npm install --save fbgraph. it would automatically add to package.json
+5. node-apac is not supported for windows environment, work around ==>> clone from https://github.com/baugarten/node-apac.git and move to node module.

@@ -23,5 +23,5 @@ var fbInfoSchema = mongoose.Schema({
 });
 
 exports.fbInfoModel = function(){
-    return mongoose.model('fbInfo', userSchema);
+    return mongoose.model('fbInfo', fbInfoSchema);
 };

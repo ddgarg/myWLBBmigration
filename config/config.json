@@ -5,6 +5,11 @@
         "host": "localhost",
         "database": "myWL"
     },
+    "amazon-config": {
+        "awsId"     : "AKIAJSZPVP4NXEA3ETPA",
+        "awsSecret" : "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",
+        "assocId"   : "wwwsomesiteco-20"
+    },
 
     "fb-config": {
 

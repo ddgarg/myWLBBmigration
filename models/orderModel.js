@@ -24,5 +24,5 @@ var orderSchema = mongoose.Schema({
 });
 
 exports.orderModel = function(){
-    return mongoose.model('orderInfo', userSchema);
+    return mongoose.model('orderInfo', orderSchema);
 };
