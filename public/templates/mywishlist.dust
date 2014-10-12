@@ -16,13 +16,13 @@
             {!<div class="right-offset">!}
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="../mywishlist">My Wish List</a>
+                        <a href="/mywishlist">My Wish List</a>
                     </li>
                     <li>
-                        <a href="../giftsreceived">Gift Received</a>
+                        <a href="/giftsreceived">Gift Received</a>
                     </li>
                     <li>
-                        <a href="../myfrndswl">Friend's Wish List</a>
+                        <a href="/giftsreceived/autosuggestion">Friend's Wish List</a>
                     </li>
                     <li class="dropdown">
                         <a id="drop6" role="button" data-toggle="dropdown" data-target="#" href="./">More <span class="caret"></span></a>
@@ -40,6 +40,12 @@
             {!</div>!}
         </nav>
     </div>
+    <style>
+        .thumbnail {
+            padding:14px;
+        }
+    </style>
+
     <script>
 
         jQuery.fn.ajaxify = function (selector, success, error) {
@@ -51,6 +57,12 @@
             }
 
             return this.on('submit', function (e) {
+                var loaderDiv   = $('#loader-div');
+                $('div#loader-div > div').remove();
+
+                var Odiv = $('<div/>')
+                        .addClass('loader')
+                        .appendTo(loaderDiv);
 
                 jQuery.ajax({
                     url: this.action,
@@ -64,7 +76,6 @@
 
         function addToWL(id){
 
-
             $.ajax({
                 url: '/products/addtowl',
                 method: 'POST',
@@ -73,16 +84,80 @@
                     asin: this.id
                 }
             }).done(function(response){
+                 $(".loader").fadeOut("slow");
                 console.log(response);
             }).fail(function(){
+                        $(".loader").fadeOut("slow");
                  alert('failed');
-             });
+            });
         }
         jQuery(document).ready(function ($) {
 
+            var substringMatcher = function() {
+
+                var strs = [];
+
+                return function findMatches(q, cb) {
+                    var matches, substrRegex;
+                    matches = [];
+                    var i = 1;
+
+                    substrRegex = new RegExp(q, 'i');
+
+                    $('.typeahead').bind('input',function(){
+
+                        strs=[];
+                        var searchQuery = $(this).val();
+                        var searchQueryLength = searchQuery.length;
+                        if (searchQueryLength >=3){
+                            $.ajax({
+                                url: 'https://completion.amazon.com/search/complete',
+                                method: 'POST',
+                                dataType: 'jsonp',
+                                cache: false,
+                                data: {
+                                    client: 'amazon-search-ui',
+                                    mkt: 1,
+                                    'search-alias': 'aps',
+                                    q: searchQuery
+                                }
+                            }).done(function(response){
+                                        strs=response[1];
+                                        tempStrs = strs;
+                                    }).fail(function(){
+                                        console.log('error');
+                                    });
+                        }
+                    });
+
+                    $.each(strs, function(i, str) {
+                        if (substrRegex.test(str)) {
+                            matches.push({ value: str });
+                        }
+                    });
+
+                    cb(matches);
+                };
+            };
+
+            $('.typeahead').typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1
+            },
+            {
+                name: 'states',
+                displayKey: 'value',
+                source: substringMatcher()
+            });
+
+
+
             $('form').ajaxify(function (response) {
 
-                console.log(response.products);
+                $(".loader").fadeOut("slow");
+
+                console.log(response);
 
                 var item;
                 var fetchedProds = response.products;
@@ -103,10 +178,13 @@
                         var Odiv = $('<div/>')
                                 .addClass('thumbnail')
                                 .appendTo(li);
+                        var aDiv = $('<div/>')
+                                .addClass('prod-desc')
+                                .appendTo(Odiv);
                         var aImg = $('<a/>')
                                 .attr('href', fetchedProds[i].item_link)
                                 .attr('target', '_blank')
-                                .appendTo(Odiv);
+                                .appendTo(aDiv);
                         var Img = $('<img/>')
                                 .attr('src', fetchedProds[i].item_image)
                                 .appendTo(aImg);
@@ -117,15 +195,18 @@
                                 .addClass('text-center')
                                 .text(fetchedProds[i].item_title)
                                 .appendTo(Idiv);
+                        var pDiv=$('<div/>')
+                                .addClass('price-div')
+                                .appendTo(Odiv);
                         var Va  = $('<a/>')
                                 .attr('href', fetchedProds[i].item_link)
                                 .attr('target', '_blank')
                                 .text('View')
-                                .appendTo(Idiv);
+                                .appendTo(pDiv);
                         var Vs  =  $('<span/>')
                                 .addClass('pull-right')
                                 .text(fetchedProds[i].price)
-                                .appendTo(Idiv);
+                                .appendTo(pDiv);
 
                         var Wbtn= $('<button/>')
                                 .addClass('btn btn-primary pull-right')
@@ -137,6 +218,7 @@
                 });
             $('#myModal').modal('show');
             }, function (xhr, error) {
+                $(".loader").fadeOut("slow");
                 alert('error');
             })
         });
@@ -147,10 +229,15 @@
             <div class="col-md-3">
                 <fieldset>
                     <legend>Add a new product</legend>
-                    <form method="POST" action="/products/searchproducts">
-                        <input name="name" placeholder="Product Name" required="true" title="Please enter a product name."><br>
-                        <input type="hidden" name="_csrf" value="{_csrf}">
-                        <input type="submit" value="Search">
+                    <form role="form" method="POST" action="/products/searchproducts">
+                        <div class="form-group">
+                            <label class="sr-only" for="searchProducts">Search a wish</label>
+                            <div class="input-group">
+                                {!<span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>!}
+                                <input name="name" class="typeahead" type="text" class="form-control input-lg" id="searchPrductBox" placeholder="Search a wish">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-lg">Search</button>
                     </form>
                 </fieldset>
             </div>
@@ -225,6 +312,7 @@
     <!-- Button trigger modal -->
 
     <!-- Modal -->
+    <div id="loader-div">We're fetching your wishes...</div>
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="large-modal">
             <div class="modal-content">
@@ -233,14 +321,24 @@
                     <h4 class="modal-title" id="myModalLabel">Add to Your WishList</h4>
                 </div>
                 <div class="modal-body">
-
-                    <ul class="thumbnails" id="fetchedProducts">
-
-                    </ul>
+                    <form class="form-inline" role="form" style="margin-left: 23%; margin-bottom: 20px;" method="POST" action="/products/searchproducts">
+                        <div class="form-group">
+                            <label class="sr-only" for="searchProducts">Search a wish</label>
+                            <div class="input-group" style="padding-right:10px">
+                                {!<span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>!}
+                                <input name="name" class="typeahead" type="text" class="form-control input-lg" id="searchPrductBox" placeholder="Search a wish" style="width:670px">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-lg" style="padding: 11px 30px;">Search</button>
+                    </form>
+                    <div class="col-md-12">
+                        <ul class="thumbnails" id="fetchedProducts">
+                        </ul>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    {!<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>!}
+                    {!<button type="button" class="btn btn-primary">Save changes</button>!}
                 </div>
             </div>
         </div>

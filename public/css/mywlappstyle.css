@@ -694,8 +694,11 @@ a
 
 .large-modal {
     margin: 30px auto;
-    width:95%;
+    width:80%;
     height:95%;
+}
+.prod-desc{
+    min-height: 160px;
 }
 
 .text-center
@@ -704,5 +707,13 @@ a
 }
 
 .thumbnail {
-    height:330px;
+    min-height:380px;
+}
+
+.thumbnail .caption {
+    min-height: 110px;
+}
+
+.price-div {
+    min-height: 50px;
 }
