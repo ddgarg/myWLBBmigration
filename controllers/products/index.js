@@ -2,7 +2,7 @@
 
 
 var IndexModel  = require('../../models/index');
-var amazon      = require('apac').OperationHelper;
+var amazon      = require('../../lib/apac').OperationHelper;
 var util        = require('util');
 var request       = require('request');
 var cheerio       = require('cheerio');
@@ -24,6 +24,7 @@ module.exports = function (router) {
                 'Keywords': searchQuery,
                 'ResponseGroup': 'ItemAttributes,Offers,Images'
             }, function (results, onAmazonError) {
+                console.timeEnd("amazon-request");
 
                 amazonResponseHasError(results, searchQuery, googleSuggestedQuery, function (queryStatus) {
                     console.log(queryStatus);
@@ -69,6 +70,8 @@ module.exports = function (router) {
 
     var googleSuggestedQuery = function(searchQuery, callback){
 
+        console.time('google-request');
+
         request('https://www.google.co.in/search?q='+ searchQuery, function (error, response, html) {
             if (!error && response.statusCode == 200) {
                 var $ = cheerio.load(html);
@@ -79,6 +82,7 @@ module.exports = function (router) {
                     callback({'suggestedQuery': null, 'callAmazonAgain': false});
                 }
                 else {
+                    console.timeEnd('google-request');
                     var suggestedSearchQuery = message.match(/q=(.*?)\&/)[1].replace(/\+/g," ");
                     callback({'suggestedQuery' : suggestedSearchQuery, 'callAmazonAgain': true});
                 }
@@ -95,7 +99,9 @@ module.exports = function (router) {
         var searchQuery = req.body.name;
         var amazonConfig = req.app.kraken.get('amazon-config');
         var amazonHelper = new amazon (amazonConfig);
+
         console.log('searchQuery' + searchQuery);
+        console.time("amazon-request");
         amazonCaller(amazonHelper, searchQuery, res);
     });
 

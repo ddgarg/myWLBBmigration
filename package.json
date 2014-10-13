@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "adaro": "^0.1.5",
-    "apac": "0.0.14",
+    "async": "^0.9.0",
     "cheerio": "^0.17.0",
     "dustjs-helpers": "^1.1.1",
     "dustjs-linkedin": "^2.0.3",
@@ -25,7 +25,8 @@
     "mongoose": "^3.8.17",
     "request": "^2.45.0",
     "requirejs": "^2.1.11",
-    "util": "^0.10.3"
+    "util": "^0.10.3",
+    "xml2js": "^0.4.4"
   },
   "devDependencies": {
     "grunt": "^0.4.1",

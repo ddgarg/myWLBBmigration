@@ -1,7 +1,7 @@
 {>"layouts/master" /}
 
 {<body}
-    <div class="loader"> </div>
+    {!<div class="loader"> </div>!}
     <div class="container main-wrapper" style="border-bottom: 1px solid hsl(163, 5%, 36%);">
         <div class="navbar-header">
             <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
@@ -141,15 +141,16 @@
             };
 
             $('.typeahead').typeahead({
-                hint: true,
-                highlight: true,
-                minLength: 1
-            },
-            {
-                name: 'states',
-                displayKey: 'value',
-                source: substringMatcher()
-            });
+                        hint: true,
+                        highlight: true,
+                        minLength: 1
+                    },
+                    {
+                        name: 'states',
+                        displayKey: 'value',
+                        source: substringMatcher()
+                    });
+
 
 
 
@@ -157,69 +158,80 @@
 
                 $(".loader").fadeOut("slow");
 
-                console.log(response);
-
-                var item;
-                var fetchedProds = response.products;
-
-                var pList   = $('ul#fetchedProducts.thumbnails');
-
-                $('ul#fetchedProducts.thumbnails > li').remove();
-
-                $.each(fetchedProds, function(i)
+                if(response.error === 'error')
                 {
-                    if(fetchedProds[i].asin) {
+                    $("#notification-div").removeClass("alert-hide");
+                    $('ul#fetchedProducts.thumbnails > li').remove();
+                }
+                else {
+                    $("#notification-div").addClass("alert-hide");
+                    var item;
+                    var fetchedProds = response.products;
 
-                        var li = $('<li/>')
-                                .addClass('col-md-3')
-                                .attr('id', fetchedProds[i].asin)
-                                .appendTo(pList);
+                    var pList   = $('ul#fetchedProducts.thumbnails');
 
-                        var Odiv = $('<div/>')
-                                .addClass('thumbnail')
-                                .appendTo(li);
-                        var aDiv = $('<div/>')
-                                .addClass('prod-desc')
-                                .appendTo(Odiv);
-                        var aImg = $('<a/>')
-                                .attr('href', fetchedProds[i].item_link)
-                                .attr('target', '_blank')
-                                .appendTo(aDiv);
-                        var Img = $('<img/>')
-                                .attr('src', fetchedProds[i].item_image)
-                                .appendTo(aImg);
-                        var Idiv =  $('<div/>')
-                                .addClass('caption')
-                                .appendTo(Odiv);
-                        var Tp  =  $('<p/>')
-                                .addClass('text-center')
-                                .text(fetchedProds[i].item_title)
-                                .appendTo(Idiv);
-                        var pDiv=$('<div/>')
-                                .addClass('price-div')
-                                .appendTo(Odiv);
-                        var Va  = $('<a/>')
-                                .attr('href', fetchedProds[i].item_link)
-                                .attr('target', '_blank')
-                                .text('View')
-                                .appendTo(pDiv);
-                        var Vs  =  $('<span/>')
-                                .addClass('pull-right')
-                                .text(fetchedProds[i].price)
-                                .appendTo(pDiv);
+                    $('ul#fetchedProducts.thumbnails > li').remove();
 
-                        var Wbtn= $('<button/>')
-                                .addClass('btn btn-primary pull-right')
-                                .attr('id', fetchedProds[i].asin)
-                                .attr('onclick', 'addToWL(this.id)')
-                                .text('Add to Wish List')
-                                .appendTo(Odiv);
-                    }
-                });
+                    $.each(fetchedProds, function(i)
+                    {
+                        if(fetchedProds[i].asin) {
+
+                            var li = $('<li/>')
+                                    .addClass('col-md-3')
+                                    .attr('id', fetchedProds[i].asin)
+                                    .appendTo(pList);
+
+                            var Odiv = $('<div/>')
+                                    .addClass('thumbnail')
+                                    .appendTo(li);
+                            var aDiv = $('<div/>')
+                                    .addClass('prod-desc')
+                                    .appendTo(Odiv);
+                            var aImg = $('<a/>')
+                                    .attr('href', fetchedProds[i].item_link)
+                                    .attr('target', '_blank')
+                                    .appendTo(aDiv);
+                            var Img = $('<img/>')
+                                    .attr('src', fetchedProds[i].item_image)
+                                    .appendTo(aImg);
+                            var Idiv =  $('<div/>')
+                                    .addClass('caption')
+                                    .appendTo(Odiv);
+                            var Tp  =  $('<p/>')
+                                    .addClass('text-center')
+                                    .text(fetchedProds[i].item_title)
+                                    .appendTo(Idiv);
+                            var pDiv=$('<div/>')
+                                    .addClass('price-div')
+                                    .appendTo(Odiv);
+                            var Va  = $('<a/>')
+                                    .attr('href', fetchedProds[i].item_link)
+                                    .attr('target', '_blank')
+                                    .appendTo(pDiv);
+                            var amazonlogo = $('<img/>')
+                                    .addClass('pull-left')
+                                    .addClass('amazon-logo')
+                                    .attr('src', '../img/amazon-logo.png')
+                                    .appendTo(Va);
+                            var priceTag = $('<h4/>')
+                                    .appendTo(pDiv);
+                            var Vs  =  $('<span/>')
+                                    .addClass('pull-right label label-success')
+                                    .text(fetchedProds[i].price)
+                                    .appendTo(priceTag);
+
+                            var Wbtn= $('<button/>')
+                                    .addClass('btn btn-primary pull-right')
+                                    .attr('id', fetchedProds[i].asin)
+                                    .attr('onclick', 'addToWL(this.id)')
+                                    .text('Add to Wish List')
+                                    .appendTo(Odiv);
+                        }
+                    });
+                }
             $('#myModal').modal('show');
             }, function (xhr, error) {
-                $(".loader").fadeOut("slow");
-                alert('error');
+                $.notify("Sorry no matches found...");
             })
         });
     </script>
@@ -316,9 +328,19 @@
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="large-modal">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header" style="min-height: 68px;">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Add to Your WishList</h4>
+
+                        <h4 class="modal-title pull-left" id="myModalLabel" style="margin-right:15%">Add to Your WishList</h4>
+                        {!<h2 class="notification-div" id="myModalLabel" style="margin-bottom:28px"></h2>!}
+                    <div id="notification-div" class="col-md-5 alert alert-danger fade in alert-hide" style="padding:11px">
+                        <button class="close" data-dismiss="alert">
+                            ×
+                        </button>
+                        <i class="fa-fw fa fa-warning"></i>
+                        <strong>No Matches</strong> Found. Please check the spelling...
+                    </div>
+
                 </div>
                 <div class="modal-body">
                     <form class="form-inline" role="form" style="margin-left: 23%; margin-bottom: 20px;" method="POST" action="/products/searchproducts">

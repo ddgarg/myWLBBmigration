@@ -715,5 +715,12 @@ a
 }
 
 .price-div {
-    min-height: 50px;
+    min-height: 40px;
+}
+.amazon-logo{
+    width: 90px;
+}
+
+.alert-hide{
+    display : none;
 }
