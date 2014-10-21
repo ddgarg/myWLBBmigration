@@ -483,6 +483,7 @@ html, body, p, h1, h2, h3, h4, h5, em, i, table, tr, td, th, form, input, textar
     padding: 10px 20px;
     color: hsl(0, 100%, 100%);
     box-shadow: 0 0 5px hsla(0, 0%, 0%, 0.15);
+    min-height:200px;
 }
 
 .main-box>img, .main-box a>img {
@@ -723,4 +724,20 @@ a
 
 .alert-hide{
     display : none;
+}
+
+.item_title{
+    max-height: 78px;
+    overflow: hidden;
+}
+
+.modal-header {
+    min-height: 68px;
+}
+.main-box img{
+    max-width: 60px;
+}
+
+.main-box .caption {
+    min-height: 60px;
 }

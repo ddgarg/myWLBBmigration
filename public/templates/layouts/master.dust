@@ -67,11 +67,11 @@
                 var fbAuthResponse = response.authResponse;
                 {!if authenticated load mywishlist page!}
                 if (response.authResponse) {
-                    post('/mywishlist', {accessToken : fbAuthResponse.accessToken, userId : fbAuthResponse.userID, signedRequest : fbAuthResponse.signedRequest});
+                    post('/login', {accessToken : fbAuthResponse.accessToken, userId : fbAuthResponse.userID, signedRequest : fbAuthResponse.signedRequest});
                 }
                 {! else redirect the user to login page!}
                 else {
-                    window.location="/login";
+                    window.location="/";
                     console.log('User cancelled login or did not fully authorize.');
                 }
                 },{scope: 'public_profile,email,publish_actions,user_friends,user_birthday'}); {!required permissions!}

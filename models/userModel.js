@@ -63,16 +63,16 @@ var fillUser = function (req) {
     user.userId     = req.userId;
     user.firstName  = req.firstName;
     user.lastName   = req.lastName;
-    user.emailId    = req.emailId;
-    user.postalAddress = req.postalAddress;
-    user.phoneNo    = req.phoneNo;
-    user.timeCreated= new Date();
+user.emailId    = req.emailId;
+user.postalAddress = req.postalAddress;
+user.phoneNo    = req.phoneNo;
+user.timeCreated= new Date();
 
-    return user;
+return user;
 };
 
 exports.userModel = function(){
-  return mongoose.model('userInfo', userSchema);
+    return mongoose.model('userInfo', userSchema);
 };
 
 module.exports.fillUser = fillUser;

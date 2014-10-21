@@ -1,14 +1,21 @@
 'use strict';
 
+var user      = require('../models/userModel');
+var fbHelper    = require('../lib/fbHelper');
 
-var IndexModel = require('../models/index');
+
 
 
 module.exports = function (router) {
 
-    var model = new IndexModel();
+    var userModel = user.userModel();
 
     router.get('/', function(req, res) {
+        res.redirect('/login');
+    });
+
+
+    router.post('/', function(req, res) {
         res.redirect('/login');
     });
 
@@ -19,14 +26,45 @@ module.exports = function (router) {
         }
         else {
             // render login page if fbAccessToken is not available in session
-            res.render('login', model);
+            res.render('login');
         }
 
     });
 
-    // for post request from facebook
+    // for post after login
     router.post('/login', function(req, res) {
-        res.render('login', model);
+
+        var fbConfig = req.app.kraken.get('fb-config');
+
+        fbHelper.fbTokenExtender(req, function(req){
+
+            userModel.findOne({userId: req.body.userId}, function (err, user){
+                if(err){
+                    console.log('error searching');
+                    console.log(err);
+                }
+                else if(user){
+                    console.log('user found');
+                    res.redirect('/mywishlist');
+                }
+                else {
+                    //createUserFromFb(req, formatFbUser(userObj, saveToDb(formattedUser)));
+                    console.log('new user');
+                    fbHelper.createUserFromFb(req, res, function (formattedUser) {
+                        var newUser = new userModel(formattedUser);
+                        newUser.save(function (err, newUser) {
+                            if(err){
+                                console.log(err);
+                                res.redirect('/');
+                            }
+                            else {
+                                res.redirect('/mywishlist');
+                            }
+                        });
+                    });
+                }
+            })
+        });
     });
 
     router.get('/logout', function(req, res) {
