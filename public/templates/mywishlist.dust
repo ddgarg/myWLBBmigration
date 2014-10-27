@@ -22,7 +22,7 @@
                         <a href="/giftsreceived">Gift Received</a>
                     </li>
                     <li>
-                        <a href="/giftsreceived/autosuggestion">Friend's Wish List</a>
+                        <a href="/friends">Friend's Wish List</a>
                     </li>
                     <li class="dropdown">
                         <a id="drop6" role="button" data-toggle="dropdown" data-target="#" href="./">More <span class="caret"></span></a>
@@ -47,6 +47,12 @@
     </style>
 
     <script>
+        $(document).on("click", ".deleteProduct", function () {
+
+            var productID = $(this).data('id');
+            console.log(productID);
+            $("#confirmProductDelete").val( productID );
+        });
 
         jQuery.fn.ajaxify = function (selector, success, error) {
 
@@ -74,10 +80,31 @@
             });
         };
 
+        function deleteProduct(value) {
+            console.log(value);
+
+            $.ajax({
+                url: '/products/deleteproduct',
+                method: 'DELETE',
+                cache: false,
+                data: {"productID" : value}
+            }).done(function(response){
+
+                        console.log(response);
+                        var liDiv = 'li#' + value;
+                $(liDiv).fadeOut(1000);
+            }).fail(function(){
+
+                alert('failed');
+            });
+
+        }
+
         function addToWL(id){
 
             var selector = "li#" + id;
-            var item_div = $(selector);
+            var item_div_original = $(selector);
+            var item_div    = item_div_original.clone();
             var item_obj = {};
             item_obj.asin         =   id;
             item_obj.item_link    =   item_div.find(".item_link").attr("href");
@@ -91,8 +118,17 @@
                 cache: false,
                 data: item_obj
             }).done(function(response){
-
                 console.log(response);
+                item_div_original.find(".badge").removeClass("hide");
+                item_div.attr("id", response.productID);
+                item_div.find(".thumbnail").addClass("main-box").removeClass("thumbnail");
+                item_div.find(".main-box").prepend('<button type="button" class="deleteProduct close" data-toggle="modal" data-target="#deleteConfirmationModal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>');
+                item_div.find(".deleteProduct").attr("data-id", response.productID);
+
+                item_div.find(".main-box").prepend('<span class="badge badge-added pull-left" style="margin-bottom:10px">Newly Added</span>');
+
+                item_div.find('.btn-addtowishlist').remove();
+                $(".wishes").prepend(item_div);
             }).fail(function(){
 
                  alert('failed');
@@ -131,9 +167,9 @@
                             }).done(function(response){
                                         strs=response[1];
                                         tempStrs = strs;
-                                    }).fail(function(){
+                            }).fail(function(){
                                         console.log('error');
-                                    });
+                            });
                         }
                     });
 
@@ -191,6 +227,10 @@
                             var Odiv = $('<div/>')
                                     .addClass('thumbnail')
                                     .appendTo(li);
+                            var badgeSpan = $('<span/>')
+                                    .addClass('badge badge-added pull-right hide')
+                                    .text('Added')
+                                    .appendTo(Odiv);
                             var aDiv = $('<div/>')
                                     .addClass('prod-desc')
                                     .appendTo(Odiv);
@@ -231,7 +271,7 @@
                                     .appendTo(priceTag);
 
                             var Wbtn= $('<button/>')
-                                    .addClass('btn btn-primary pull-right')
+                                    .addClass('btn btn-primary btn-addtowishlist pull-right')
                                     .attr('id', fetchedProds[i].asin)
                                     .attr('onclick', 'addToWL(this.id)')
                                     .text('Add to Wish List')
@@ -274,16 +314,17 @@
                 <fieldset>
                     <legend>WishList</legend>
                     {?wishList}
-                    <ul class="thumbnails">
+                    <ul class="thumbnails wishes">
                         {#wishList}
-                            <li class="col-md-3" id="{.asin}">
+                            <li class="col-md-3" id="{._id}">
                                 <div class="main-box">
+                                    <button type="button" class="deleteProduct close" data-id="{._id}" data-toggle="modal" data-target="#deleteConfirmationModal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
                                     <div class="prod-desc"><a class="item_link" href="{.item_link}" target="_blank"><img class="item_image" src="{.item_image}"></a></div>
                                     <div class="caption">
                                         <p class="text-center item_title">{.item_title}</p>
                                     </div>
                                     <div class="price-div">
-                                        <a class="item_link" href="{.item_link}" target="_blank"><img class="pull-left amazon-logo" style = "max-width:66px" src="../img/amazon-logo.png"></a>
+                                        <a class="item_link" href="{.item_link}" target="_blank"><img class="pull-left amazon-logo" src="../img/amazon-logo.png"></a>
                                         <span class="pull-right label label-success price">{pricing.retail}</span>
                                     </div>
                                     <!--button class="btn btn-primary pull-right" id="" onclick="addToWL(this.id)">Add to Wish List</button-->
@@ -340,6 +381,23 @@
                 <div class="modal-footer">
                     {!<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>!}
                     {!<button type="button" class="btn btn-primary">Save changes</button>!}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="dialogDeleteConfirm" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h4 class="modal-title" id="myModalLabel">Confirm</h4>
+                </div>
+                <div class="modal-body">
+                    <h5>Are you sure want to delete this product?</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-primary" id="confirmProductDelete" onclick="deleteProduct(this.value)">Yes</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-primary"  id="no">No</button>
                 </div>
             </div>
         </div>

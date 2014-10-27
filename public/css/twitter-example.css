@@ -3,7 +3,7 @@
 
 @font-face {
     font-family: Prociono;
-    src: url(../font/Prociono-Regular-webfont.ttf);
+    src: url('../font/Prociono-Regular-webfont.ttf');
 }
 
 /* scaffolding */
@@ -112,8 +112,14 @@ p + p {
     color: #999
 }
 
+a.tt-dropdown-menu{
+    text-decoration: none;
+}
+a:hover{
+    text-decoration: none;
+}
 .tt-dropdown-menu {
-
+    width:100%;
     margin-top: 12px;
     padding: 8px 0;
     background-color: #fff;
@@ -134,8 +140,8 @@ p + p {
 }
 
 .tt-suggestion.tt-cursor {
-    color: #fff;
-    background-color: #0097cf;
+    color: #1b1d25;
+    background-color: #aca8a3;
 
 }
 

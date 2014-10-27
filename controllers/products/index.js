@@ -22,7 +22,8 @@ module.exports = function (router) {
             }
             else
             {
-                res.send({"response": "Ok"});
+                console.log(result);
+                res.send({"productID": result._id});
             }
         });
     });
@@ -56,5 +57,22 @@ module.exports = function (router) {
                 res.send({error:'error'});
             }
         });
+    });
+
+    router.delete('/deleteproduct', function (req, res) {
+
+        wishlistModel.remove({"userId": req.session.userId, "_id": req.body.productID}, function(err){
+           if(err)
+           {
+               console.log("error while deleting product: " + err );
+               res.send({});
+           }
+           else
+           {
+              // res.redirect("/mywishlist");
+              res.send({"response": "Product Deleted"});
+           }
+        });
+
     });
 };

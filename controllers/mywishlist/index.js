@@ -1,7 +1,5 @@
 'use strict';
 
-
-
 var wishlist      = require('../../models/wishlistModel');
 
 
@@ -18,6 +16,7 @@ module.exports = function (router) {
                     res.redirect('/mywishlist');
                 }
                 else{
+
                     var myWishlist = { wishList: wishes };
                     res.render('mywishlist', myWishlist);
                 }

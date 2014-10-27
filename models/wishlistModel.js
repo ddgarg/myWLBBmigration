@@ -83,16 +83,11 @@ var fillWishlistItem = function (req) {
     wishlistItem.userId = req.session.userId;
     wishlistItem.asin = req.body.asin;
     wishlistItem.item_title = req.body.item_title;
-    console.log(wishlistItem);
     wishlistItem.item_image = req.body.item_image;
-    console.log(wishlistItem);
     wishlistItem.item_link  = req.body.item_link;
-    console.log(wishlistItem);
     var pricing = {};
     wishlistItem.pricing = pricing;
     wishlistItem.pricing.retail = req.body.price;
-    console.log(wishlistItem);
-
     return wishlistItem;
 };
 

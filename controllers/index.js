@@ -36,7 +36,7 @@ module.exports = function (router) {
 
         var fbConfig = req.app.kraken.get('fb-config');
 
-        fbHelper.fbTokenExtender(req, function(req){
+        fbHelper.fbTokenExtender(req, res,  function(req){
 
             userModel.findOne({userId: req.body.userId}, function (err, user){
                 if(err){
