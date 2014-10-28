@@ -1,0 +1,176 @@
+{>"layouts/master" /}
+
+{<body}
+{!<div class="loader"> </div>!}
+    <div class="container main-wrapper" style="border-bottom: 1px solid hsl(163, 5%, 36%);">
+        <div class="navbar-header">
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="./" class="navbar-brand" style="font-size: 30px"><i>My Wish List</i></a>
+        </div>
+        <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+            {!<div class="right-offset">!}
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/mywishlist">My Wish List</a>
+                </li>
+                <li>
+                    <a href="/giftsreceived">Gift Received</a>
+                </li>
+                <li>
+                    <a href="/friends">Friend's Wish List</a>
+                </li>
+                <li class="dropdown">
+                    <a id="drop6" role="button" data-toggle="dropdown" data-target="#" href="./">More <span class="caret"></span></a>
+                    <ul id="menu3" class="dropdown-menu" role="menu" aria-labelledby="drop6">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="http://twitter.com/fat">Another action</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="http://twitter.com/fat">Something else here</a></li>
+                        <li role="presentation" class="divider"></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="http://twitter.com/fat">Separated link</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="logout" role="menuitem" tabindex="-1" onclick="fblogout();">Logout</a>
+                </li>
+            </ul>
+            {!</div>!}
+        </nav>
+    </div>
+    <style>
+        .thumbnail {
+            padding:14px;
+        }
+    </style>
+
+    <script>
+
+        jQuery(document).ready(function ($) {
+
+            var bestPictures = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                prefetch: '/giftsreceived/getfriendsSuggestions'
+            });
+
+            bestPictures.initialize();
+
+            $('.typeahead').typeahead(null, {
+                name: 'best-pictures',
+                hint:true,
+                displayKey: 'name',
+                source: bestPictures.ttAdapter(),
+                templates: {
+                    empty: [
+                        '<div class="empty-message" style="padding: 10px">',
+                        'Unable to find your friend. Inform them about this app :)',
+                        '</div>'
+                    ].join('\n'),
+                    suggestion: Handlebars.compile('<a href="/friends/{{~lb}id{~rb}}"><img src="{{~lb}picture{~rb}}"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{~lb}name{~rb}}</strong></img></a><hr>')
+
+                }
+            });
+        });
+    </script>
+
+    <div class="container">
+        <div class="row col-md-12">
+            <div class="col-md-3">
+                <fieldset>
+                    <legend>Search for a friend</legend>
+                        {!<span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>!}
+                        <input name="name" class="typeahead" type="text" class="form-control input-lg" id="searchPrductBox" placeholder="Search a wish">
+                </fieldset>
+
+                <fieldset  style="margin-top: 100px">
+                    <legend>Upcoming Birthdays</legend>
+                    <div id="panel1" class="main-box"><h4></h4></div>
+                </fieldset>
+
+            </div>
+            <div class="col-md-9">
+
+                <fieldset>
+                    <legend>WishList</legend>
+                    {?data}
+                        <ul class="thumbnails">
+                            {#data}
+                                <li class="col-md-4" id="{.id}">
+                                    <div class="well well-sm">
+                                        <div class="media">
+                                            <a class="thumbnail profile-card pull-left" href="https://wwww.facebook.com/{.id}" target="_blank">
+                                                <img class="media-object" src="{picture.data.url}">
+                                            </a>
+                                            <div class="media-body">
+                                                <h4 class="media-heading">{.name}</h4>
+                                                <p><span class="label label-info">10 photos</span> <span class="label label-primary">{.birthday}</span></p>
+                                                <p>
+                                                    <a href="/friends/{.id}" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-gift"></span>{.first_name}'s wisht list</a>
+                                                    {!<a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-heart"></span> Favorite</a>!}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                            {/data}
+                        </ul>
+                    {:else}
+                        No Friends yet. Invite them!
+                    {/data}
+                </fieldset>
+
+            </div>
+        </div>
+    </div>
+    <!-- Button trigger modal -->
+
+    <!-- Modal -->
+    <div id="loader-div">We're fetching your wishes...</div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="large-modal">
+            <div class="modal-content">
+                <div class="modal-header" style="min-height: 68px;">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+
+                    <h4 class="modal-title pull-left" id="myModalLabel" style="margin-right:15%">Add to Your WishList</h4>
+                    {!<h2 class="notification-div" id="myModalLabel" style="margin-bottom:28px"></h2>!}
+                    <div id="notification-div" class="col-md-5 alert alert-danger fade in alert-hide" style="padding:11px">
+                        <button class="close" data-dismiss="alert">
+                            ×
+                        </button>
+                        <i class="fa-fw fa fa-warning"></i>
+                        <strong>No Matches</strong> Found. Please check the spelling...
+                    </div>
+
+                </div>
+                <div class="modal-body">
+                    <form class="form-inline" role="form" style="margin-left: 23%; margin-bottom: 20px;" method="POST" action="/products/searchproducts">
+                        <div class="form-group">
+                            <label class="sr-only" for="searchProducts">Search a wish</label>
+                            <div class="input-group" style="padding-right:10px">
+                                {!<span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>!}
+                                <input name="name" class="typeahead" type="text" class="form-control input-lg" id="searchPrductBox" placeholder="Search a wish" style="width:670px">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-lg" style="padding: 11px 30px;">Search</button>
+                    </form>
+                    <div class="col-md-12">
+                        <ul class="thumbnails" id="fetchedProducts">
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    {!<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>!}
+                    {!<button type="button" class="btn btn-primary">Save changes</button>!}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type='text/javascript' src="https://twitter.github.io/typeahead.js/js/handlebars.js"></script>
+
+{/body}
