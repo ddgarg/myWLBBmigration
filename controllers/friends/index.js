@@ -34,7 +34,7 @@ module.exports = function (router) {
                 }
                 else{
                     var myWishlist = { wishList: wishes };
-                    res.render('mywishlist', myWishlist);
+                    res.render('friendswishlist', myWishlist);
                 }
             });
         }
