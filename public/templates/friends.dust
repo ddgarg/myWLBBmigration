@@ -1,5 +1,5 @@
 {>"layouts/master" /}
-
+<script src="../js/friends.js"></script>
 {<body}
 {!<div class="loader"> </div>!}
     <div class="container main-wrapper" style="border-bottom: 1px solid hsl(163, 5%, 36%);">
@@ -10,79 +10,40 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="./" class="navbar-brand" style="font-size: 30px"><i>My Wish List</i></a>
+            <a href="./" class="navbar-brand" style="font-size: 30px"><i>Gift n Wish</i></a>
         </div>
-        <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+        <nav class="collapse navbar-collapse bs-navbar-collapse" style="margin-right:50px" >
             {!<div class="right-offset">!}
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right navbar-top">
                 <li>
                     <a href="/mywishlist">My Wish List</a>
                 </li>
                 <li>
-                    <a href="/giftsreceived">Gift Received</a>
-                </li>
-                <li>
-                    <a href="/friends">Friend's Wish List</a>
+                    <a href="/user/friends">My Friends</a>
                 </li>
                 <li class="dropdown">
-                    <a id="drop6" role="button" data-toggle="dropdown" data-target="#" href="./">More <span class="caret"></span></a>
-                    <ul id="menu3" class="dropdown-menu" role="menu" aria-labelledby="drop6">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="http://twitter.com/fat">Another action</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="http://twitter.com/fat">Something else here</a></li>
-                        <li role="presentation" class="divider"></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="http://twitter.com/fat">Separated link</a></li>
+                    <a id="drop6" data-toggle="dropdown" data-target="#" href="./">More <span class="caret"></span></a>
+                    <ul id="menu3" class="dropdown-menu dropdown-menu-left ">
+                        <li ><a  tabindex="-1" onclick="displayAddress();" style="cursor:pointer">Update Address</a></li>
+                        {!<li ><a  tabindex="-1" data-toggle="modal" data-target="#addressModal" style="cursor:pointer">Update Address</a></li>!}
+                        <li ><a  tabindex="-1" href="/user/profile">My profile</a></li>
+                        <li  class="divider"></li>
+                        <li ><a tabindex="-1" href="/giftsreceived">Gifts Received</a></li>
+                        <li ><a tabindex="-1" href="/giftsordered">Gifts Ordered</a></li>
+                        <li><a class="logout" tabindex="-1" onclick="fblogout();">Logout</a></li>
                     </ul>
-                </li>
-                <li>
-                    <a class="logout" role="menuitem" tabindex="-1" onclick="fblogout();">Logout</a>
                 </li>
             </ul>
             {!</div>!}
         </nav>
     </div>
-    <style>
-        .thumbnail {
-            padding:14px;
-        }
-    </style>
-
-    <script>
-
-        jQuery(document).ready(function ($) {
-
-            var bestPictures = new Bloodhound({
-                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
-                queryTokenizer: Bloodhound.tokenizers.whitespace,
-                prefetch: '/giftsreceived/getfriendsSuggestions'
-            });
-
-            bestPictures.initialize();
-
-            $('.typeahead').typeahead(null, {
-                name: 'best-pictures',
-                hint:true,
-                displayKey: 'name',
-                source: bestPictures.ttAdapter(),
-                templates: {
-                    empty: [
-                        '<div class="empty-message" style="padding: 10px">',
-                        'Unable to find your friend. Inform them about this app :)',
-                        '</div>'
-                    ].join('\n'),
-                    suggestion: Handlebars.compile('<a href="/friends/{{~lb}id{~rb}}"><img src="{{~lb}picture{~rb}}"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{~lb}name{~rb}}</strong></img></a><hr>')
-
-                }
-            });
-        });
-    </script>
-
     <div class="container">
         <div class="row col-md-12">
             <div class="col-md-3">
                 <fieldset>
                     <legend>Search for a friend</legend>
                         {!<span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>!}
-                        <input name="name" class="typeahead" type="text" class="form-control input-lg" id="searchPrductBox" placeholder="Search a wish">
+                        <input name="name" class="typeahead form-control input-lg"  type="text"  id="searchfriend" placeholder="Search a friend">
                 </fieldset>
 
                 <fieldset  style="margin-top: 100px">
@@ -108,7 +69,7 @@
                                                 <h4 class="media-heading">{.name}</h4>
                                                 <p><span class="label label-info">10 photos</span> <span class="label label-primary">{.birthday}</span></p>
                                                 <p>
-                                                    <a href="/friends/{.id}" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-gift"></span>{.first_name}'s wisht list</a>
+                                                    <a href="/mywishlist/{.id}" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-gift"></span>{.first_name}'s wisht list</a>
                                                     {!<a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-heart"></span> Favorite</a>!}
                                                 </p>
                                             </div>
@@ -129,7 +90,6 @@
     <!-- Button trigger modal -->
 
     <!-- Modal -->
-    <div id="loader-div">We're fetching your wishes...</div>
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="large-modal">
             <div class="modal-content">
@@ -166,6 +126,112 @@
                 <div class="modal-footer">
                     {!<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>!}
                     {!<button type="button" class="btn btn-primary">Save changes</button>!}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="addressModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">x</button>
+                    <h4 class="modal-title" id="myModalLabel">Delivery Address</h4>
+                </div>
+                <div class="modal-body">
+                    {!<div class="col-md-12">!}
+                    <div class="alert alert-success">
+                        <strong>Contact Information and delivery address!</strong>
+                    </div>
+                    <div class="addressDiv hide">
+                    </div>
+
+                    <div class="contactform hide">
+                        <form class="contactform">
+                            <div class="form-group">
+                                <div class="controls">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                        <input type="text" class="form-control"  id= "username" name="name"  placeholder="Full Name" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <div class="controls">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                        <input type="text" class="form-control address1" id="address1"  name="address1" placeholder="Address Line 1 (or company name)">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <div class="controls">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                        <input type="text" class="form-control" id="address2"  name="address2" placeholder="Address Line 2">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <div class="controls">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                                <input type="text" class="form-control" id="city"  name="city" placeholder="Town/City">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <div class="controls">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                                <input type="text" class="form-control" id="state"  name="state" placeholder="State">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <div class="controls">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                                <input type="text" class="form-control" id="pincode"  name="pincode" placeholder="Pincode">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <div class="controls">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                                <input type="text" class="form-control" id="country"  name="country" placeholder="Country">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="controls pull-right">
+
+                            </div>
+                        </form>
+                    </div>
+                    {!</div>!}
+                </div>
+                <div class="modal-footer">
+                    <div class="addressdivbuttons hide">
+                        <button type="button" id="contactformedit"  onclick="editAddress();" class="btn btn-primary pull-right" >Edit</button>
+                    </div>
+                    <div class="contactformbuttons hide">
+                        <button type="submit" id="contactformsubmit"  class="btn btn-primary" >Submit</button>
+                        <button type="button" id="contactformcancel" data-dismiss="modal" class="btn btn-primary">Cancel</button>
+                    </div>
+                    {!<button type="button" data-dismiss="modal" class="btn btn-primary" id="confirmProductDelete" onclick="deleteProduct(this.value)">Yes</button>!}
+                    {!<button type="button" data-dismiss="modal" class="btn btn-primary"  id="no">No</button>!}
                 </div>
             </div>
         </div>

@@ -5,6 +5,7 @@ var https = require('https');
 var express = require('express');
 var kraken = require('kraken-js');
 var db = require('./lib/database.js');
+var logger = require('winston');
 
 var options, app, server, port;
 
@@ -14,14 +15,16 @@ options = {
     cert: fs.readFileSync('./cacert.cert'),
     onconfig: function (config, next) {
 
-         db.config(config.get('databaseConfig'))
+        db.config(config.get('databaseConfig'));
+        logger.add(logger.transports.File, { filename: config.get('logFile')});
+        logger.remove(logger.transports.Console);
         //any config setup/overrides here
         next(null, config);
     }
 };
 app = express();
 
-port = process.env.PORT || 8000;
+port = process.env.PORT || 8080;
 
 
 app.use(kraken(options));

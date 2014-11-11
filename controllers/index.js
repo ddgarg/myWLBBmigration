@@ -2,7 +2,7 @@
 
 var user      = require('../models/userModel');
 var fbHelper    = require('../lib/fbHelper');
-
+var logger  =   require('winston');
 
 
 
@@ -11,6 +11,7 @@ module.exports = function (router) {
     var userModel = user.userModel();
 
     router.get('/', function(req, res) {
+        logger.log('info', 'login request');
         res.redirect('/login');
     });
 

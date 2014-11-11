@@ -9,6 +9,11 @@ var userSchema = mongoose.Schema({
         required: true,
         unique: true
     },
+    profilePhoto: {
+        type:String,
+        default:"../img/default-user.jpg"
+    },
+
     firstName: {
         type: String,
         required: true
@@ -34,25 +39,38 @@ var userSchema = mongoose.Schema({
         default:''
     },
     postalAddress : {
+        name: {
+            type: String
+        },
+        address1: {
+            type: String
+        },
+        address2: {
+            type: String
+        },
+        city: {
+            type: String
+        },
+        state: {
+            type: String
+        },
+        country: {
+            type: String
+        },
         pincode: {
-            type: String,
-            default:''
-        },
-        main: {
-            type: String,
-            default:''
-        },
-        landmark: {
-            type: String,
-            default: ''
+            type: String
         }
     },
     phoneNo : {
-        type: Number,
-        default: ''
+        type: Number
     },
 
     timeCreated: {
+        type: Date,
+        default: Date.now
+    },
+
+    lastModified: {
         type: Date,
         default: Date.now
     }
@@ -63,10 +81,10 @@ var fillUser = function (req) {
     user.userId     = req.userId;
     user.firstName  = req.firstName;
     user.lastName   = req.lastName;
-user.emailId    = req.emailId;
-user.postalAddress = req.postalAddress;
-user.phoneNo    = req.phoneNo;
-user.timeCreated= new Date();
+    user.emailId    = req.emailId;
+    user.postalAddress = req.postalAddress;
+    user.phoneNo    = req.phoneNo;
+    user.timeCreated= new Date();
 
 return user;
 };

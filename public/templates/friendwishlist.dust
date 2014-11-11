@@ -1,0 +1,357 @@
+{>"layouts/master" /}
+
+{<body}
+    <script src="../js/friendswishlist.js"></script>
+    <script>
+        function displayGiftCards() {
+            var loaderDiv = $('#giftcardloader-div');
+
+            var Odiv = $('<div/>')
+                    .addClass('giftcard-loader')
+                    .appendTo(loaderDiv);
+
+            $.ajax({
+                url: '/products/searchproducts',
+                method: 'POST',
+                cache: false,
+                data: {"name": 'gift card'}
+            }).done(function (response) {
+
+                        var fetchedProds = response.products;
+                        var pList = $('ul.thumbnails.giftcards');
+                        $.each(fetchedProds, function (i) {
+                            if (fetchedProds[i].asin) {
+
+                                var li = $('<li/>')
+                                        .addClass('col-md-3 main-wishlist-li')
+                                        .attr('id', fetchedProds[i].asin)
+                                        .appendTo(pList);
+
+                                var Odiv = $('<div/>')
+                                        .addClass('thumbnail')
+                                        .appendTo(li);
+                                var badgeSpan = $('<span/>')
+                                        .addClass('badge badge-added pull-right hide')
+                                        .text('Added')
+                                        .appendTo(Odiv);
+                                var aDiv = $('<div/>')
+                                        .addClass('prod-desc')
+                                        .appendTo(Odiv);
+                                var aImg = $('<a/>')
+                                        .addClass('item_link')
+                                        .attr('href', fetchedProds[i].item_link)
+                                        .attr('target', '_blank')
+                                        .appendTo(aDiv);
+                                var Img = $('<img/>')
+                                        .addClass('item_image')
+                                        .attr('src', fetchedProds[i].item_image)
+                                        .appendTo(aImg);
+                                var Idiv = $('<div/>')
+                                        .addClass('caption')
+                                        .appendTo(Odiv);
+                                var Tp = $('<p/>')
+                                        .addClass('text-center item_title')
+                                        .text(fetchedProds[i].item_title)
+                                        .appendTo(Idiv);
+                                var pDiv = $('<div/>')
+                                        .addClass('price-div')
+                                        .appendTo(Odiv);
+                                var Va = $('<a/>')
+                                        .addClass('item_link')
+                                        .attr('href', fetchedProds[i].item_link)
+                                        .attr('target', '_blank')
+                                        .appendTo(pDiv);
+                                var amazonlogo = $('<img/>')
+                                        .addClass('pull-left')
+                                        .addClass('amazon-logo')
+                                        .attr('src', '../img/amazon-logo.png')
+                                        .appendTo(Va);
+                                var priceTag = $('<h4/>')
+                                        .appendTo(pDiv);
+                                var Vs = $('<span/>')
+                                        .addClass('pull-right label label-success price')
+                                        .text(fetchedProds[i].price)
+                                        .appendTo(priceTag);
+
+                            }
+
+                        });
+                        $(".giftcard-loader").fadeOut("slow");
+
+                    }).fail(function () {
+                        alert('failed');
+                    });
+        }
+    </script>
+    {!<div class="loader"> </div>!}
+    <div class="container main-wrapper" style="border-bottom: 1px solid hsl(163, 5%, 36%);">
+        <div class="navbar-header">
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="./" class="navbar-brand" style="font-size: 30px"><i>Gift n Wish</i></a>
+        </div>
+        <nav class="collapse navbar-collapse bs-navbar-collapse" style="margin-right:50px" >
+            {!<div class="right-offset">!}
+                <ul class="nav navbar-nav navbar-right navbar-top">
+                    <li>
+                        <a href="/mywishlist">Home</a>
+                    </li>
+                    <li>
+                        <a href="/user/friends">My Friends</a>
+                    </li>
+                    <li class="dropdown">
+                        <a id="drop6" data-toggle="dropdown" data-target="#" href="./">More <span class="caret"></span></a>
+                        <ul id="menu3" class="dropdown-menu dropdown-menu-left">
+                            <li ><a  tabindex="-1" onclick="displayAddress();" style="cursor:pointer">Update Address</a></li>
+                            {!<li ><a  tabindex="-1" data-toggle="modal" data-target="#addressModal" style="cursor:pointer">Update Address</a></li>!}
+                            <li ><a  tabindex="-1" href="/user/profile">My profile</a></li>
+                            <li  class="divider"></li>
+                            <li ><a tabindex="-1" href="/giftsreceived">Gifts Received</a></li>
+                            <li ><a tabindex="-1" href="/giftsordered">Gifts Ordered</a></li>
+                            <li><a class="logout" tabindex="-1" onclick="fblogout();">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            {!</div>!}
+        </nav>
+    </div>
+    <div class="container">
+        <div class="row col-md-12">
+            <div class="col-md-3">
+                <fieldset>
+                    <legend></legend>
+                    <div class="well well-sm">
+                        <div class="media">
+                            <a class="thumbnail profile-card pull-left" href="#" ><img class="media-object" src="http://graph.facebook.com/{.userDetails.userId}/picture?type=small"></a>
+                            <div class="media-body">
+                                <h4 class="media-heading">{.userDetails.firstName} {.userDetails.lastName}</h4>
+                                <p>
+                                    {!<span class="label label-info">10 photos</span> !}
+                                    <span class="label label-primary">{.userDetails.birthday}</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-success">
+                        {?.userDetails.postalAddress}
+                            <h4 class="text-center"><label class="label label-primary text-center">Delivery address</label></h4>
+                            <hr>
+                            <address>
+                                <strong>{.userDetails.postalAddress.name}</strong>
+                                <br>
+                                {.userDetails.postalAddress.address1}
+                                <br>
+                                {.userDetails.postalAddress.address2}
+                                <br>
+                                {.userDetails.postalAddress.city}
+                                <br>
+                                {.userDetails.postalAddress.state}
+                                <br>
+                                {.userDetails.postalAddress.country} - {.userDetails.postalAddress.pincode}
+                            </address>
+                        {:else}
+                            <a  tabindex="-1" onclick="displayAddress();" style="cursor:pointer">Ask {.userDetails.firstName} to add delivery address!</a>
+                        {/.userDetails.postalAddress}
+
+                    </div>
+                </fieldset>
+
+                <fieldset  style="margin-top: 100px">
+                    <legend>Upcoming Birthdays</legend>
+                    <div id="panel1" class="thumbnail upcomingbdays">
+                        {?upcomingbdays}
+                            <ul>
+                                {#upcomingbdays}
+                                    <li>
+                                        <a href="/friends/{.id}">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <img src="{picture.data.url}">
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <strong>{.name}<br>{.birthday}</strong>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                {/upcomingbdays}
+                            </ul>
+                        {:else}
+                            No Upcoming Birthdays
+                        {/upcomingbdays}
+                    </div>
+                </fieldset>
+
+            </div>
+            <div class="col-md-9">
+
+                {!<fieldset>!}
+                    {!<legend>WishList</legend>!}
+                    <ul class="nav nav-tabs nav-friendswishlist" id="myTab">
+                        <li class="active"><a data-toggle="tab" href="#wishlist">Wishlist</a></li>
+                        <li class=""><a data-toggle="tab" href="#e-gftcard">e-Gift Cards</a></li>
+                    </ul>
+                <div class="tab-content">
+                    <div id="wishlist" class="tab-pane fade active in">
+                        {?wishList}
+                            <ul class="thumbnails wishes">
+                                {#wishList}
+                                    <li class="col-md-3" id="{._id}">
+                                        <div class="thumbnail">
+                                            <div class="prod-desc"><a class="item_link" href="{.item_link}" target="_blank"><img class="item_image" src="{.item_image}"></a></div>
+                                            <div class="caption">
+                                                <p class="text-center item_title">{.item_title}</p>
+                                            </div>
+                                            <div class="price-div">
+                                                <a class="item_link" href="{.item_link}" target="_blank"><img class="pull-left amazon-logo" src="../img/amazon-logo.png"></a>
+                                                <h4><span class="pull-right label label-success price">{pricing.retail}</span></h4>
+                                            </div>
+                                            <!--button class="btn btn-primary pull-right" id="" onclick="addToWL(this.id)">Add to Wish List</button-->
+                                        </div>
+                                    </li>
+
+                                {/wishList}
+                            </ul>
+                        {:else}
+                            <script>displayGiftCards();</script>
+                            <div id="notification-div" class="col-md-12 alert alert-info fade in" style="padding:11px">
+                                <button class="close" data-dismiss="alert">
+                                    ×
+                                </button>
+                                <i class="fa-fw fa fa-warning"></i>
+                                Your friend hasn't added any wishes. Give them e-giftcard and let them buy whatever they want to. :)
+                            </div>
+                            <div id="giftcardloader-div"></div>
+                                <ul class="thumbnails giftcards">
+
+                                </ul>
+
+                        {/wishList}
+                    </div>
+                    <div id="e-gftcard" class="tab-pane fade">
+                        <h3>Gift Card Options</h3>
+                        <p>Vestibulum nec erat eu nulla rhoncus fringilla ut non neque. Vivamus nibh urna, ornare id gravida ut, mollis a magna. Aliquam porttitor condimentum nisi, eu viverra ipsum porta ut. Nam hendrerit bibendum turpis, sed molestie mi fermentum id. Aenean volutpat velit sem. Sed consequat ante in rutrum convallis. Nunc facilisis leo at faucibus adipiscing.</p>
+                    </div>
+                </div>
+
+                {!</fieldset>!}
+
+            </div>
+        </div>
+    </div>
+    <!-- Button trigger modal -->
+
+    <!-- Modal -->
+    <div id="loader-div"></div>
+
+    <div class="modal fade" id="addressModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">x</button>
+                    <h4 class="modal-title" id="myModalLabel">Delivery Address</h4>
+                </div>
+                <div class="modal-body">
+                    {!<div class="col-md-12">!}
+                        <div class="alert alert-success">
+                            <strong>Contact Information and delivery address!</strong>
+                        </div>
+                        <div class="addressDiv hide">
+                        </div>
+
+                        <div class="contactform hide">
+                        <form class="contactform">
+                            <div class="form-group">
+                                <div class="controls">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                        <input type="text" class="form-control"  id= "username" name="name"  placeholder="Full Name" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <div class="controls">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+                                        <input type="text" class="form-control address1" id="address1"  name="address1" placeholder="Address Line 1 (or company name)">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <div class="controls">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+                                        <input type="text" class="form-control" id="address2"  name="address2" placeholder="Address Line 2">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <div class="controls">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+                                                <input type="text" class="form-control" id="city"  name="city" placeholder="Town/City">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <div class="controls">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+                                                <input type="text" class="form-control" id="state"  name="state" placeholder="State">
+                                            </div>
+                                        </div>
+                                   </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <div class="controls">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+                                                <input type="text" class="form-control" id="pincode"  name="pincode" placeholder="Pincode">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <div class="controls">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+                                                <input type="text" class="form-control" id="country"  name="country" placeholder="Country">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="controls pull-right">
+
+                            </div>
+                        </form>
+                        </div>
+                    {!</div>!}
+                </div>
+                <div class="modal-footer">
+                    <div class="addressdivbuttons hide">
+                        <button type="button" id="contactformedit"  onclick="editAddress();" class="btn btn-primary pull-right" >Edit</button>
+                    </div>
+                    <div class="contactformbuttons hide">
+                        <button type="submit" id="contactformsubmit"  class="btn btn-primary" >Submit</button>
+                        <button type="button" id="contactformcancel" data-dismiss="modal" class="btn btn-primary">Cancel</button>
+                    </div>
+                    {!<button type="button" data-dismiss="modal" class="btn btn-primary" id="confirmProductDelete" onclick="deleteProduct(this.value)">Yes</button>!}
+                    {!<button type="button" data-dismiss="modal" class="btn btn-primary"  id="no">No</button>!}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{/body}

@@ -61,7 +61,7 @@ module.exports = function (router) {
 
     router.delete('/deleteproduct', function (req, res) {
 
-        wishlistModel.remove({"userId": req.session.userId, "_id": req.body.productID}, function(err){
+        wishlistModel.remove({"userId": req.session.userId, "asin": req.body.asin}, function(err){
            if(err)
            {
                console.log("error while deleting product: " + err );

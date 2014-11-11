@@ -3,13 +3,19 @@
     margin: 25px auto;
     padding: 10px;
 }
-.main-wrapper a:hover {
-    color: hsl(208, 19%, 95%);
-}
 
-.main-wrapper a{
-    color: hsl(208, 19%, 95%);
+@media (min-width: 1200px){
+    .container {
+        width: 1400px !important;
+    }
 }
+/*.main-wrapper a:hover {*/
+    /*color: hsl(208, 19%, 95%);*/
+/*}*/
+
+/*.main-wrapper a{*/
+    /*color: hsl(208, 19%, 95%);*/
+/*}*/
 
 .login-page{
     margin-top:10%;
@@ -22,8 +28,9 @@
 }
 
 body {
-    font-family: Constantia, Palatino, "Palatino Linotype", "Palatino LT STD", Georgia, serif;
-    background: hsl(0, 0%, 87%)  url("blurred-background.jpg") repeat top left;
+    font-family: museo-slab, Georgia, "Times New Roman", Times, serif;
+    background: hsl(0, 0%, 87%)  url("../img/background-home-image.jpg") no-repeat;
+    background-size: cover;
     font-weight: 400;
     font-size: 15px;
     color: hsl(0, 0%, 20%);
@@ -181,7 +188,6 @@ body {
     height: 1px;
 }
 #footer a {
-    color: hsl(0, 20%, 93%);
     text-decoration: none;
 }
 #footer a:hover {
@@ -249,6 +255,18 @@ li {
     z-index: 9999;
     background: url('http://loadinggif.com/images/image-selection/32.gif') 50% 50% no-repeat rgb(249,249,249);
 }
+
+.giftcard-loader {
+    position: relative;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url('http://loadinggif.com/images/image-selection/32.gif') 50% 50% no-repeat rgb(249,249,249);
+}
+
+
 .social-button {
     margin: 10px;
 }
@@ -497,7 +515,7 @@ html, body, p, h1, h2, h3, h4, h5, em, i, table, tr, td, th, form, input, textar
 }
 
 .main-box .caption {
-    margin-top: 2o0px;
+    margin-top: 20px;
 }
 
 #loginform
@@ -604,24 +622,24 @@ h1
     transition:0.5s ease;
 }
 
-#facebook:hover
-{
-    -webkit-transform:scale(1.25); /* Safari and Chrome */
-    -moz-transform:scale(1.25); /* Firefox */
-    -ms-transform:scale(1.25); /* IE 9 */
-    -o-transform:scale(1.25); /* Opera */
-    transform:scale(1.25);
+/*#facebook:hover*/
+/*{*/
+    /*-webkit-transform:scale(1.25); *//* Safari and Chrome */
+    /*-moz-transform:scale(1.25); *//* Firefox */
+    /*-ms-transform:scale(1.25); *//* IE 9 */
+    /*-o-transform:scale(1.25); *//* Opera */
+    /*transform:scale(1.25);*/
 
-    color:#fff;
+    /*color:#fff;*/
 
-    margin-right:50px;
-    margin-bottom:50px;
-    -webkit-transition:0.5s ease;
-    -moz-transition:0.5s ease;
-    -o-transition:0.5s ease;
-    -ms-transition:0.5s ease;
-    transition:0.5s ease;
-}
+    /*margin-right:50px;*/
+    /*margin-bottom:50px;*/
+    /*-webkit-transition:0.5s ease;*/
+    /*-moz-transition:0.5s ease;*/
+    /*-o-transition:0.5s ease;*/
+    /*-ms-transition:0.5s ease;*/
+    /*transition:0.5s ease;*/
+/*}*/
 a
 {
     color:#88887a;
@@ -700,27 +718,35 @@ a
 }
 .prod-desc{
     margin-top:30px;
-    min-height: 160px;
+    min-height: 100px;
+}
+
+.item_image {
+    /*width: 140px;*/
+    height:100px !important;
 }
 
 .text-center
 {
     text-align: center !important;
 }
+.fetchedProduct{
+    min-height:300px !important;
+}
 
 .thumbnail {
-    min-height:380px;
+    min-height:250px;
 }
 
 .thumbnail .caption {
-    min-height: 90px;
+    min-height: 65px;
 }
 
 .price-div {
     min-height: 30px;
 }
 .amazon-logo{
-    max-width:66px !important;
+    max-width:87px !important;
 }
 
 .alert-hide{
@@ -728,7 +754,7 @@ a
 }
 
 .item_title{
-    max-height: 60px;
+    max-height: 40px;
     overflow: hidden;
 }
 
@@ -748,11 +774,99 @@ a
 }
 
 a.profile-card.thumbnail {
-    min-height:100px;
+    min-height:30px;
 }
 
 .badge-added {
     background-color: hsl(134, 72%, 49%) !important;
     border-radius: 9px 0 4px 0 !important;
     z-index: 1;
+}
+
+.no-of-wishes{
+    background-color: hsl(231, 85%, 45%) !important;
+    min-width:50px !important;
+    font-size:20px !important;
+}
+
+.controls .btn+.btn {
+    margin-bottom: 0;
+    margin-left: 5px;
+}
+
+.modal-open[style] {
+    padding-right: 0 !important;
+}
+
+.navbar-top.nav>li>a:hover, .navbar-top.nav>li>a:focus, .navbar-top.nav>li>a:active {
+    text-decoration: none;
+    background-color: hsl(0, 0%, 93%) !important;
+    border: 0px solid !important;
+}
+
+.nav-friendswishlist.nav>li>a {
+    text-decoration: none;
+    background-color: hsla(0, 0%, 0%, 0.45);
+    color:white;
+    border: 0 solid !important;
+}
+
+.nav-friendswishlist.nav>li>a:hover, .nav>li>a:focus {
+    text-decoration: none;
+    color:white;
+    background-color: hsla(0, 0%, 0%, 0.45);
+}
+
+.upcomingbdays li
+{
+    padding: 3px 20px;
+    font-size: 13px;
+    line-height: 24px;
+
+}
+
+.upcomingbdays {
+    /*overflow-y: scroll !important;*/
+    /*min-height: 180px;*/
+    background-color: white;
+}
+.upcomingbdays img
+{
+    display:inline !important;
+}
+.tab-content>div#wishlist>div#notification-div
+{
+    margin-top:10px;
+}
+
+.nav>li>a:focus {
+    text-decoration: none;
+    color: hsl(208, 56%, 38%);
+    background-color: hsla(0, 0%, 0%, 0.45);
+}
+
+legend {
+    color: hsl(0, 0%, 20%) !important;
+}
+
+.make-a-wish-fieldset  {
+    margin-top:50px;
+}
+
+.upcomingbdays-fieldset{
+    margin-top:50px;
+}
+
+.navbar-brand{
+    font-family: "DejaVu Sans","DejaVu Sans Mac Name","DejaVu Sans Unix Name","Times New Roman" !important;
+    font-size: -webkit-xxx-large !important;
+}
+
+.home-wish-search{
+    margin:auto;
+    width:89%;
+}
+
+.user-menu.thumbnail{
+    padding: 100px !important;
 }

@@ -1,14 +1,16 @@
 {
     "port": ["PORT", 8002],
 
+    "logFile":"./logs/error.log",
+
     "databaseConfig": {
         "host": "localhost",
         "database": "myWL"
     },
     "amazon-config": {
-        "awsId"     : "AKIAJSZPVP4NXEA3ETPA",
-        "awsSecret" : "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",
-        "assocId"   : "wwwsomesiteco-20"
+        "awsId"     : "AKIAJXK6GDYT5D7BITSQ",
+        "awsSecret" : "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",
+        "assocId"   : "giftnwishcom-21"
     },
 
     "fb-config": {
