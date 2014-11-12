@@ -3,8 +3,6 @@
 var wishlist = require('../../models/wishlistModel');
 var user = require('../../models/userModel');
 var fbHelper = require('../../lib/fbHelper');
-var addressHelper = require('../../lib/addressHelper');
-
 
 module.exports = function (router) {
 
