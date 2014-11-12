@@ -166,7 +166,7 @@
                             <ul>
                                 {#upcomingbdays}
                                     <li>
-                                        <a href="/friends/{.id}">
+                                        <a href="/mywishlist/{.id}">
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <img src="{picture.data.url}">
@@ -206,7 +206,7 @@
                                                 <p class="text-center item_title">{.item_title}</p>
                                             </div>
                                             <div class="price-div">
-                                                <a class="item_link" href="{.item_link}" target="_blank"><img class="pull-left amazon-logo" src="../img/amazon-logo.png"></a>
+                                                <a class="item_link" href="{.item_link}" target="_blank"><img class="pull-left amazon-logo" src="http://g-ec2.images-amazon.com/images/G/31/associates/promohub/amazonIN_logo_200_75.jpg?tag-id=giftnwishcom-21" border="0" alt="In Association with Amazon.in"></a>
                                                 <h4><span class="pull-right label label-success price">{pricing.retail}</span></h4>
                                             </div>
                                             <!--button class="btn btn-primary pull-right" id="" onclick="addToWL(this.id)">Add to Wish List</button-->
