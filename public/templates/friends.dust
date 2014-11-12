@@ -1,5 +1,53 @@
 {>"layouts/master" /}
 <script src="../js/friends.js"></script>
+<script>
+    jQuery(document).ready(function ($) {
+
+        $('button#contactformsubmit').click(function (e) {
+
+            e.preventDefault();
+            $.ajax({
+                url: '/user/address',
+                type: 'post',
+                dataType: 'json',
+                data: $('form.contactform').serialize(),
+                success: function (data) {
+                    console.log(data);
+
+                    $('#addressModal').modal('hide');
+
+                }
+            });
+
+            return false;
+        });
+
+        var bestPictures = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            prefetch: '/giftsreceived/getfriendsSuggestions'
+        });
+
+        bestPictures.initialize();
+
+        $('.typeahead').typeahead(null, {
+            name: 'best-pictures',
+            hint: true,
+            displayKey: 'name',
+            source: bestPictures.ttAdapter(),
+            templates: {
+                empty: [
+                    '<div class="empty-message" style="padding: 10px">',
+                    'Unable to find your friend. Inform them about this app :)',
+                    '</div>'
+                ].join('\n'),
+                suggestion: Handlebars.compile('<a href="/friends/{{~lb}id{~rb}}"><img src="{{~lb}picture{~rb}}"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{~lb}name{~rb}}</strong></img></a>')
+
+            }
+        });
+    });
+
+</script>
 {<body}
 {!<div class="loader"> </div>!}
     <div class="container main-wrapper" style="border-bottom: 1px solid hsl(163, 5%, 36%);">
@@ -55,7 +103,7 @@
             <div class="col-md-9">
 
                 <fieldset>
-                    <legend>WishList</legend>
+                    <legend>Your Friends</legend>
                     {?data}
                         <ul class="thumbnails">
                             {#data}
