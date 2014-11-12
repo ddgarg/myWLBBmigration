@@ -106,5 +106,34 @@ module.exports = function (router) {
         }
     });
 
+    router.delete('/address', function(req, res){
 
+        if (req.session.fbAccessToken)
+        {
+            userModel.update({'userId' : String(req.session.userId)},
+                {
+                    $set: {
+                        "postalAddress": {}
+                    },
+                    $currentDate: { lastModified: true }
+                },
+                {
+                    upsert : true
+                },
+                function (err) {
+                    if(err){
+                        console.log(err);
+                        res.send({"response":"NotOk"});
+                    }
+                    else{
+                        console.log("address deleted");
+                        res.send({"response":"Ok"});
+                    }
+                });
+        }
+        else {
+            // redirect the user to login page if fbAccessToken is not available in session
+            res.redirect('/');
+        }
+    });
 };

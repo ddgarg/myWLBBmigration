@@ -3,6 +3,7 @@
 var wishlist      = require('../../models/wishlistModel');
 var user          = require('../../models/userModel');
 var fbHelper      = require('../../lib/fbHelper');
+var addressHelper      = require('../../lib/addressHelper');
 
 
 module.exports = function (router) {
@@ -28,11 +29,11 @@ module.exports = function (router) {
                         }
                         else{
 
-                            console.log(user);
                             myWishlist.userDetails = user;
                             fbHelper.getFilteredFriendsBdays(req, function(fbBdayResponse){
                                 myWishlist.upcomingbdays  = fbBdayResponse;
                                 // res.send(fbResponse);
+//
                                 console.log(myWishlist);
                                 res.render('mywishlist', myWishlist);
 
@@ -40,10 +41,6 @@ module.exports = function (router) {
                         }
 
                         });
-
-
-
-
                 }
             });
         }

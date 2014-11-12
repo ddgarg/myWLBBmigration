@@ -2,6 +2,63 @@
  * Created by vdogra on 11/11/14.
  */
 
+$('form.contactformform').validate({
+    rules: {
+        name: {
+            minlength: 3,
+            maxlength: 15,
+            required: true
+        },
+        address1: {
+            minlength: 3,
+            maxlength: 40,
+            required: true
+        },
+        address2: {
+            minlength: 3,
+            maxlength: 40,
+            required: true
+        },
+        city: {
+            minlength: 2,
+            maxlength: 20,
+            required: true
+        },
+        state: {
+            minlength: 2,
+            maxlength: 20,
+            required: true
+        },
+        pincode: {
+            minlength: 6,
+            maxlength: 6,
+            required: true
+        },
+        country: {
+            minlength: 3,
+            maxlength: 10,
+            required: true
+        }
+    },
+    highlight: function(element) {
+        $(element).closest('.form-group').addClass('has-error');
+    },
+    unhighlight: function(element) {
+        $(element).closest('.form-group').removeClass('has-error');
+    },
+    errorElement: 'span',
+    errorClass: 'help-block',
+    errorPlacement: function(error, element) {
+        if(element.parent('.input-group').length) {
+            error.insertAfter(element.parent());
+        } else {
+            error.insertAfter(element);
+        }
+    }
+});
+
+
+
 $(document).on("click", ".deleteProduct", function () {
 
     var asin = $(this).attr('id');
@@ -36,6 +93,7 @@ jQuery.fn.ajaxify = function (selector, success, error) {
 };
 
 function displayAddress() {
+
     $.ajax({
         url: '/user/address',
         type: 'get',
@@ -124,6 +182,23 @@ $(document).on("click", ".btn-remove-from-wishlist", function () {
     deleteProduct(productAsin);
 
 
+});
+
+$(document).on("click", ".delete-address", function () {
+
+    $.ajax({
+        url: '/user/address',
+        method: 'DELETE',
+        cache: false
+    }).done(function (response) {
+
+            window.location = "/mywishlist";
+
+
+        }).fail(function () {
+
+            window.location = "/mywishlist";
+    });
 });
 
 
@@ -220,24 +295,24 @@ $(document).on("click", ".add-to-wishlist", function () {
 
 $(document).ready(function () {
 
-    $('button#contactformsubmit').click(function (e) {
-
-        e.preventDefault();
-        $.ajax({
-            url: '/user/address',
-            type: 'post',
-            dataType: 'json',
-            data: $('form.contactform').serialize(),
-            success: function (data) {
-                console.log(data);
-
-                $('#addressModal').modal('hide');
-
-            }
-        });
-
-        return false;
-    });
+//    $('button#contactformsubmit').click(function (e) {
+//
+//        e.preventDefault();
+//        $.ajax({
+//            url: '/user/address',
+//            type: 'post',
+//            dataType: 'json',
+//            data: $('form.contactform').serialize(),
+//            success: function (data) {
+//                console.log(data);
+//
+//                $('#addressModal').modal('hide');
+//
+//            }
+//        });
+//
+//        return false;
+//    });
 
     var substringMatcher = function () {
 
@@ -307,7 +382,7 @@ $(document).ready(function () {
         }
     );
 
-    $('form').ajaxify(function (response) {
+    $('form.searchwishform').ajaxify(function (response) {
 
         $(".loader").fadeOut("slow");
 
@@ -411,5 +486,40 @@ $(document).ready(function () {
         $('#myModal').modal('show');
     }, function (xhr, error) {
         $.notify("Sorry no matches found...");
-    })
+    });
+
+
+    $('form.contactformform').ajaxify(function (response) {
+        $(".loader").fadeOut("slow");
+        if (response.error === 'error') {
+            $("#notification-div").removeClass("alert-hide");
+            $('ul#fetchedProducts.thumbnails > li').remove();
+        }
+        else {
+            var updatedAddressArray = $(this).serializeArray();
+
+            updatedAddressArray[0].value = '<strong>' + updatedAddressArray[0].value + '</strong>';
+
+            updatedAddressArray[5].value = updatedAddressArray[6].value + " - " + updatedAddressArray[5].value;
+
+            updatedAddressArray.splice(6, 1);
+
+            var addressText = "";
+            var updatedAddressEle = $('address');
+
+            $.each(updatedAddressArray, function (i){
+
+               addressText = addressText + updatedAddressArray[i].value + "<br/>";
+
+            });
+
+            updatedAddressEle.html(addressText);
+
+
+        }
+        $('#addressModal').modal('hide');
+    }, function (xhr, error) {
+        alert(error);
+    });
+
 });

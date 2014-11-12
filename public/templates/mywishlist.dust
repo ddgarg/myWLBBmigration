@@ -1,8 +1,8 @@
 {>"layouts/master" /}
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script src="../js/jquery-form-validator.js"></script>
 <script src="../js/homemywishlist.js"></script>
 {<body}
-    {!<div class="loader"> </div>!}
     <div class="container main-wrapper" style="border-bottom: 1px solid hsl(163, 5%, 36%);">
         <div class="navbar-header">
             <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
@@ -26,7 +26,6 @@
                         <a id="drop6" data-toggle="dropdown" data-target="#" href="./">More <span class="caret"></span></a>
                         <ul id="menu3" class="dropdown-menu dropdown-menu-left">
                             <li ><a  tabindex="-1" onclick="displayAddress();" style="cursor:pointer">Update Address</a></li>
-                            {!<li ><a  tabindex="-1" data-toggle="modal" data-target="#addressModal" style="cursor:pointer">Update Address</a></li>!}
                             <li ><a  tabindex="-1" href="/user/profile">My profile</a></li>
                             <li  class="divider"></li>
                             <li ><a tabindex="-1" href="/giftsreceived">Gifts Received</a></li>
@@ -35,7 +34,7 @@
                         </ul>
                     </li>
                 </ul>
-            {!</div>!}
+
         </nav>
     </div>
     <script>
@@ -62,85 +61,49 @@
                 <fieldset>
                     <legend>Hello, {.userDetails.firstName}!</legend>
 
-                    {!<img src="images/demo/users/face3.png" alt="">!}
-                    {!<div class="user-info">!}
-                    {!Madison Gartner <span>Web Developer</span>!}
-                    {!</div>!}
+
                     <div class="well well-sm">
                         <div class="media">
                             <a class="thumbnail profile-card pull-left" href="#" ><img class="media-object" src="http://graph.facebook.com/{.userDetails.userId}/picture?type=small"></a>
                             <div class="media-body">
                                 <h4 class="media-heading">{.userDetails.firstName} {.userDetails.lastName}</h4>
                                 <p>
-                                    {!<span class="label label-info">10 photos</span> !}
+
                                     <span class="label label-primary">{.userDetails.birthday}</span></p>
-                                {!<p><button class="btn btn-default btn-md pull-right" id="usermoreinfo">More Info</button></p>!}
+
                             </div>
                         </div>
                     </div>
                     <div class="alert alert-success">
-                        {?.userDetails.postalAddress}
-                            <h4 class="text-center"><label class="label label-primary text-center">Delivery address</label></h4>
-                            <hr>
+                        <h4 class="text-center"><label class="label label-primary text-center">Delivery address</label></h4>
+                        <hr>
+                        {#.userDetails}
+                        {#postalAddress.address1}
+                            {#postalAddress}
                             <address>
-                                <strong>{.userDetails.postalAddress.name}</strong>
+
+                                <strong>{name}</strong>
                                 <br>
-                                {.userDetails.postalAddress.address1}
+                                {address1}
                                 <br>
-                                {.userDetails.postalAddress.address2}
+                                {address2}
                                 <br>
-                                {.userDetails.postalAddress.city}
+                                {city}
                                 <br>
-                                {.userDetails.postalAddress.state}
+                                {state}
                                 <br>
-                                {.userDetails.postalAddress.country} - {.userDetails.postalAddress.pincode}
+                                {country} - {pincode}
                             </address>
+                            {/postalAddress}
+
                         {:else}
-                            <a  tabindex="-1" onclick="displayAddress();" style="cursor:pointer">Update Address</a>
-                        {/.userDetails.postalAddress}
-
+                            <address>
+                                <h3 class="text-center"><a  tabindex="-1" onclick="displayAddress();" style="cursor:pointer">Update Address</a></h3>
+                            </address>
+                        {/postalAddress.address1}
+                        {/.userDetails}
                     </div>
-                    {!<div class="user-menu dropdown">!}
-                        {!<a href="#" class="button dropdown-toggle" data-toggle="dropdown">!}
-
-                        {!</a>!}
-                        {!<div class="popup dropdown-menu dropdown-menu-right">!}
-                            {!<div class="thumbnail">!}
-                                {!<div class="thumb">!}
-                                    {!<img alt="" src="http://graph.facebook.com/{.userDetails.userId}/picture?type=normal" class="img-circle">!}
-                                    {!<div class="thumb-options">!}
-                                        {!<ul class="list-group">!}
-                                            {!<li class="list-group-item"><i class="icon-pencil3 text-muted"></i> My posts <span class="label label-success">289</span></li>!}
-                                            {!<li class="list-group-item"><i class="icon-people text-muted"></i> Users online <span class="label label-danger">892</span></li>!}
-                                            {!<li class="list-group-item"><i class="icon-stats2 text-muted"></i> Reports <span class="label label-primary">92</span></li>!}
-                                            {!<li class="list-group-item"><i class="icon-stack text-muted"></i> Balance <h5 class="pull-right text-danger">$45.389</h5></li>!}
-                                        {!</ul>!}
-                                    {!</div>!}
-                                {!</div>!}
-
-                                {!<div class="caption text-center">!}
-                                    {!<h6>Madison Gartner <small>Front end developer</small></h6>!}
-                                {!</div>!}
-                            {!</div>!}
-
-
-                        {!</div>!}
-                    {!</div>!}
                 </fieldset>
-                {!<fieldset class="make-a-wish-fieldset">!}
-                    {!<legend>Make A Wish</legend>!}
-                    {!<form method="POST" action="/products/searchproducts">!}
-                        {!<div class="form-group">!}
-                            {!<label class="sr-only" for="searchProducts">Make a wish</label>!}
-                            {!<div class="input-group">!}
-                                {!<span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>!}
-                                {!<input name="name" class="typeahead" type="text" class="form-control input-lg" id="searchPrductBox" placeholder="Make a wish...">!}
-                            {!</div>!}
-                        {!</div>!}
-                        {!<button type="submit" class="btn btn-success btn-lg">Search</button>!}
-                    {!</form>!}
-                {!</fieldset>!}
-
                     <fieldset class="upcomingbdays-fieldset">
                         <legend>Upcoming Birthdays</legend>
                         <div id="panel1" class="upcomingbdays">
@@ -172,11 +135,11 @@
 
                 <div class="home-wish-search">
 
-                    <form class="form-inline" style="margin-left: 3%; margin-bottom: 20px;" method="POST" action="/products/searchproducts">
+                    <form class="form-inline searchwishform" style="margin-left: 3%; margin-bottom: 20px;" method="POST" action="/products/searchproducts">
                         <div class="form-group">
-                            <label class="sr-only" for="searchProducts">Search a wish</label>
+                            <label class="sr-only" for="searchProducts">Make a Wish</label>
                             <div class="input-group" style="padding-right:10px">
-                                <input name="name" class="typeahead form-control input-lg" type="text" id="searchPrductBox" placeholder="Search a wish" style="width:670px">
+                                <input name="name" class="typeahead form-control input-lg" type="text" id="searchPrductBox" placeholder="Make a wish..." style="width:670px">
                             </div>
                         </div>
                         <button type="submit" class="btn btn-success btn-lg" style="padding: 11px 30px;">Search</button>
@@ -200,7 +163,7 @@
                                         <a class="item_link" href="{.item_link}" target="_blank"><img class="pull-left amazon-logo" src="http://g-ec2.images-amazon.com/images/G/31/associates/promohub/amazonIN_logo_200_75.jpg?tag-id=giftnwishcom-21" border="0" alt="In Association with Amazon.in"></a>
                                        <h4><span class="pull-right label label-success price">{pricing.retail}</span></h4>
                                     </div>
-                                    <!--button class="btn btn-primary pull-right" id="" onclick="addToWL(this.id)">Add to Wish List</button-->
+
                                 </div>
                             </li>
 
@@ -223,7 +186,7 @@
                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span><span class="sr-only">Close</span></button>
 
                         <h4 class="modal-title pull-left" id="myModalLabel" style="margin-right:15%">Add to Your WishList</h4>
-                        {!<h2 class="notification-div" id="myModalLabel" style="margin-bottom:28px"></h2>!}
+
                     <div id="notification-div" class="col-md-5 alert alert-danger fade in alert-hide" style="padding:11px">
                         <button class="close" data-dismiss="alert">
                             ×
@@ -237,12 +200,12 @@
                     <div class="row">
                         <div class="col-md-10">
 
-                        <form class="form-inline" style="margin-left: 3%; margin-bottom: 20px;" method="POST" action="/products/searchproducts">
+                        <form class="form-inline searchwishform" style="margin-left: 3%; margin-bottom: 20px;" method="POST" action="/products/searchproducts">
                             <div class="form-group">
-                                <label class="sr-only" for="searchProducts">Search a wish</label>
+                                <label class="sr-only" for="searchProducts">Make a wish...</label>
                                 <div class="input-group" style="padding-right:10px">
                                     {!<span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>!}
-                                    <input name="name" class="typeahead form-control input-lg" type="text" id="searchPrductBox" placeholder="Search a wish" style="width:670px">
+                                    <input name="name" class="typeahead form-control input-lg" type="text" id="searchPrductBox" placeholder="Make a wish..." style="width:670px">
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-success btn-lg" style="padding: 11px 30px;">Search</button>
@@ -261,8 +224,6 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    {!<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>!}
-                    {!<button type="button" class="btn btn-primary">Save changes</button>!}
                 </div>
             </div>
         </div>
@@ -298,31 +259,38 @@
                             <strong>Contact Information and delivery address!</strong>
                         </div>
                         <div class="addressDiv hide">
+                            <div class="modal-footer">
+                                <div class="addressdivbuttons hide">
+                                    <button type="button" class="btn btn-primary btn-danger delete-address pull-left" >Delete Address</button>
+                                    <button type="button" id="contactformedit"  onclick="editAddress();" class="btn btn-primary">Edit</button>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="contactform hide">
-                        <form class="contactform">
+
+                        <form role="form" class="contactformform" action="/user/address" method="POST">
                             <div class="form-group">
                                 <div class="controls">
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                        <input type="text" class="form-control"  id= "username" name="name"  placeholder="Full Name" required>
+                                        <span class="input-group-addon">Name: </span>
+                                        <input type="text" class="form-control"  id= "username" name="name"  placeholder="Full Name"/>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group ">
                                 <div class="controls">
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                        <input type="text" class="form-control address1" id="address1"  name="address1" placeholder="Address Line 1 (or company name)">
+                                        <span class="input-group-addon">Address Line 1:</span>
+                                        <input type="text" class="form-control address1" id="address1"  name="address1"  placeholder="Address Line 1 (or company name)" />
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group ">
                                 <div class="controls">
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                        <input type="text" class="form-control" id="address2"  name="address2" placeholder="Address Line 2">
+                                        <span class="input-group-addon">Address Line 2:</span>
+                                        <input type="text" class="form-control" id="address2" name="address2" placeholder="Address Line 2" />
                                     </div>
                                 </div>
                             </div>
@@ -331,8 +299,8 @@
                                     <div class="form-group ">
                                         <div class="controls">
                                             <div class="input-group">
-                                                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                                <input type="text" class="form-control" id="city"  name="city" placeholder="Town/City">
+                                                <span class="input-group-addon">Town/City</span>
+                                                <input type="text" class="form-control" id="city"  name="city" placeholder="Town/City" />
                                             </div>
                                         </div>
                                     </div>
@@ -341,8 +309,8 @@
                                     <div class="form-group ">
                                         <div class="controls">
                                             <div class="input-group">
-                                                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                                <input type="text" class="form-control" id="state"  name="state" placeholder="State">
+                                                <span class="input-group-addon">State:</span>
+                                                <input type="text" class="form-control" id="state" name="state" placeholder="State"  />
                                             </div>
                                         </div>
                                    </div>
@@ -353,8 +321,8 @@
                                     <div class="form-group ">
                                         <div class="controls">
                                             <div class="input-group">
-                                                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                                <input type="text" class="form-control" id="pincode"  name="pincode" placeholder="Pincode">
+                                                <span class="input-group-addon">Pincode:</span>
+                                                <input type="number" class="form-control" id="pincode" name="pincode" placeholder="Pincode"  />
                                             </div>
                                         </div>
                                     </div>
@@ -363,31 +331,23 @@
                                     <div class="form-group ">
                                         <div class="controls">
                                             <div class="input-group">
-                                                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                                <input type="text" class="form-control" id="country"  name="country" placeholder="Country">
+                                                <span class="input-group-addon">Country:</span>
+                                                <input type="text" class="form-control" id="country" name="country" placeholder="Country" value="India" />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="controls pull-right">
-
+                            <div class="modal-footer">
+                                <div class="contactformbuttons hide">
+                                    <button type="submit" id="contactformsubmit"  class="btn btn-primary" >Submit</button>
+                                    <button type="button" id="contactformcancel" data-dismiss="modal" class="btn btn-primary">Cancel</button>
+                                </div>
                             </div>
                         </form>
                         </div>
-                    {!</div>!}
                 </div>
-                <div class="modal-footer">
-                    <div class="addressdivbuttons hide">
-                        <button type="button" id="contactformedit"  onclick="editAddress();" class="btn btn-primary pull-right" >Edit</button>
-                    </div>
-                    <div class="contactformbuttons hide">
-                        <button type="submit" id="contactformsubmit"  class="btn btn-primary" >Submit</button>
-                        <button type="button" id="contactformcancel" data-dismiss="modal" class="btn btn-primary">Cancel</button>
-                    </div>
-                    {!<button type="button" data-dismiss="modal" class="btn btn-primary" id="confirmProductDelete" onclick="deleteProduct(this.value)">Yes</button>!}
-                    {!<button type="button" data-dismiss="modal" class="btn btn-primary"  id="no">No</button>!}
-                </div>
+
             </div>
         </div>
     </div>
