@@ -13,7 +13,7 @@
             </button>
             <a href="./" class="navbar-brand"><i>Gift n Wish</i></a>
         </div>
-        <nav class="collapse navbar-collapse bs-navbar-collapse" style="margin-right:50px" >
+        <nav class="collapse navbar-collapse bs-navbar-collapse" style="margin-right:50px">
             {!<div class="right-offset">!}
                 <ul class="nav navbar-nav navbar-right navbar-top">
                     <li>
@@ -111,7 +111,7 @@
                                 <ul>
                                     {#upcomingbdays}
                                         <li>
-                                            <a href="/friends/{.id}">
+                                            <a href="/mywishlist/{.id}">
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <img src="{picture.data.url}">
