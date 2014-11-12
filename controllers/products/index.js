@@ -22,7 +22,6 @@ module.exports = function (router) {
             }
             else
             {
-                console.log(result);
                 res.send({"productID": result._id});
             }
         });

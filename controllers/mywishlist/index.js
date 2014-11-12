@@ -1,46 +1,42 @@
 'use strict';
 
-var wishlist      = require('../../models/wishlistModel');
-var user          = require('../../models/userModel');
-var fbHelper      = require('../../lib/fbHelper');
-var addressHelper      = require('../../lib/addressHelper');
+var wishlist = require('../../models/wishlistModel');
+var user = require('../../models/userModel');
+var fbHelper = require('../../lib/fbHelper');
+var addressHelper = require('../../lib/addressHelper');
 
 
 module.exports = function (router) {
 
-    var wishlistModel= wishlist.wishlistModel();
-    var userModel   = user.userModel();
+    var wishlistModel = wishlist.wishlistModel();
+    var userModel = user.userModel();
     router.get('/', function (req, res) {
 
-        if (req.session.fbAccessToken)
-        {
-            wishlistModel.find({'userId' : req.session.userId}, function (err, wishes) {
+        if (req.session.fbAccessToken) {
+            wishlistModel.find({'userId': req.session.userId}, function (err, wishes) {
                 if (err) {
                     logger.error('mongo err : ' + err);
                     res.redirect('/mywishlist');
                 }
-                else{
+                else {
                     var myWishlist = { wishList: wishes };
 
-                    userModel.findOne({'userId': req.session.userId}, function(err, user){
+                    userModel.findOne({'userId': req.session.userId}, function (err, user) {
                         if (err) {
                             logger.error('mongo err : ' + err);
                             res.redirect('/login');
                         }
-                        else{
+                        else {
 
                             myWishlist.userDetails = user;
-                            fbHelper.getFilteredFriendsBdays(req, function(fbBdayResponse){
-                                myWishlist.upcomingbdays  = fbBdayResponse;
-                                // res.send(fbResponse);
-//
-                                console.log(myWishlist);
+                            fbHelper.getFilteredFriendsBdays(req, function (fbBdayResponse) {
+                                myWishlist.upcomingbdays = fbBdayResponse;
                                 res.render('mywishlist', myWishlist);
 
                             });
                         }
 
-                        });
+                    });
                 }
             });
         }
@@ -50,28 +46,24 @@ module.exports = function (router) {
         }
     });
 
-    router.get('/:userId', function(req, res) {
+    router.get('/:userId', function (req, res) {
 
-        if (req.session.fbAccessToken)
-        {
-            wishlistModel.find({'userId' : req.params.userId}, function (err, wishes) {
+        if (req.session.fbAccessToken) {
+            wishlistModel.find({'userId': req.params.userId}, function (err, wishes) {
                 if (err) {
                     logger.error('mongo err : ' + err);
                     res.redirect('/mywishlist');
                 }
-                else{
+                else {
                     var myWishlist = { wishList: wishes };
 
-                    userModel.findOne({'userId': req.params.userId}, function(err, user){
+                    userModel.findOne({'userId': req.params.userId}, function (err, user) {
                         if (err) {
                             logger.error('mongo err : ' + err);
                             res.redirect('/login');
                         }
-                        else{
-
-                            console.log(user);
+                        else {
                             myWishlist.userDetails = user;
-                            console.log(myWishlist);
                             res.render('friendwishlist', myWishlist);
                         }
 

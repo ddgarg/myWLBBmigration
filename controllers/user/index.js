@@ -60,8 +60,6 @@ module.exports = function (router) {
                         res.send({"response":"NotOk"});
                     }
                     else{
-                        console.log(req.body);
-                        console.log("address received");
                         res.send(user.postalAddress);
                     }
                 });
@@ -94,8 +92,6 @@ module.exports = function (router) {
                         res.send({"response":"NotOk"});
                     }
                     else{
-                        console.log(req.body);
-                        console.log("address received");
                         res.send({"response":"Ok"});
                     }
                 });
@@ -126,7 +122,6 @@ module.exports = function (router) {
                         res.send({"response":"NotOk"});
                     }
                     else{
-                        console.log("address deleted");
                         res.send({"response":"Ok"});
                     }
                 });

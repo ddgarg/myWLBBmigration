@@ -50,7 +50,6 @@ module.exports = function (router) {
                 }
                 else {
                     //createUserFromFb(req, formatFbUser(userObj, saveToDb(formattedUser)));
-                    console.log('new user');
                     fbHelper.createUserFromFb(req, res, function (formattedUser) {
                         var newUser = new userModel(formattedUser);
                         newUser.save(function (err, newUser) {
