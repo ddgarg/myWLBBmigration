@@ -1,0 +1,105 @@
+<div class="modal fade" id="addressModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">x</button>
+                <h4 class="modal-title" id="myModalLabel">Delivery Address</h4>
+            </div>
+            <div class="modal-body">
+                {!<div class="col-md-12">!}
+                <div class="alert alert-success">
+                    <strong>Contact Information and delivery address!</strong>
+                </div>
+                <div class="addressDiv hide">
+                    <div class="modal-footer">
+                        <div class="addressdivbuttons hide">
+                            <button type="button" class="btn btn-primary btn-danger delete-address pull-left" >Delete Address</button>
+                            <button type="button" id="contactformedit"  onclick="editAddress();" class="btn btn-primary">Edit</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contactform hide">
+
+                    <form role="form" class="contactformform" action="/user/address" method="POST">
+                        <div class="form-group">
+                            <div class="controls">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Name: </span>
+                                    <input type="text" class="form-control"  id= "username" name="name"  placeholder="Full Name"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <div class="controls">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Address Line 1:</span>
+                                    <input type="text" class="form-control address1" id="address1"  name="address1"  placeholder="Address Line 1 (or company name)" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <div class="controls">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Address Line 2:</span>
+                                    <input type="text" class="form-control" id="address2" name="address2" placeholder="Address Line 2" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    <div class="controls">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Town/City</span>
+                                            <input type="text" class="form-control" id="city"  name="city" placeholder="Town/City" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    <div class="controls">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">State:</span>
+                                            <input type="text" class="form-control" id="state" name="state" placeholder="State"  />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    <div class="controls">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Pincode:</span>
+                                            <input type="number" class="form-control" id="pincode" name="pincode" placeholder="Pincode"  />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    <div class="controls">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Country:</span>
+                                            <input type="text" class="form-control" id="country" name="country" placeholder="Country" value="India" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="contactformbuttons hide">
+                                <button type="submit" id="contactformsubmit"  class="btn btn-primary" >Submit</button>
+                                <button type="button" id="contactformcancel" data-dismiss="modal" class="btn btn-primary">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -54,9 +54,73 @@ $('form.contactformform').validate({
         } else {
             error.insertAfter(element);
         }
-    }
-});
+    },
 
+   submitHandler: function(form){
+
+       $.ajax({
+
+           url: form.action,
+           type: form.method,
+           data: $(form).serialize(),
+           success: function(response){
+               var updatedAddressArray = $(form).serializeArray();
+
+               updatedAddressArray[0].value = '<strong>' + updatedAddressArray[0].value + '</strong>';
+
+               updatedAddressArray[5].value = updatedAddressArray[6].value + " - " + updatedAddressArray[5].value;
+
+               updatedAddressArray.splice(6, 1);
+
+               var addressText = "";
+               var updatedAddressEle = $('address');
+
+               $.each(updatedAddressArray, function (i){
+
+                   addressText = addressText + updatedAddressArray[i].value + "<br/>";
+
+               });
+
+               $('#addressModal').modal('hide');
+
+               updatedAddressEle.html(addressText);
+
+           },
+           error : function (xhr, textstatus, error) {
+                alert(error);
+           }
+       });
+//       $.ajaxify(function (response) {
+//           if (response.error === 'error') {
+//           }
+//           else {
+//               var updatedAddressArray = $(this).serializeArray();
+//
+//               updatedAddressArray[0].value = '<strong>' + updatedAddressArray[0].value + '</strong>';
+//
+//               updatedAddressArray[5].value = updatedAddressArray[6].value + " - " + updatedAddressArray[5].value;
+//
+//               updatedAddressArray.splice(6, 1);
+//
+//               var addressText = "";
+//               var updatedAddressEle = $('address');
+//
+//               $.each(updatedAddressArray, function (i){
+//
+//                   addressText = addressText + updatedAddressArray[i].value + "<br/>";
+//
+//               });
+//
+//               updatedAddressEle.html(addressText);
+//
+//
+//           }
+//           $('#addressModal').modal('hide');
+//       }, function (xhr, error) {
+//           alert(error);
+//       });
+   }
+});
 
 
 $(document).on("click", ".deleteProduct", function () {
@@ -487,39 +551,4 @@ $(document).ready(function () {
     }, function (xhr, error) {
         $.notify("Sorry no matches found...");
     });
-
-
-    $('form.contactformform').ajaxify(function (response) {
-        $(".loader").fadeOut("slow");
-        if (response.error === 'error') {
-            $("#notification-div").removeClass("alert-hide");
-            $('ul#fetchedProducts.thumbnails > li').remove();
-        }
-        else {
-            var updatedAddressArray = $(this).serializeArray();
-
-            updatedAddressArray[0].value = '<strong>' + updatedAddressArray[0].value + '</strong>';
-
-            updatedAddressArray[5].value = updatedAddressArray[6].value + " - " + updatedAddressArray[5].value;
-
-            updatedAddressArray.splice(6, 1);
-
-            var addressText = "";
-            var updatedAddressEle = $('address');
-
-            $.each(updatedAddressArray, function (i){
-
-               addressText = addressText + updatedAddressArray[i].value + "<br/>";
-
-            });
-
-            updatedAddressEle.html(addressText);
-
-
-        }
-        $('#addressModal').modal('hide');
-    }, function (xhr, error) {
-        alert(error);
-    });
-
 });
