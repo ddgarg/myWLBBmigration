@@ -62,27 +62,3 @@ function editAddress() {
     $('.contactform').removeClass('hide');
     $('.contactformbuttons').removeClass('hide');
 }
-
-
-$(document).ready(function () {
-
-    $('button#contactformsubmit').click(function (e) {
-
-        e.preventDefault();
-        $.ajax({
-            url: '/user/address',
-            type: 'post',
-            dataType: 'json',
-            data: $('form.contactform').serialize(),
-            success: function (data) {
-                console.log(data);
-
-                $('#addressModal').modal('hide');
-
-            }
-        });
-
-        return false;
-    });
-
-});
