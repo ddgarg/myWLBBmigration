@@ -83,7 +83,7 @@ $('form.contactformform').validate({
                 $('#addressModal').modal('hide');
 
                 notificationGrowl({
-                    icon: 'glyphicon glyphicon-ok',
+                    icon: 'fa fa-check-circle',
                     title: ' Address updated: ',
                     message: 'Your delivery address has been updated successfully!'
                 },{
@@ -98,9 +98,9 @@ $('form.contactformform').validate({
                         x: 0,
                         y:50
                     } ,
-                    spacing: 100,
+                    spacing: 0,
                     z_index: 1031,
-                    delay: 6000,
+                    delay: 3000,
                     timer: 1000,
                     mouse_over: false,
                     animate: {
@@ -166,16 +166,16 @@ jQuery.fn.ajaxify = function (selector, success, error) {
                 allow_dismiss: true,
                 placement: {
                     from: "top",
-                    align: "right"
+                    align: "center"
                 },
                 offset : {
                     x: 0,
-                    y:400
+                    y:300
                 } ,
                 onHide: removeBackdrop,
                 spacing: 0,
                 z_index: 1051,
-                delay: 3000,
+                delay: 5000,
                 timer: 1000,
                 mouse_over: false,
                 animate: {
@@ -285,48 +285,10 @@ function deleteProduct(asin) {
         cache: false,
         data: {"asin": asin}
     }).done(function (response) {
-            $('li.fetchedproducts#' + asin).find('.item-added-removed').remove();
             console.log(response);
             removeAsinFromGlobalArray(asin);
             var liDiv = 'li.main-wishlist-li#' + asin;
             $(liDiv).fadeOut(1000);
-
-            setTimeout(function(){
-                notificationGrowl({
-                    icon: 'glyphicon glyphicon-ok',
-                    title: ' Item Removed'
-//                    message: 'Item Successfully Removed From Wishlist!'
-                },{
-                    element: 'li.fetchedproducts#' + asin,
-                    type: "info",
-                    allow_dismiss: true,
-                    placement: {
-                        from: "top",
-                        align: "left"
-                    },
-                    offset : {
-                        x: 0,
-                        y:50
-                    } ,
-                    spacing: 0,
-                    z_index: 1051,
-                    delay: 200000,
-                    timer: 1000,
-                    mouse_over: false,
-                    animate: {
-                        enter: 'animated bounceIn',
-                        exit: 'animated bounceOut'
-                    },
-                    icon_type: 'class',
-                    template: '<div data-growl="container" class="item-added-removed" style="padding:5px"> \
-                                       <h6> <span data-growl="icon"></span> \
-                                        <strong><span data-growl="title"></span></strong> \
-                                        </h6>\
-                                 </div>'
-                });
-            },1000);
-
-
         }).fail(function () {
             alert('failed');
         });
@@ -338,11 +300,44 @@ $(document).on("click", ".btn-remove-from-wishlist", function () {
     $(this).addClass('hide');
     var parentLi = $('li.fetchedproducts#' + productAsin);
     parentLi.find('button.add-to-wishlist').removeClass('hide');
-    parentLi.find(".badge").addClass("hide");
+    parentLi.find(".badge-added").addClass("hide");
+    parentLi.find(".badge-already-added").addClass("hide");
     $('.no-of-wishes').html(function (i, val) {
         return +val - 1
     });
-
+        $('.item-added-removed').remove();
+        notificationGrowl({
+            icon: 'fa fa-minus-circle',
+            title: ' Item Removed'
+//                    message: 'Item Successfully Removed From Wishlist!'
+        },{
+            element: parentLi,
+            type: "danger",
+            allow_dismiss: false,
+            placement: {
+                from: "top",
+                align: "right"
+            },
+            offset : {
+                x: 15,
+                y: 0
+            } ,
+            spacing: 0,
+            z_index: 1051,
+            delay: 2000,
+            timer: 1000,
+            mouse_over: false,
+            animate: {
+                enter: 'animated bounceIn',
+                exit: 'animated bounceOut'
+            },
+            icon_type: 'class',
+            template: '<div data-growl="container" class="item-added-removed" style="padding:5px"> \
+                                       <h4> <span data-growl="icon"></span> \
+                                        <strong><span data-growl="title"></span></strong> \
+                                        </h4>\
+                                 </div>'
+        });
     deleteProduct(productAsin);
 
 
@@ -368,6 +363,7 @@ $(document).on("click", ".delete-address", function () {
 $(document).on("click", ".add-to-wishlist", function () {
 
 
+    $('.item-added-removed').remove();
     var selector = "li.fetchedproducts#" + "" + this.id;
     var item_div_original = $(selector);
     var item_div = item_div_original.clone();
@@ -430,7 +426,7 @@ $(document).on("click", ".add-to-wishlist", function () {
         data: item_obj
     }).done(function (response) {
 
-            $(selector).find('.item-added-removed').remove();
+            $('.item-added-removed').remove();
             addAsinToGlobalArray(item_obj.asin);
 
 
@@ -441,7 +437,7 @@ $(document).on("click", ".add-to-wishlist", function () {
             console.log(response);
             item_div.addClass('main-wishlist-li');
             item_div.removeClass('fetchedproducts');
-            item_div_original.find(".badge").removeClass("hide");
+            item_div_original.find(".badge-added").removeClass("hide");
             item_div_original.find(".badge-already-added").addClass("hide");
             item_div.attr("id", item_obj.asin);
             item_div.find('.thumbnail').removeClass('fetchedProduct');
@@ -451,9 +447,9 @@ $(document).on("click", ".add-to-wishlist", function () {
             item_div.find('.add-to-wishlist').remove();
             $(".wishes").prepend(item_div);
 
-            setTimeout(function(){
+
                 notificationGrowl({
-                    icon: 'glyphicon glyphicon-ok',
+                    icon: 'fa fa-check-circle',
                     title: ' Item Added'
 //                    message: 'Item Successfully Added to Wishlist!'
                 },{
@@ -470,7 +466,7 @@ $(document).on("click", ".add-to-wishlist", function () {
                     } ,
                     spacing: 0,
                     z_index: 1051,
-                    delay: 200000,
+                    delay: 2000,
                     timer: 100,
                     mouse_over: false,
                     animate: {
@@ -479,11 +475,11 @@ $(document).on("click", ".add-to-wishlist", function () {
                     },
                     icon_type: 'class',
                     template: '<div data-growl="container" class="item-added-removed" style="padding:5px"> \
-                                       <h6> <span data-growl="icon"></span> \
+                                       <h4> <span data-growl="icon"></span> \
                                         <strong><span data-growl="title"></span></strong> \
-                                        </h6>\
+                                        </h4>\
                                  </div>'
-                })}, 1200);
+                });
 
 
 
@@ -604,9 +600,12 @@ $(document).ready(function () {
                             .appendTo(Odiv);
                     }
                     var badgeSpan = $('<span/>')
-                        .addClass('badge badge-added pull-right hide')
-                        .text('Added')
-                        .appendTo(Odiv);
+                                .addClass('text-success')
+                                .appendTo(Odiv);
+                    var badgei = $('<i/>')
+                        .addClass('fa fa-check-circle fa-3x badge-added pull-right hide')
+                        .appendTo(badgeSpan);
+
                     var aDiv = $('<div/>')
                         .addClass('prod-desc')
                         .appendTo(Odiv);

@@ -778,11 +778,11 @@ a.profile-card.thumbnail {
     min-height:30px;
 }
 
-.badge-added {
-    background-color: hsl(134, 72%, 49%) !important;
-    border-radius: 9px 0 4px 0 !important;
-    z-index: 1;
-}
+/*.badge-added {*/
+    /*background-color: hsl(134, 72%, 49%) !important;*/
+    /*border-radius: 9px 0 4px 0 !important;*/
+    /*z-index: 1;*/
+/*}*/
 
 .no-of-wishes{
     background-color: hsl(231, 85%, 45%) !important;
@@ -883,4 +883,8 @@ legend {
         width: 750px;
     }
 
+}
+
+.close{
+    opacity: 1 !important;
 }

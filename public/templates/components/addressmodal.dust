@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">x</button>
+                <button type="button" class="close" data-dismiss="modal"><span class="text-danger"><i class="fa fa-times-circle"></i></span></button>
                 <h4 class="modal-title" id="myModalLabel">Delivery Address</h4>
             </div>
             <div class="modal-body">
@@ -13,8 +13,8 @@
                 <div class="addressDiv hide">
                     <div class="modal-footer">
                         <div class="addressdivbuttons hide">
-                            <button type="button" class="btn btn-primary btn-danger delete-address pull-left" >Delete Address</button>
-                            <button type="button" id="contactformedit"  onclick="editAddress();" class="btn btn-primary">Edit</button>
+                            <button type="button" class="btn btn-danger delete-address pull-left" ><i class="fa fa-trash-o"></i> Delete Address</button>
+                            <button type="button" id="contactformedit"  onclick="editAddress();" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i> Edit</button>
                         </div>
                     </div>
                 </div>
