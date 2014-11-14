@@ -1,7 +1,11 @@
 {>"layouts/master" /}
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script src="../js/bootstrap-growl.min.js"></script>
 <script src="../js/jquery-form-validator.js"></script>
+<script src="../js/growl-notification.js"></script>
 <script src="../js/homemywishlist.js"></script>
+
+
 {<body}
     {>"components/navbar"/}
     <script>
@@ -100,13 +104,13 @@
             </div>
             <div class="col-md-9">
 
-                <div class="home-wish-search">
+                <div class="home-wish-search" style="margin-top: 5px">
 
                     <form class="form-inline searchwishform" style="margin-left: 3%; margin-bottom: 20px;" method="POST" action="/products/searchproducts">
                         <div class="form-group">
                             <label class="sr-only" for="searchProducts">Make a Wish</label>
                             <div class="input-group" style="padding-right:10px">
-                                <input name="name" class="typeahead form-control input-lg" type="text" id="searchPrductBox" placeholder="Make a wish..." style="width:670px">
+                                <input name="name" class="typeahead home-search-wish-input form-control input-lg" type="text" id="searchPrductBox" placeholder="Make a wish...">
                             </div>
                         </div>
                         <button type="submit" class="btn btn-success btn-lg" style="padding: 11px 30px;">Search</button>
@@ -214,5 +218,5 @@
     </div>
 
     {>"components/addressmodal"/}
-
+    <div class="modal-backdrop loading-wishes-backdrop fade in hide"></div>
 {/body}

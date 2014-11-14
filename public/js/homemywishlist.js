@@ -56,72 +56,81 @@ $('form.contactformform').validate({
         }
     },
 
-   submitHandler: function(form){
+    submitHandler: function(form){
 
-       $.ajax({
+        $.ajax({
+            url: form.action,
+            type: form.method,
+            data: $(form).serialize(),
+            success: function(response){
+                var updatedAddressArray = $(form).serializeArray();
 
-           url: form.action,
-           type: form.method,
-           data: $(form).serialize(),
-           success: function(response){
-               var updatedAddressArray = $(form).serializeArray();
+                updatedAddressArray[0].value = '<strong>' + updatedAddressArray[0].value + '</strong>';
 
-               updatedAddressArray[0].value = '<strong>' + updatedAddressArray[0].value + '</strong>';
+                updatedAddressArray[5].value = updatedAddressArray[6].value + " - " + updatedAddressArray[5].value;
 
-               updatedAddressArray[5].value = updatedAddressArray[6].value + " - " + updatedAddressArray[5].value;
+                updatedAddressArray.splice(6, 1);
 
-               updatedAddressArray.splice(6, 1);
+                var addressText = "";
+                var updatedAddressEle = $('address');
 
-               var addressText = "";
-               var updatedAddressEle = $('address');
+                $.each(updatedAddressArray, function (i){
 
-               $.each(updatedAddressArray, function (i){
+                    addressText = addressText + updatedAddressArray[i].value + "<br/>";
 
-                   addressText = addressText + updatedAddressArray[i].value + "<br/>";
+                });
 
-               });
+                $('#addressModal').modal('hide');
 
-               $('#addressModal').modal('hide');
+                notificationGrowl({
+                    icon: 'glyphicon glyphicon-ok',
+                    title: ' Address updated: ',
+                    message: 'Your delivery address has been updated successfully!'
+                },{
+                    element: 'body',
+                    type: "success",
+                    allow_dismiss: true,
+                    placement: {
+                        from: "top",
+                        align: "center"
+                    },
+                    offset : {
+                        x: 0,
+                        y:50
+                    } ,
+                    spacing: 100,
+                    z_index: 1031,
+                    delay: 6000,
+                    timer: 1000,
+                    mouse_over: false,
+                    animate: {
+                        enter: 'animated fadeInDown',
+                        exit: 'animated fadeOutUp'
+                    },
+                    icon_type: 'class',
+                    template: '<div data-growl="container" class="alert" role="alert"> \
+                                    <button type="button" class="close" data-growl="dismiss"> \
+                                        <span aria-hidden="true">×</span> \
+                                        <span class="sr-only">Close</span> \
+                                    </button>\
+                                    <div style="padding:20px">\
+                                       <h4> <span data-growl="icon"></span> \
+                                        <strong><span data-growl="title"></span></strong> \
+                                        <span data-growl="message"></span>\
+                                        </h4>\
+                                     </div>\
+                                 </div>'
+                });
 
-               updatedAddressEle.html(addressText);
+                updatedAddressEle.html(addressText);
 
-           },
-           error : function (xhr, textstatus, error) {
+            },
+            error : function (xhr, textstatus, error) {
                 alert(error);
-           }
-       });
-//       $.ajaxify(function (response) {
-//           if (response.error === 'error') {
-//           }
-//           else {
-//               var updatedAddressArray = $(this).serializeArray();
-//
-//               updatedAddressArray[0].value = '<strong>' + updatedAddressArray[0].value + '</strong>';
-//
-//               updatedAddressArray[5].value = updatedAddressArray[6].value + " - " + updatedAddressArray[5].value;
-//
-//               updatedAddressArray.splice(6, 1);
-//
-//               var addressText = "";
-//               var updatedAddressEle = $('address');
-//
-//               $.each(updatedAddressArray, function (i){
-//
-//                   addressText = addressText + updatedAddressArray[i].value + "<br/>";
-//
-//               });
-//
-//               updatedAddressEle.html(addressText);
-//
-//
-//           }
-//           $('#addressModal').modal('hide');
-//       }, function (xhr, error) {
-//           alert(error);
-//       });
-   }
+            }
+        });
+    }
 });
-
 
 $(document).on("click", ".deleteProduct", function () {
 
@@ -129,6 +138,10 @@ $(document).on("click", ".deleteProduct", function () {
     console.log(asin);
     $("#confirmProductDelete").val(asin);
 });
+
+var removeBackdrop = function(){
+    $('.loading-wishes-backdrop').addClass('hide');
+};
 
 jQuery.fn.ajaxify = function (selector, success, error) {
 
@@ -139,12 +152,60 @@ jQuery.fn.ajaxify = function (selector, success, error) {
     }
 
     return this.on('submit', function (e) {
-        var loaderDiv = $('#loader-div');
-        $('div#loader-div > div').remove();
 
-        var Odiv = $('<div/>')
-            .addClass('loader')
-            .appendTo(loaderDiv);
+        $('.loading-wishes-backdrop').removeClass('hide');
+
+        setTimeout(function(){
+            notificationGrowl({
+                icon: 'glyphicon glyphicon-ok',
+                title: ' Loading wishes: ',
+                message: "We're fetching your wishes!"
+            },{
+                element: 'body',
+                type: "info",
+                allow_dismiss: true,
+                placement: {
+                    from: "top",
+                    align: "right"
+                },
+                offset : {
+                    x: 0,
+                    y:400
+                } ,
+                onHide: removeBackdrop,
+                spacing: 0,
+                z_index: 1051,
+                delay: 3000,
+                timer: 1000,
+                mouse_over: false,
+                animate: {
+                    enter: 'animated bounceIn',
+                    exit: 'animated bounceOut'
+                },
+                icon_type: 'class',
+                template: '<div data-growl="container" class="alert loading-wishes" role="alert"> \
+                                    <button type="button" class="close" data-growl="dismiss"> \
+                                        <span aria-hidden="true">×</span> \
+                                        <span class="sr-only">Close</span> \
+                                    </button>\
+                                    <div>\
+                                    <h3 class="text-center"><i class=" fa fa-4x fa-spinner fa-spin"></i></h3>\
+                                       <h2 class="text-center"> \
+                                        <strong><span data-growl="title"></span></strong> \
+                                        <span data-growl="message"></span>\
+                                        </h2>\
+                                     </div>\
+                                 </div>'
+            });
+        },0);
+
+
+//        var loaderDiv = $('#loader-div');
+//        $('div#loader-div > div').remove();
+//
+//        var Odiv = $('<div/>')
+//            .addClass('loader')
+//            .appendTo(loaderDiv);
 
         jQuery.ajax({
             url: this.action,
@@ -224,10 +285,48 @@ function deleteProduct(asin) {
         cache: false,
         data: {"asin": asin}
     }).done(function (response) {
+            $('li.fetchedproducts#' + asin).find('.item-added-removed').remove();
             console.log(response);
             removeAsinFromGlobalArray(asin);
             var liDiv = 'li.main-wishlist-li#' + asin;
             $(liDiv).fadeOut(1000);
+
+            setTimeout(function(){
+                notificationGrowl({
+                    icon: 'glyphicon glyphicon-ok',
+                    title: ' Item Removed'
+//                    message: 'Item Successfully Removed From Wishlist!'
+                },{
+                    element: 'li.fetchedproducts#' + asin,
+                    type: "info",
+                    allow_dismiss: true,
+                    placement: {
+                        from: "top",
+                        align: "left"
+                    },
+                    offset : {
+                        x: 0,
+                        y:50
+                    } ,
+                    spacing: 0,
+                    z_index: 1051,
+                    delay: 200000,
+                    timer: 1000,
+                    mouse_over: false,
+                    animate: {
+                        enter: 'animated bounceIn',
+                        exit: 'animated bounceOut'
+                    },
+                    icon_type: 'class',
+                    template: '<div data-growl="container" class="item-added-removed" style="padding:5px"> \
+                                       <h6> <span data-growl="icon"></span> \
+                                        <strong><span data-growl="title"></span></strong> \
+                                        </h6>\
+                                 </div>'
+                });
+            },1000);
+
+
         }).fail(function () {
             alert('failed');
         });
@@ -243,6 +342,7 @@ $(document).on("click", ".btn-remove-from-wishlist", function () {
     $('.no-of-wishes').html(function (i, val) {
         return +val - 1
     });
+
     deleteProduct(productAsin);
 
 
@@ -262,9 +362,8 @@ $(document).on("click", ".delete-address", function () {
         }).fail(function () {
 
             window.location = "/mywishlist";
-    });
+        });
 });
-
 
 $(document).on("click", ".add-to-wishlist", function () {
 
@@ -287,7 +386,43 @@ $(document).on("click", ".add-to-wishlist", function () {
     item_div_original.find("button.add-to-wishlist").addClass("hide");
     item_div_original.find("button.btn-remove-from-wishlist")
         .removeClass('hide');
+    var imgtodrag = item_div_original.find(".item_image");
+    if (imgtodrag) {
+        var imgclone = imgtodrag.clone()
+            .offset({
+                top: imgtodrag.offset().top,
+                left: imgtodrag.offset().left
+            })
+            .css({
+                'opacity': '0.5',
+                'position': 'absolute',
+                'height': '150px',
+                'width': '150px',
+                'z-index': '1100'
+            })
+            .appendTo($('body'))
+            .animate({
+                'top': wishlist.offset().top + 10,
+                'left': wishlist.offset().left + 10,
+                'width': 75,
+                'height': 75
+            }, 1000, 'easeInOutExpo');
+        setTimeout(function () {
+            wishlist.effect("shake", {
+                times: 2
+            }, 200);
+        }, 1000);
+        imgclone.animate({
+            'width': 0,
+            'height': 0
+        }, function () {
+            $(this).detach();
+        });
 
+        $('.no-of-wishes').html(function (i, val) {
+            return +val + 1
+        });
+    }
     $.ajax({
         url: '/products/addtowishlist',
         method: 'POST',
@@ -295,6 +430,7 @@ $(document).on("click", ".add-to-wishlist", function () {
         data: item_obj
     }).done(function (response) {
 
+            $(selector).find('.item-added-removed').remove();
             addAsinToGlobalArray(item_obj.asin);
 
 
@@ -314,69 +450,53 @@ $(document).on("click", ".add-to-wishlist", function () {
 
             item_div.find('.add-to-wishlist').remove();
             $(".wishes").prepend(item_div);
-            var imgtodrag = item_div_original.find(".item_image");
-            if (imgtodrag) {
-                var imgclone = imgtodrag.clone()
-                    .offset({
-                        top: imgtodrag.offset().top,
-                        left: imgtodrag.offset().left
-                    })
-                    .css({
-                        'opacity': '0.5',
-                        'position': 'absolute',
-                        'height': '150px',
-                        'width': '150px',
-                        'z-index': '1100'
-                    })
-                    .appendTo($('body'))
-                    .animate({
-                        'top': wishlist.offset().top + 10,
-                        'left': wishlist.offset().left + 10,
-                        'width': 75,
-                        'height': 75
-                    }, 1000, 'easeInOutExpo');
-                setTimeout(function () {
-                    wishlist.effect("shake", {
-                        times: 2
-                    }, 200);
-                }, 1500);
-                imgclone.animate({
-                    'width': 0,
-                    'height': 0
-                }, function () {
-                    $(this).detach();
-                });
 
-                $('.no-of-wishes').html(function (i, val) {
-                    return +val + 1
-                });
-            }
+            setTimeout(function(){
+                notificationGrowl({
+                    icon: 'glyphicon glyphicon-ok',
+                    title: ' Item Added'
+//                    message: 'Item Successfully Added to Wishlist!'
+                },{
+                    element: selector,
+                    type: "success",
+                    allow_dismiss: false,
+                    placement: {
+                        from: "top",
+                        align: "left"
+                    },
+                    offset : {
+                        x: 15,
+                        y:0
+                    } ,
+                    spacing: 0,
+                    z_index: 1051,
+                    delay: 200000,
+                    timer: 100,
+                    mouse_over: false,
+                    animate: {
+                        enter: 'animated bounceIn',
+                        exit: 'animated bounceOut'
+                    },
+                    icon_type: 'class',
+                    template: '<div data-growl="container" class="item-added-removed" style="padding:5px"> \
+                                       <h6> <span data-growl="icon"></span> \
+                                        <strong><span data-growl="title"></span></strong> \
+                                        </h6>\
+                                 </div>'
+                })}, 1200);
+
+
+
+
         }).fail(function () {
 
             alert('failed');
         });
+
+
 });
 
 $(document).ready(function () {
-
-//    $('button#contactformsubmit').click(function (e) {
-//
-//        e.preventDefault();
-//        $.ajax({
-//            url: '/user/address',
-//            type: 'post',
-//            dataType: 'json',
-//            data: $('form.contactform').serialize(),
-//            success: function (data) {
-//                console.log(data);
-//
-//                $('#addressModal').modal('hide');
-//
-//            }
-//        });
-//
-//        return false;
-//    });
 
     var substringMatcher = function () {
 
@@ -448,7 +568,8 @@ $(document).ready(function () {
 
     $('form.searchwishform').ajaxify(function (response) {
 
-        $(".loader").fadeOut("slow");
+        $(".loading-wishes").fadeOut("fast");
+        $('.loading-wishes-backdrop').addClass('hide');
 
         if (response.error === 'error') {
             $("#notification-div").removeClass("alert-hide");

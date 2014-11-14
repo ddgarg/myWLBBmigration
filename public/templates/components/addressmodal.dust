@@ -84,7 +84,7 @@
                                     <div class="controls">
                                         <div class="input-group">
                                             <span class="input-group-addon">Country:</span>
-                                            <input type="text" class="form-control" id="country" name="country" placeholder="Country" value="India" />
+                                            <input type="text" class="form-control" id="country" name="country" placeholder="Country" value="India" readonly/>
                                         </div>
                                     </div>
                                 </div>

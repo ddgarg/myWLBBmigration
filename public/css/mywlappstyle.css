@@ -871,3 +871,16 @@ legend {
 .user-menu.thumbnail{
     padding: 100px !important;
 }
+
+@media (min-width: 1200px) {
+    .home-search-wish-input {
+        width: 670px !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .home-search-wish-input {
+        width: 750px;
+    }
+
+}
