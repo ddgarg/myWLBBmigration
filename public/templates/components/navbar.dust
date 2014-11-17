@@ -21,10 +21,10 @@
                 <a id="drop6" data-toggle="dropdown" data-target="#" href="./">More <span class="caret"></span></a>
                 <ul id="menu3" class="dropdown-menu dropdown-menu-left">
                     <li ><a  tabindex="-1" onclick="displayAddress();" style="cursor:pointer">Update Address</a></li>
-                    <li ><a  tabindex="-1" href="/user/profile">My profile</a></li>
+                    <li class="disabled"><a  tabindex="-1" href="#">My profile</a></li>
                     <li  class="divider"></li>
-                    <li ><a tabindex="-1" href="/giftsreceived">Gifts Received</a></li>
-                    <li ><a tabindex="-1" href="/giftsordered">Gifts Ordered</a></li>
+                    <li class="disabled"><a tabindex="-1" href="#">Gifts Received</a></li>
+                    <li class="disabled"><a tabindex="-1" href="#">Gifts Ordered</a></li>
                     <li><a class="logout" tabindex="-1" onclick="fblogout();">Logout</a></li>
                 </ul>
             </li>
