@@ -184,10 +184,6 @@ jQuery.fn.ajaxify = function (selector, success, error) {
                 },
                 icon_type: 'class',
                 template: '<div data-growl="container" class="alert loading-wishes" role="alert"> \
-                                    <button type="button" class="close" data-growl="dismiss"> \
-                                        <span aria-hidden="true">×</span> \
-                                        <span class="sr-only">Close</span> \
-                                    </button>\
                                     <div>\
                                     <h3 class="text-center"><i class=" fa fa-4x fa-spinner fa-spin"></i></h3>\
                                        <h2 class="text-center"> \
@@ -343,7 +339,7 @@ $(document).on("click", ".btn-remove-from-wishlist", function () {
 
 });
 
-$(document).on("click", ".delete-address", function () {
+$(document).on("click", "#confirm-delete-address", function () {
 
     $.ajax({
         url: '/user/address',
@@ -351,7 +347,48 @@ $(document).on("click", ".delete-address", function () {
         cache: false
     }).done(function (response) {
 
+            notificationGrowl({
+                icon: 'fa fa-times-circle',
+                title: ' Address deleted: ',
+                message: 'Your delivery address has been deleted successfully!'
+            },{
+                element: 'body',
+                type: "danger",
+                allow_dismiss: true,
+                placement: {
+                    from: "top",
+                    align: "center"
+                },
+                offset : {
+                    x: 0,
+                    y:50
+                } ,
+                spacing: 0,
+                z_index: 1051,
+                delay: 3000,
+                timer: 1000,
+                mouse_over: false,
+                animate: {
+                    enter: 'animated fadeInDown',
+                    exit: 'animated fadeOutUp'
+                },
+                icon_type: 'class',
+                template: '<div data-growl="container" class="alert" role="alert"> \
+                                    <button type="button" class="close" data-growl="dismiss"> \
+                                        <span aria-hidden="true">×</span> \
+                                        <span class="sr-only">Close</span> \
+                                    </button>\
+                                    <div style="padding:20px">\
+                                       <h4> <span data-growl="icon"></span> \
+                                        <strong><span data-growl="title"></span></strong> \
+                                        <span data-growl="message"></span>\
+                                        </h4>\
+                                     </div>\
+                                 </div>'
+            });
+
             window.location = "/mywishlist";
+
 
 
         }).fail(function () {
@@ -380,8 +417,7 @@ $(document).on("click", ".add-to-wishlist", function () {
     item_obj.price = item_div.find(".price").text();
 
     item_div_original.find("button.add-to-wishlist").addClass("hide");
-    item_div_original.find("button.btn-remove-from-wishlist")
-        .removeClass('hide');
+    item_div_original.find("button.btn-remove-from-wishlist").removeClass('hide');
     var imgtodrag = item_div_original.find(".item_image");
     if (imgtodrag) {
         var imgclone = imgtodrag.clone()
@@ -505,7 +541,7 @@ $(document).ready(function () {
 
             substrRegex = new RegExp(q, 'i');
 
-            $('.typeahead').bind('input', function () {
+            $('.home-search-wish-input').bind('input', function () {
 
                 strs = [];
                 var searchQuery = $(this).val();
@@ -541,7 +577,7 @@ $(document).ready(function () {
         };
     };
 
-    $('.typeahead').typeahead({
+    $('.home-search-wish-input').typeahead({
             hint: true,
             highlight: true,
             minLength: 1

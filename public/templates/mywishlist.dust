@@ -64,42 +64,23 @@
                                 {state}
                                 <br>
                                 {country} - {pincode}
+                                <br>
+                                <button type="button" id="contactformedit"  onclick="displayAddress();" class="btn btn-primary btn-sm pull-right"><i class="fa fa-pencil-square-o"></i> Update</button>
+                                <br>
                             </address>
                             {/postalAddress}
 
+
+
                         {:else}
                             <address>
-                                <h3 class="text-center"><a  tabindex="-1" onclick="displayAddress();" style="cursor:pointer">Update Address</a></h3>
+                                <button type="button" id="contactformedit"  onclick="displayAddress();" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i> Update Address</button>
                             </address>
                         {/postalAddress.address1}
                         {/.userDetails}
                     </div>
                 </fieldset>
-                    <fieldset class="upcomingbdays-fieldset">
-                        <legend>Upcoming Birthdays</legend>
-                        <div id="panel1" class="upcomingbdays">
-                            {?upcomingbdays}
-                                <ul>
-                                    {#upcomingbdays}
-                                        <li>
-                                            <a href="/mywishlist/{.id}">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <img src="{picture.data.url}">
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        <strong>{.name}<br>{.birthday}</strong>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    {/upcomingbdays}
-                                </ul>
-                            {:else}
-                                    No Upcoming Birthdays
-                            {/upcomingbdays}
-                        </div>
-                    </fieldset>
+                {>"components/upcomingbirthday"/}
 
             </div>
             <div class="col-md-9">
@@ -119,13 +100,14 @@
 
                 <fieldset>
                     <legend>My WishList</legend>
+                <ul class="thumbnails wishes">
                     {?wishList}
-                    <ul class="thumbnails wishes">
+
                         {#wishList}
                             <script>addAsinToGlobalArray("{.asin}")</script>
                             <li class="col-md-3 main-wishlist-li" id="{.asin}">
                                 <div class="thumbnail">
-                                    <button type="button" class="deleteProduct close" id="{.asin}" data-toggle="modal" data-target="#deleteConfirmationModal"><span data-toggle="tooltip" data-placement="left" title="Delete this wish."><span class="text-danger"><i class="fa fa-1x fa-times-circle"></i></span></span><span class="sr-only">Close</span></button>
+                                    <button type="button" class="deleteProduct close" id="{.asin}" data-toggle="modal" data-target="#deleteConfirmationModal"><span data-toggle="tooltip" data-placement="left" title="Delete this wish.">×</span><span class="sr-only">Close</span></button>
                                     <div class="prod-desc"><a class="item_link" href="{.item_link}" target="_blank"><img class="item_image" src="{.item_image}"></a></div>
                                     <div class="caption">
                                         <p class="text-center item_title">{.item_title}</p>
@@ -139,8 +121,9 @@
                             </li>
 
                         {/wishList}
-                    </ul>
+
                     {/wishList}
+                </ul>
                 </fieldset>
 
             </div>

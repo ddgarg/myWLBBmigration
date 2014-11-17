@@ -13,7 +13,7 @@
                 <div class="addressDiv hide">
                     <div class="modal-footer">
                         <div class="addressdivbuttons hide">
-                            <button type="button" class="btn btn-danger delete-address pull-left" ><i class="fa fa-trash-o"></i> Delete Address</button>
+                            <button type="button" class="btn btn-danger delete-address pull-left" data-toggle="modal" data-target="#deleteaddressconfirmation" ><i class="fa fa-trash-o"></i> Delete Address</button>
                             <button type="button" id="contactformedit"  onclick="editAddress();" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i> Edit</button>
                         </div>
                     </div>
@@ -100,6 +100,24 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteaddressconfirmation" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">x</button>
+                <h4 class="modal-title" id="myModalLabel">Confirm</h4>
+            </div>
+            <div class="modal-body">
+                <h5>Are you sure want to delete delivery address?</h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-primary" id="confirm-delete-address">Yes</button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary"  id="no">No</button>
+            </div>
         </div>
     </div>
 </div>

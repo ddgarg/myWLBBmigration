@@ -20,7 +20,7 @@
     },
 
     "express": {
-        "view cache": false,
+        "view cache": true,
         "view engine": "js",
         "views": "path:./.build/templates"
     },

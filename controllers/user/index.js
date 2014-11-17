@@ -14,8 +14,10 @@ module.exports = function (router) {
 
         if(req.session.fbAccessToken) {
             fbHelper.getFriends(req, function(fbResponse){
-               // res.send(fbResponse);
-                res.render('friends', fbResponse);
+                fbHelper.getFilteredFriendsBdays(req, function (fbBdayResponse) {
+                    fbResponse.upcomingbdays = fbBdayResponse;
+                    res.render('friends', fbResponse);
+                });
             });
         }
         else

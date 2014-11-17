@@ -8,6 +8,7 @@ module.exports = function (router) {
 
     var wishlistModel = wishlist.wishlistModel();
     var userModel = user.userModel();
+
     router.get('/', function (req, res) {
 
         if (req.session.fbAccessToken) {

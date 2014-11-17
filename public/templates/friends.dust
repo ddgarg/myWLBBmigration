@@ -62,10 +62,7 @@
                         <input name="name" class="typeahead form-control input-lg"  type="text"  id="searchfriend" placeholder="Search a friend">
                 </fieldset>
 
-                <fieldset  style="margin-top: 100px">
-                    <legend>Upcoming Birthdays</legend>
-                    <div id="panel1" class="main-box"><h4></h4></div>
-                </fieldset>
+                {>"components/upcomingbirthday"/}
 
             </div>
             <div class="col-md-9">
