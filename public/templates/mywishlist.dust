@@ -74,7 +74,7 @@
 
                         {:else}
                             <address>
-                                <button type="button" id="contactformedit"  onclick="displayAddress();" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i> Update Address</button>
+                                <button type="button" id="contactformedit"  onclick="displayAddress();" class="btn btn-primary btn-sm" style="margin-left: 33%;"><i class="fa fa-pencil-square-o"></i> Update</button>
                             </address>
                         {/postalAddress.address1}
                         {/.userDetails}

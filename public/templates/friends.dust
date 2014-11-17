@@ -80,9 +80,9 @@
                                             </a>
                                             <div class="media-body">
                                                 <h4 class="media-heading">{.name}</h4>
-                                                <p><span class="label label-info">10 photos</span> <span class="label label-primary">{.birthday}</span></p>
+                                                <span class="label label-primary">{.birthday}</span></p>
                                                 <p>
-                                                    <a href="/mywishlist/{.id}" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-gift"></span>{.first_name}'s wisht list</a>
+                                                    <a href="/mywishlist/{.id}" class="btn btn-sm btn-primary pull-right"><span class="glyphicon glyphicon-gift"></span> {.first_name}'s wish list</a>
                                                     {!<a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-heart"></span> Favorite</a>!}
                                                 </p>
                                             </div>
