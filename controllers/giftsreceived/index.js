@@ -112,24 +112,24 @@ module.exports = function (router) {
 
     });
 
-    router.get('/suggestions', function (req, res) {
-        var searchQuery = req.query.query;
-
-        request ({
-            url: 'https://suggestqueries.google.com/complete/search',
-            method: 'POST',
-            dataType: 'jsonp',
-            cache: false,
-            data: {
-                output: 'firefox',
-                hl    : 'en',
-                q     : searchQuery
-            }
-        },function(error, response, data) {
-            console.log(response[1]);
-            res.send(response[1]);
-        });
-        console.log("coming here shouldn't");
-    });
+//    router.get('/suggestions', function (req, res) {
+//        var searchQuery = req.query.query;
+//
+//        request ({
+//            url: 'https://suggestqueries.google.com/complete/search',
+//            method: 'POST',
+//            dataType: 'jsonp',
+//            cache: false,
+//            data: {
+//                output: 'firefox',
+//                hl    : 'en',
+//                q     : searchQuery
+//            }
+//        },function(error, response, data) {
+//            console.log(response[1]);
+//            res.send(response[1]);
+//        });
+//        console.log('coming here');
+//    });
 
 };

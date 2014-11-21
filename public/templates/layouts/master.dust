@@ -11,107 +11,19 @@
         <link rel="stylesheet" type="text/css" href="../css/twitter-example.css">
         <link rel="stylesheet" type="text/css" href="../css/animate.css">
 
-
-
-            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-        <script type='text/javascript' src="../js/typeahead.bundle.js"></script>
-        <script type='text/javascript' src="../js/notify.min.js"></script>
-        <script type='text/javascript' src="../js/jquery.vticker.min.js"></script>
-
-        <script type="text/javascript">
-            $(window).load(function() {
-                $(".loader").fadeOut("slow");
-            })
-        </script>
-
     </head>
     <body class="mobile">
     <div id="fb-root"></div>
-    <script>
-        window.fbAsyncInit = function() {
-
-            FB.init({
-                appId      : '1440831706165680',
-                cookie     : true,
-                status     : true,
-                xfbml      : true,
-                version    : 'v1.0'
-            });
-
-        };
-
-        function post(path, params, method) {
-            method = method || "post";
-            var form = document.createElement("form");
-            form.setAttribute("method", method);
-            form.setAttribute("action", path);
-
-            for(var key in params) {
-                if(params.hasOwnProperty(key)) {
-                    var hiddenField = document.createElement("input");
-                    hiddenField.setAttribute("type", "hidden");
-                    hiddenField.setAttribute("name", key);
-                    hiddenField.setAttribute("value", params[key]);
-
-                    form.appendChild(hiddenField);
-                }
-            }
-
-            document.body.appendChild(form);
-            form.submit();
-        }
-
-        function  fbLogin (){
-            FB.login(function(response) {
-                console.log(response);
-
-                var fbAuthResponse = response.authResponse;
-                {!if authenticated load mywishlist page!}
-                if (response.authResponse) {
-                    post('/login', {accessToken : fbAuthResponse.accessToken, userId : fbAuthResponse.userID, signedRequest : fbAuthResponse.signedRequest});
-                }
-                {! else redirect the user to login page!}
-                else {
-                    window.location="/";
-                    console.log('User cancelled login or did not fully authorize.');
-                }
-                },{scope: 'public_profile,email,publish_actions,user_friends,user_birthday'}); {!required permissions!}
-        }
-
-        function fblogout(){
-            FB.getLoginStatus(function(response) {
-
-                if (response && response.status === 'connected') {
-                    FB.logout(function(response) {
-                        window.location ="/logout";
-                    });
-                }
-                else {
-                    window.location ="/logout";
-                }
-            });
-        }
-        (function() {
-            var e = document.createElement('script');
-            e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
-            e.async = true;
-            document.getElementById('fb-root').appendChild(e);
-        }());
-    </script>
-
-
 
     <div class="loader"></div>
 
         {+body /}
-        <div id="footer">
-            <div class="fl">
-                <a href="/" title="Vivek Dogra Website" rel="generator">Copyright &copy; 2014 </a>
-                <span class="sep"> | </span>
-                <a href="/" rel="owner">Gift n Wish</a>.
-            </div>
+    <footer class="footer">
+        <div class="container">
+            <a href="/" title="Vivek Dogra Website" rel="generator">Copyright &copy; 2014 </a>
+            <span class="sep"> | </span>
+            <a href="/" rel="owner">Gift n Wish</a>.
         </div>
-        <script data-main="/js/app" src="/components/requirejs/require.js"></script>
+    </footer>
     </body>
 </html>

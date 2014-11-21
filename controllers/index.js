@@ -11,8 +11,25 @@ module.exports = function (router) {
     var userModel = user.userModel();
 
     router.get('/', function(req, res) {
-        logger.log('info', 'login request');
-        res.redirect('/login');
+        if (req.session.fbAccessToken) {
+            res.render('index', {});
+        }
+        else {
+            // redirect the user to login page if fbAccessToken is not available in session
+            res.redirect('/login');
+        }
+
+    });
+
+    router.get('/home', function (req, res) {
+
+        if (req.session.fbAccessToken) {
+            res.render('index', {});
+        }
+        else {
+            // redirect the user to login page if fbAccessToken is not available in session
+            res.redirect('/');
+        }
     });
 
 
@@ -23,7 +40,7 @@ module.exports = function (router) {
     // for get request from web browser
     router.get('/login', function(req, res) {
         if (req.session.fbAccessToken) {
-            res.redirect('/mywishlist');
+            res.redirect('/');
         }
         else {
             // render login page if fbAccessToken is not available in session
@@ -46,7 +63,7 @@ module.exports = function (router) {
                 }
                 else if(user){
                     console.log('user found');
-                    res.redirect('/mywishlist');
+                    res.redirect('/home');
                 }
                 else {
                     //createUserFromFb(req, formatFbUser(userObj, saveToDb(formattedUser)));
@@ -58,12 +75,12 @@ module.exports = function (router) {
                                 res.redirect('/');
                             }
                             else {
-                                res.redirect('/mywishlist');
+                                res.redirect('/home');
                             }
                         });
                     });
                 }
-            })
+            });
         });
     });
 
@@ -75,7 +92,7 @@ module.exports = function (router) {
             }
             else
             {
-                res.redirect('/login');
+                res.redirect('/');
             }
         });
     });

@@ -22,7 +22,7 @@ module.exports = function (router) {
             }
             else
             {
-                res.send({"productID": result._id});
+                res.send({'productID': result._id});
             }
         });
     });
@@ -50,7 +50,7 @@ module.exports = function (router) {
                 res.send({error:'error'});
             }
 
-            if(typeof result.amazonCaller == 'undefined' && typeof result.googleAmazonCaller == 'undefined')
+            if(typeof result.amazonCaller === 'undefined' && typeof result.googleAmazonCaller === 'undefined')
             {
                 console.timeEnd('getproducts');
                 res.send({error:'error'});
@@ -60,16 +60,16 @@ module.exports = function (router) {
 
     router.delete('/deleteproduct', function (req, res) {
 
-        wishlistModel.remove({"userId": req.session.userId, "asin": req.body.asin}, function(err){
+        wishlistModel.remove({'userId': req.session.userId, 'asin': req.body.asin}, function(err){
            if(err)
            {
-               console.log("error while deleting product: " + err );
+               console.log('error while deleting product: ' + err );
                res.send({});
            }
            else
            {
-              // res.redirect("/mywishlist");
-              res.send({"response": "Product Deleted"});
+              // res.redirect('/mywishlist');
+              res.send({'response': 'Product Deleted'});
            }
         });
 

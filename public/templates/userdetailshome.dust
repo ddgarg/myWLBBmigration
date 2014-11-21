@@ -1,0 +1,47 @@
+<fieldset>
+    <legend>Hello, {.firstName}!</legend>
+
+
+    <div class="well well-sm">
+        <div class="media">
+            <a class="thumbnail profile-card pull-left" href="#"><img class="media-object" src="http://graph.facebook.com/{.userId}/picture?type=small"></a>
+
+            <div class="media-body">
+                <h4 class="media-heading">{.firstName} {.lastName}</h4>
+
+                <p>
+                    <span class="label label-primary">{.birthday}</span></p>
+            </div>
+        </div>
+    </div>
+    <div class="alert alert-success">
+        <h4 class="text-center"><label class="label label-primary text-center">Delivery address</label>
+        </h4>
+        <hr>
+            {#postalAddress.address1}
+                {#postalAddress}
+                    <address>
+                        <strong>{name}</strong>
+                        <br>
+                        {address1}
+                        <br>
+                        {address2}
+                        <br>
+                        {city}
+                        <br>
+                        {state}
+                        <br>
+                        {country} - {pincode}
+                        <br>
+                        <button type="button" id="contactformedit" onclick="displayAddress();" class="btn btn-primary btn-sm pull-right"><i class="fa fa-pencil-square-o"></i> Update</button>
+                        <br>
+                    </address>
+                {/postalAddress}
+
+            {:else}
+                <address>
+                    <button type="button" id="contactformedit" onclick="displayAddress();" class="btn btn-primary btn-sm" style="margin-left: 33%;"><i class="fa fa-pencil-square-o"></i> Update </button>
+                </address>
+            {/postalAddress.address1}
+    </div>
+</fieldset>

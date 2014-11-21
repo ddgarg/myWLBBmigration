@@ -10,20 +10,20 @@
     {>"components/navbar"/}
     <script>
 
-    var globalAsinArray = new Array();
+        var globalAsinArray = new Array();
 
-    function addAsinToGlobalArray(asin) {
-        globalAsinArray.push(asin);
-    }
-
-    function removeAsinFromGlobalArray(asin) {
-
-        var index = globalAsinArray.indexOf(asin);
-        if (index > -1) {
-            globalAsinArray.splice(index, 1);
+        function addAsinToGlobalArray(asin) {
+            globalAsinArray.push(asin);
         }
 
-    }
+        function removeAsinFromGlobalArray(asin) {
+
+            var index = globalAsinArray.indexOf(asin);
+            if (index > -1) {
+                globalAsinArray.splice(index, 1);
+            }
+
+        }
 
     </script>
     <div class="container">
@@ -35,9 +35,12 @@
 
                     <div class="well well-sm">
                         <div class="media">
-                            <a class="thumbnail profile-card pull-left" href="#" ><img class="media-object" src="http://graph.facebook.com/{.userDetails.userId}/picture?type=small"></a>
+                            <a class="thumbnail profile-card pull-left" href="#"><img class="media-object"
+                                                                                      src="http://graph.facebook.com/{.userDetails.userId}/picture?type=small"></a>
+
                             <div class="media-body">
                                 <h4 class="media-heading">{.userDetails.firstName} {.userDetails.lastName}</h4>
+
                                 <p>
 
                                     <span class="label label-primary">{.userDetails.birthday}</span></p>
@@ -46,37 +49,44 @@
                         </div>
                     </div>
                     <div class="alert alert-success">
-                        <h4 class="text-center"><label class="label label-primary text-center">Delivery address</label></h4>
+                        <h4 class="text-center"><label class="label label-primary text-center">Delivery address</label>
+                        </h4>
                         <hr>
                         {#.userDetails}
-                        {#postalAddress.address1}
-                            {#postalAddress}
-                            <address>
+                            {#postalAddress.address1}
+                                {#postalAddress}
+                                    <address>
 
-                                <strong>{name}</strong>
-                                <br>
-                                {address1}
-                                <br>
-                                {address2}
-                                <br>
-                                {city}
-                                <br>
-                                {state}
-                                <br>
-                                {country} - {pincode}
-                                <br>
-                                <button type="button" id="contactformedit"  onclick="displayAddress();" class="btn btn-primary btn-sm pull-right"><i class="fa fa-pencil-square-o"></i> Update</button>
-                                <br>
-                            </address>
-                            {/postalAddress}
+                                        <strong>{name}</strong>
+                                        <br>
+                                        {address1}
+                                        <br>
+                                        {address2}
+                                        <br>
+                                        {city}
+                                        <br>
+                                        {state}
+                                        <br>
+                                        {country} - {pincode}
+                                        <br>
+                                        <button type="button" id="contactformedit" onclick="displayAddress();"
+                                                class="btn btn-primary btn-sm pull-right"><i
+                                                class="fa fa-pencil-square-o"></i> Update
+                                        </button>
+                                        <br>
+                                    </address>
+                                {/postalAddress}
 
 
 
-                        {:else}
-                            <address>
-                                <button type="button" id="contactformedit"  onclick="displayAddress();" class="btn btn-primary btn-sm" style="margin-left: 33%;"><i class="fa fa-pencil-square-o"></i> Update</button>
-                            </address>
-                        {/postalAddress.address1}
+                            {:else}
+                                <address>
+                                    <button type="button" id="contactformedit" onclick="displayAddress();"
+                                            class="btn btn-primary btn-sm" style="margin-left: 33%;"><i
+                                            class="fa fa-pencil-square-o"></i> Update
+                                    </button>
+                                </address>
+                            {/postalAddress.address1}
                         {/.userDetails}
                     </div>
                 </fieldset>
@@ -87,43 +97,57 @@
 
                 <div class="home-wish-search" style="margin-top: 5px">
 
-                    <form class="form-inline searchwishform" style="margin-left: 3%; margin-bottom: 20px;" method="POST" action="/products/searchproducts">
+                    <form class="form-inline searchwishform" style="margin-left: 3%; margin-bottom: 20px;" method="POST"
+                          action="/products/searchproducts">
                         <div class="form-group">
                             <label class="sr-only" for="searchProducts">Make a Wish</label>
+
                             <div class="input-group" style="padding-right:10px">
-                                <input name="name" class="typeahead home-search-wish-input form-control input-lg" type="text" id="searchPrductBox" placeholder="Make a wish...">
+                                <input name="name" class="typeahead home-search-wish-input form-control input-lg"
+                                       type="text" id="searchPrductBox" placeholder="Make a wish...">
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-success btn-lg"><i class="fa fa-search" style="padding-left: 21px; padding-right: 16px"></i></button>
+                        <button type="submit" class="btn btn-success btn-lg"><i class="fa fa-search"
+                                                                                style="padding-left: 21px; padding-right: 16px"></i>
+                        </button>
                     </form>
                 </div>
 
                 <fieldset>
                     <legend>My WishList</legend>
-                <ul class="thumbnails wishes">
-                    {?wishList}
+                    <ul class="thumbnails wishes">
+                        {?wishList}
 
-                        {#wishList}
-                            <script>addAsinToGlobalArray("{.asin}")</script>
-                            <li class="col-md-3 main-wishlist-li" id="{.asin}">
-                                <div class="thumbnail">
-                                    <button type="button" class="deleteProduct close" id="{.asin}" data-toggle="modal" data-target="#deleteConfirmationModal"><span data-toggle="tooltip" data-placement="left" title="Delete this wish.">×</span><span class="sr-only">Close</span></button>
-                                    <div class="prod-desc"><a class="item_link" href="{.item_link}" target="_blank"><img class="item_image" src="{.item_image}"></a></div>
-                                    <div class="caption">
-                                        <p class="text-center item_title">{.item_title}</p>
+                            {#wishList}
+                                <script>addAsinToGlobalArray("{.asin}")</script>
+                                <li class="col-md-3 main-wishlist-li" id="{.asin}">
+                                    <div class="thumbnail">
+                                        <button type="button" class="deleteProduct close" id="{.asin}"
+                                                data-toggle="modal" data-target="#deleteConfirmationModal"><span
+                                                data-toggle="tooltip" data-placement="left"
+                                                title="Delete this wish.">×</span><span class="sr-only">Close</span>
+                                        </button>
+                                        <div class="prod-desc"><a class="item_link" href="{.item_link}" target="_blank"><img
+                                                class="item_image" src="{.item_image}"></a></div>
+                                        <div class="caption">
+                                            <p class="text-center item_title">{.item_title}</p>
+                                        </div>
+                                        <div class="price-div">
+                                            <a class="item_link" href="{.item_link}" target="_blank"><img
+                                                    class="pull-left amazon-logo"
+                                                    src="http://g-ec2.images-amazon.com/images/G/31/associates/promohub/amazonIN_logo_200_75.jpg?tag-id=giftnwishcom-21"
+                                                    border="0" alt="In Association with Amazon.in"></a>
+                                            <h4><span
+                                                    class="pull-right label label-success price">{pricing.retail}</span>
+                                            </h4>
+                                        </div>
                                     </div>
-                                    <div class="price-div">
-                                        <a class="item_link" href="{.item_link}" target="_blank"><img class="pull-left amazon-logo" src="http://g-ec2.images-amazon.com/images/G/31/associates/promohub/amazonIN_logo_200_75.jpg?tag-id=giftnwishcom-21" border="0" alt="In Association with Amazon.in"></a>
-                                       <h4><span class="pull-right label label-success price">{pricing.retail}</span></h4>
-                                    </div>
+                                </li>
 
-                                </div>
-                            </li>
+                            {/wishList}
 
                         {/wishList}
-
-                    {/wishList}
-                </ul>
+                    </ul>
                 </fieldset>
 
             </div>
@@ -137,11 +161,14 @@
         <div class="large-modal">
             <div class="modal-content">
                 <div class="modal-header" style="min-height: 68px;">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span><span class="sr-only">Close</span></button>
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span><span class="sr-only">Close</span>
+                    </button>
 
-                        <h4 class="modal-title pull-left" id="myModalLabel" style="margin-right:15%">Add to Your WishList</h4>
+                    <h4 class="modal-title pull-left" id="myModalLabel" style="margin-right:15%">Add to Your
+                        WishList</h4>
 
-                    <div id="notification-div" class="col-md-5 alert alert-danger fade in alert-hide" style="padding:11px">
+                    <div id="notification-div" class="col-md-5 alert alert-danger fade in alert-hide"
+                         style="padding:11px">
                         <button class="close" data-dismiss="alert">
                             ×
                         </button>
@@ -154,16 +181,21 @@
                     <div class="row">
                         <div class="col-md-10">
 
-                        <form class="form-inline searchwishform" style="margin-left: 3%; margin-bottom: 20px;" method="POST" action="/products/searchproducts">
-                            <div class="form-group">
-                                <label class="sr-only" for="searchProducts">Make a wish...</label>
-                                <div class="input-group" style="padding-right:10px">
-                                    {!<span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>!}
-                                    <input name="name" class="typeahead form-control input-lg" type="text" id="searchPrductBox" placeholder="Make a wish..." style="width:670px">
+                            <form class="form-inline searchwishform" style="margin-left: 3%; margin-bottom: 20px;"
+                                  method="POST" action="/products/searchproducts">
+                                <div class="form-group">
+                                    <label class="sr-only" for="searchProducts">Make a wish...</label>
+
+                                    <div class="input-group" style="padding-right:10px">
+                                        {!<span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>!}
+                                        <input name="name" class="typeahead form-control input-lg" type="text"
+                                               id="searchPrductBox" placeholder="Make a wish..." style="width:670px">
+                                    </div>
                                 </div>
-                            </div>
-                            <button type="submit" class="btn btn-success btn-lg" style="padding: 11px 30px;">Search</button>
-                        </form>
+                                <button type="submit" class="btn btn-success btn-lg" style="padding: 11px 30px;">
+                                    Search
+                                </button>
+                            </form>
                         </div>
                         <div class="col-md-1">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>
@@ -193,8 +225,10 @@
                     <h5>Are you sure want to delete this product?</h5>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn btn-primary" id="confirmProductDelete" onclick="deleteProduct(this.value)">Yes</button>
-                    <button type="button" data-dismiss="modal" class="btn btn-primary"  id="no">No</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-primary" id="confirmProductDelete"
+                            onclick="deleteWish(this.value)">Yes
+                    </button>
+                    <button type="button" data-dismiss="modal" class="btn btn-primary" id="no">No</button>
                 </div>
             </div>
         </div>

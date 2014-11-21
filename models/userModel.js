@@ -11,7 +11,7 @@ var userSchema = mongoose.Schema({
     },
     profilePhoto: {
         type:String,
-        default:"../img/default-user.jpg"
+        default:'../img/default-user.jpg'
     },
 
     firstName: {

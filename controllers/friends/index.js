@@ -29,7 +29,6 @@ module.exports = function (router) {
         {
             wishlistModel.find({'userId' : req.params.userId}, function (err, wishes) {
                 if (err) {
-                    logger.error('mongo err : ' + err);
                     res.redirect('/mywishlist');
                 }
                 else{

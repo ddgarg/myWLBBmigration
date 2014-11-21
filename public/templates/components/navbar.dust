@@ -12,7 +12,7 @@
         {!<div class="right-offset">!}
         <ul class="nav navbar-nav navbar-right navbar-top">
             <li>
-                <a href="/mywishlist">Home</a>
+                <a href="#wishlist">Home</a>
             </li>
             <li>
                 <a href="/user/friends">My Friends</a>

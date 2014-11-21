@@ -27,13 +27,47 @@ module.exports = function (router) {
 
     });
 
+    router.get('/details', function(req, res){
+
+        if(req.session.fbAccessToken) {
+            userModel.findOne({'userId': req.session.userId}, function (err, user) {
+                if (err) {
+
+                    res.redirect('/login');
+                }
+                else {
+                    res.json(user);
+                 }
+            });
+        }
+        else
+        {
+            res.redirect('/login');
+        }
+
+    });
+
+    router.get('/friends/birthday', function(req, res){
+
+        if(req.session.fbAccessToken) {
+            fbHelper.getFilteredFriendsBdays(req, function (fbBdayResponse) {
+                res.json(fbBdayResponse);
+            });
+        }
+        else
+        {
+            res.redirect('/login');
+        }
+
+
+    });
+
     router.get('/wishlist/:userId', function(req, res) {
 
         if (req.session.fbAccessToken)
         {
             wishlistModel.find({'userId' : req.params.userId}, function (err, wishes) {
                 if (err) {
-                    logger.error('mongo err : ' + err);
                     res.redirect('/mywishlist');
                 }
                 else{
@@ -59,7 +93,7 @@ module.exports = function (router) {
 
                     if(err){
                         console.log(err);
-                        res.send({"response":"NotOk"});
+                        res.send({'response':'NotOk'});
                     }
                     else{
                         res.send(user.postalAddress);
@@ -81,7 +115,7 @@ module.exports = function (router) {
             userModel.update({'userId' : String(req.session.userId)},
                 {
                     $set: {
-                        "postalAddress": address
+                        'postalAddress': address
                     },
                     $currentDate: { lastModified: true }
                 },
@@ -91,10 +125,10 @@ module.exports = function (router) {
                 function (err) {
                     if(err){
                         console.log(err);
-                        res.send({"response":"NotOk"});
+                        res.send({'response':'NotOk'});
                     }
                     else{
-                        res.send({"response":"Ok"});
+                        res.send({'response':'Ok'});
                     }
                 });
         }
@@ -111,7 +145,7 @@ module.exports = function (router) {
             userModel.update({'userId' : String(req.session.userId)},
                 {
                     $set: {
-                        "postalAddress": {}
+                        'postalAddress': {}
                     },
                     $currentDate: { lastModified: true }
                 },
@@ -121,10 +155,10 @@ module.exports = function (router) {
                 function (err) {
                     if(err){
                         console.log(err);
-                        res.send({"response":"NotOk"});
+                        res.send({'response':'NotOk'});
                     }
                     else{
-                        res.send({"response":"Ok"});
+                        res.send({'response':'Ok'});
                     }
                 });
         }

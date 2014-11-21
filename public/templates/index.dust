@@ -1,0 +1,99 @@
+{>"layouts/master" /}
+{<body}
+{>"components/navbar"/}
+<script>var globalAsinArray = new Array();function addAsinToGlobalArray(asin) {globalAsinArray.push(asin);}function removeAsinFromGlobalArray(asin) {var index = globalAsinArray.indexOf(asin);if (index > -1) {globalAsinArray.splice(index, 1);}}</script>
+<div class="container">
+    <div class="row col-md-12">
+        <div class="col-md-3">
+            <div id="userdetails">
+
+            </div>
+            <fieldset class="upcomingbdays-fieldset">
+                <legend>Upcoming Birthdays</legend>
+                <div id="upcomingbdaysdiv">
+
+                </div>
+
+             </fieldset>
+        </div>
+        <div class="col-md-9">
+
+            <div class="home-wish-search" style="margin-top: 5px">
+
+                <form class="form-inline searchwishform" style="margin-left: 3%; margin-bottom: 20px;" method="POST"
+                      action="/products/searchproducts">
+                    <div class="form-group">
+                        <label class="sr-only" for="searchProducts">Make a Wish</label>
+
+                        <div class="input-group" style="padding-right:10px">
+                            <input name="name" class="typeahead home-search-wish-input form-control input-lg"
+                                   type="text" id="searchPrductBox" placeholder="Make a wish...">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-lg"><i class="fa fa-search"
+                                                                            style="padding-left: 21px; padding-right: 16px"></i>
+                    </button>
+                </form>
+            </div>
+
+            <fieldset>
+                <legend>My WishList</legend>
+                <div id="wishlistdiv">
+
+                </div>
+
+            </fieldset>
+
+        </div>
+    </div>
+</div>
+<!-- Button trigger modal --><!-- Modal -->
+<div id="loader-div"></div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+    <div class="large-modal">
+        <div class="modal-content">
+            <div class="modal-header" style="min-height: 68px;">
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title pull-left" id="myModalLabel" style="margin-right:15%">Add to Your WishList</h4>
+                <div id="notification-div" class="col-md-5 alert alert-danger fade in alert-hide" style="padding:11px"><button class="close" data-dismiss="alert">×</button><i class="fa-fw fa fa-warning"></i><strong>No Matches</strong> Found. Please check the spelling...</div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-10">
+                        <form class="form-inline searchwishform" style="margin-left: 3%; margin-bottom: 20px;" method="POST" action="/products/searchproducts">
+                            <div class="form-group">
+                                <label class="sr-only" for="searchProducts">Make a wish...</label>
+                                <div class="input-group" style="padding-right:10px"><input name="name" class="typeahead form-control input-lg" type="text" id="searchPrductBox" placeholder="Make a wish..." style="width:670px"></div>
+                            </div>
+                            <button type="submit" class="btn btn-success btn-lg" style="padding: 11px 30px;">Search</button>
+                        </form>
+                    </div>
+                    <div class="col-md-1"><span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span></div>
+                    <div class="col-md-1"><span class="badge no-of-wishes" style="font-size:15px"></span></div>
+                </div>
+                <div class="col-md-12">
+                    <ul class="thumbnails" id="fetchedProducts"></ul>
+                </div>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">x</button>
+                <h4 class="modal-title" id="myModalLabel">Confirm</h4>
+            </div>
+            <div class="modal-body">
+                <h5>Are you sure want to delete this product?</h5>
+            </div>
+            <div class="modal-footer"><button type="button" data-dismiss="modal" class="btn btn-primary" id="confirmProductDelete" onclick="deleteProduct(this.value)">Yes</button><button type="button" data-dismiss="modal" class="btn btn-primary"  id="no">No</button></div>
+        </div>
+    </div>
+</div>
+<div class="modal-backdrop loading-wishes-backdrop fade in hide"></div>
+<script data-main="/scripts/js/main" src="/components/requirejs/require.js"></script>
+{/body}
+
