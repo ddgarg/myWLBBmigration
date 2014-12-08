@@ -1,16 +1,17 @@
-define(["jquery","underscore","backbone", "views/BdayView"], function($, _, Backbone, BdayView){
+define(['jquery', 'backbone', 'views/BdayView'], function($, Backbone, BdayView){
 
-    var BdayListView = Backbone.View.extend({
+    return Backbone.View.extend({
 
-        tagName     : "ul",
-        className   : "upcomingbdays",
+        tagName     : 'ul',
+        className   : 'upcomingbdays',
 
         initialize: function(){
+				//this.activatevticker();
             this.collection.on('reset', this.render, this);
         },
 
-        addOne: function(bday){
-            var bdayView = new BdayView({model: bday});
+        addOne: function(bdayModel){
+            var bdayView = new BdayView({model: bdayModel});
             bdayView.render();
             this.$el.append(bdayView.el);
         },
@@ -19,10 +20,17 @@ define(["jquery","underscore","backbone", "views/BdayView"], function($, _, Back
         },
         render: function(){
             this.addAll();
+        },
+        activatevticker: function(){
+            $('.upcomingbdaysdiv').vTicker('init',
+                {
+                    speed: 1000,
+                    pause: 1000,
+                    showItems: 2,
+                    padding: 4
+                }
+            );
         }
     });
-
-    return BdayListView;
-
 });
 

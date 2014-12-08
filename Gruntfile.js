@@ -1,5 +1,3 @@
-'use strict';
-
 
 module.exports = function (grunt) {
 
@@ -9,7 +7,7 @@ module.exports = function (grunt) {
     });
 
     // Register group tasks
-    grunt.registerTask('build', [ 'jshint', 'less', 'requirejs', 'i18n', 'copyto' ]);
-    grunt.registerTask('test', [ 'jshint', 'mochacli' ]);
+    grunt.registerTask('build', [ 'less', 'requirejs', 'i18n', 'copyto' ]);
+    grunt.registerTask('test', [ 'mochacli' ]);
 
 };

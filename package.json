@@ -1,7 +1,7 @@
 {
   "name": "mywishlist",
   "version": "0.1.0",
-  "description": "Application to create a wishlist of products.",
+  "description": "Application to create a wishlist of wishes.",
   "author": "VADA",
   "main": "index.js",
   "scripts": {
@@ -27,7 +27,8 @@
     "requirejs": "^2.1.11",
     "util": "^0.10.3",
     "winston": "^0.7.3",
-    "xml2js": "^0.4.4"
+    "xml2js": "^0.4.4",
+    "moment": "^2.8.4"
   },
   "devDependencies": {
     "grunt": "^0.4.1",

@@ -1,0 +1,21 @@
+{#address1}
+    <address>
+        <strong>{name}</strong>
+        <br>
+        {address1}
+        <br>
+        {address2}
+        <br>
+        {city}
+        <br>
+        {state}
+        <br>
+        {country} - {pincode}
+        <br>
+        <br>
+    </address>
+{:else}
+    <address>
+        <a href style="margin-left: 20%; font-size: medium"> <i class="fa fa-question-circle"></i> Ask Your Friend !</a>
+    </address>
+{/address1}

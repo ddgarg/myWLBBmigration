@@ -1,43 +1,30 @@
 'use strict';
 
 var fbHelper = require('../../lib/fbHelper');
-var wishlist      = require('../../models/wishlistModel');
-var user      = require('../../models/userModel');
+var wishFactory = require('../../models/wishModel');
+var userFactory = require('../../models/userModel');
 
+module.exports = function (router){
 
-module.exports = function (router) {
+	var wishModel = wishFactory.wishModel();
+	var userModel = userFactory.userModel();
 
-    var wishlistModel= wishlist.wishlistModel();
-    var userModel   =   user.userModel();
+    router.get('/details/:id?' , function (req , res){
 
-    router.get('/friends', function(req, res){
-
-        if(req.session.fbAccessToken) {
-            fbHelper.getFriends(req, function(fbResponse){
-                fbHelper.getFilteredFriendsBdays(req, function (fbBdayResponse) {
-                    fbResponse.upcomingbdays = fbBdayResponse;
-                    res.render('friends', fbResponse);
-                });
-            });
-        }
-        else
+        if ( req.session.fbAccessToken )
         {
-            res.redirect('/login');
-        }
-
-    });
-
-    router.get('/details', function(req, res){
-
-        if(req.session.fbAccessToken) {
-            userModel.findOne({'userId': req.session.userId}, function (err, user) {
-                if (err) {
-
+            userModel.findOne({'userId' : req.session.userId} , function (err , user){
+                if ( err )
+                {
+                    /*
+                     * TODO  Not able to find user details show Internal Server Error
+                     */
                     res.redirect('/login');
                 }
-                else {
+                else
+                {
                     res.json(user);
-                 }
+                }
             });
         }
         else
@@ -47,124 +34,292 @@ module.exports = function (router) {
 
     });
 
-    router.get('/friends/birthday', function(req, res){
+    router.get('/wishlist', function (req, res) {
 
-        if(req.session.fbAccessToken) {
-            fbHelper.getFilteredFriendsBdays(req, function (fbBdayResponse) {
-                res.json(fbBdayResponse);
-            });
-        }
-        else
-        {
-            res.redirect('/login');
-        }
-
-
-    });
-
-    router.get('/wishlist/:userId', function(req, res) {
-
-        if (req.session.fbAccessToken)
-        {
-            wishlistModel.find({'userId' : req.params.userId}, function (err, wishes) {
+        if (req.session.fbAccessToken) {
+            wishModel.find({'userId': req.session.userId}, function (err, wishes) {
                 if (err) {
+
                     res.redirect('/mywishlist');
                 }
-                else{
-                    var myWishlist = { wishList: wishes };
-                    res.render('friendwishlist', myWishlist);
+                else {
+                    res.json(wishes);
                 }
             });
         }
         else {
-            // redirect the user to login page if fbAccessToken is not available in session
             res.redirect('/');
+        }
+    });
+
+    router.get('/address/:id?' , function (req , res){
+
+        if ( req.session.fbAccessToken )
+        {
+            userModel.findOne({'userId' : req.session.userId} , {deliveryAddress : 1} , function (err , result){
+                if ( err )
+                {
+                    /*
+                     *
+                     *  TODO If DB gives error for address; At least show other stuffs
+                     *
+                     *
+                     */
+                    res.redirect('/');
+                }
+                else
+                {
+                    var address = result.deliveryAddress[1] || {'addressstatus' : 'absent'};
+                    res.json(address);
+                }
+            });
+        }
+        else
+        {
+            res.redirect('/login');
         }
 
     });
 
-    router.get('/address', function(req, res) {
+    router.post('/address' , function (req , res){
 
-        if (req.session.fbAccessToken)
+        if ( req.session.fbAccessToken )
         {
             var address = req.body;
+            var response;
 
-            userModel.findOne({'userId' : String(req.session.userId)}, function (err, user) {
-
-                    if(err){
-                        console.log(err);
-                        res.send({'response':'NotOk'});
-                    }
-                    else{
-                        res.send(user.postalAddress);
-                    }
-                });
+            userModel.findOne({'userId' : req.session.userId} , function (err , user){
+                user.deliveryAddress.push(address);
+                user.save(function (err , result){
+                    console.log(err);
+                    res.json(result.deliveryAddress[1]);
+                })
+            });
         }
-        else {
-            // redirect the user to login page if fbAccessToken is not available in session
-            res.redirect('/');
-        }
-    });
-
-    router.post('/address', function(req, res) {
-
-        if (req.session.fbAccessToken)
+        else
         {
-            var address = req.body;
-
-            userModel.update({'userId' : String(req.session.userId)},
-                {
-                    $set: {
-                        'postalAddress': address
-                    },
-                    $currentDate: { lastModified: true }
-                },
-                {
-                    upsert : true
-                },
-                function (err) {
-                    if(err){
-                        console.log(err);
-                        res.send({'response':'NotOk'});
-                    }
-                    else{
-                        res.send({'response':'Ok'});
-                    }
-                });
-        }
-        else {
-            // redirect the user to login page if fbAccessToken is not available in session
             res.redirect('/');
         }
     });
 
-    router.delete('/address', function(req, res){
+    router.put('/address/:id' , function (req , res){
 
-        if (req.session.fbAccessToken)
+        if ( req.session.fbAccessToken )
         {
-            userModel.update({'userId' : String(req.session.userId)},
+            var addressID = req.param('id');
+            var updatedAddress = req.body;
+            userModel.update(
                 {
-                    $set: {
-                        'postalAddress': {}
-                    },
-                    $currentDate: { lastModified: true }
-                },
+                    userId          : req.session.userId ,
+                    deliveryAddress : {$elemMatch : {'_id' : addressID}}
+                } ,
                 {
-                    upsert : true
-                },
-                function (err) {
-                    if(err){
-                        console.log(err);
-                        res.send({'response':'NotOk'});
+                    $set : {
+                        "deliveryAddress.$" : updatedAddress
                     }
-                    else{
-                        res.send({'response':'Ok'});
-                    }
+                } , function (err , response){
+                    res.send({"response" : "ok"});
                 });
         }
-        else {
-            // redirect the user to login page if fbAccessToken is not available in session
+        else
+        {
             res.redirect('/');
         }
     });
+
+    router.delete('/address/:id' , function (req , res){
+
+        if ( req.session.fbAccessToken )
+        {
+            var addressID = req.param('id');
+            userModel.update(
+                {
+                    userId : req.session.userId
+                } ,
+                { $pull : { deliveryAddress : {'_id' : addressID} } } , function (err , response){
+                    res.send({"response" : "ok"});
+                });
+        }
+        else
+        {
+            res.redirect('/');
+        }
+    });
+
+	router.get('/friends' , function (req , res){
+
+		if ( req.session.fbAccessToken )
+		{
+			/*
+			 * TODO Do Exception Handling in fbHelper and send an error code
+			 */
+			fbHelper.getFriends(req , function (fbResponse){
+				res.json(fbResponse);
+			});
+		}
+		else
+		{
+			res.redirect('/login');
+		}
+
+	});
+
+	router.get('/getFriendsSuggestions' , function (req , res){
+
+		if ( req.session.fbAccessToken )
+		{
+			fbHelper.getFriends(req , function (fbResponse){
+                var fbFriendsFormattedArray = [];
+				var fbFriends = fbResponse.data;
+				for ( var friend = 0 ; friend < fbFriends.length ; friend++ )
+				{
+					var friendObj = {};
+					friendObj.id = fbFriends[friend].id;
+					friendObj.name = fbFriends[friend].name;
+					friendObj.picture = fbFriends[friend].picture.data.url;
+
+                    fbFriendsFormattedArray.push(friendObj);
+				}
+				res.json(fbFriendsFormattedArray);
+			});
+		}
+		else
+		{
+			res.redirect('/login');
+		}
+	});
+
+	/*
+	 *
+	 *
+	 * TODO Check for friendship; If not, show Not Found!!!
+	 *
+	 *
+	 */
+
+	router.get('/friend/details/:userId' , function (req , res){
+
+		if ( req.session.fbAccessToken )
+		{
+			userModel.findOne({'userId' : req.params.userId} , function (err , user){
+				if ( err )
+				{
+					res.redirect('/');
+				}
+				else
+				{
+					res.json(user);
+				}
+			});
+		}
+		else
+		{
+			res.redirect('/login');
+		}
+
+	});
+
+	/*
+	 *
+	 *
+	 * TODO Check for friendship; If not, show Not Found!!!
+	 *
+	 *
+	 */
+	/*
+	 *
+	 *  TODO Do NOT send mongo Id for friend's address; User doesn't need this!!!
+	 *
+	 */
+
+	router.get('/friend/address/:userId' , function (req , res){
+
+		if ( req.session.fbAccessToken )
+		{
+			userModel.findOne({'userId' : req.params.userId} , {deliveryAddress : 1} , function (err , result){
+				if ( err )
+				{
+					/*
+					 *
+					 *  TODO If DB gives error for address; At least show other stuffs
+					 *
+					 *
+					 */
+					res.redirect('/');
+				}
+				else
+				{
+					var address = result.deliveryAddress[1] || {'addressstatus' : 'absent'};
+					res.json(address);
+				}
+			});
+		}
+		else
+		{
+			res.redirect('/login');
+		}
+
+	});
+
+	/*
+	 *
+	 *
+	 * TODO Check for friendship; If not, show Not Found!!!
+	 *
+	 *
+	 */
+
+	router.get('/friends/birthday' , function (req , res){
+
+		if ( req.session.fbAccessToken )
+		{
+			/*
+			 * TODO Do Exception Handling in fbHelper and send an error code
+			 */
+			fbHelper.getFilteredFriendsBdays(req , function (fbBdayResponse){
+				res.json(fbBdayResponse);
+			});
+		}
+		else
+		{
+			res.redirect('/login');
+		}
+
+	});
+
+	/*
+	 *
+	 *
+	 * TODO Check for friendship; If not, show Not Found!!!
+	 *
+	 *
+	 */
+
+	router.get('/wishlist/:userId' , function (req , res){
+
+		if ( req.session.fbAccessToken )
+		{
+			wishModel.find({'userId' : req.params.userId} , function (err , wishes){
+				if ( err )
+				{
+					/*
+					 *
+					 *  TODO If DB gives error for wishlist; At least show meaningful message
+					 *
+					 *
+					 */
+					res.redirect('/');
+				}
+				else
+				{
+					res.json(wishes);
+				}
+			});
+		}
+		else
+		{
+			res.redirect('/');
+		}
+
+	});
 };

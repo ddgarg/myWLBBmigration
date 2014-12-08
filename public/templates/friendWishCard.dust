@@ -1,0 +1,19 @@
+<div class="main-box">
+    <div class="prod-desc friendWL">
+        <a class="item_link" href="{.item_link}" target="_blank">
+            <img class="item_image" src="{.item_image}">
+        </a>
+    </div>
+    <div class="caption">
+        <p class="text-center item_title">{.item_title}</p>
+    </div>
+    <div class="price-div">
+        <a class="item_link" href="{.item_link}" target="_blank"><img class="pull-left amazon-logo" src="https://images-na.ssl-images-amazon.com/images/G/31/associates/promohub/amazonIN_logo_200_75.jpg?tag-id=giftnwishcom-21" border="0" alt="In Association with Amazon.in"></a>
+        <h4><span class="pull-right label label-success price">{pricing.retail}</span></h4>
+    </div>
+    <div class="gift-now-div" style="text-align: center">
+        <a class="btn btn-warning item_link" href="{.item_link}" target="_blank">
+            <strong>Give <i class="fa fa-gift"></i> Now</strong>
+        </a>
+    </div>
+</div>

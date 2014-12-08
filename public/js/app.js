@@ -2,34 +2,34 @@
 
 require(["./common"], function (common) {
 
-    require(["jquery"], function(){
+	require(["jquery"], function(){
 
-    var app = {
-        initialize: function () {
-            // Your code here
-
-
-                $(document).ready(function () {
-                    $(window).load(function() {$(".loader").fadeOut("slow");});
-
-                $.ajax({
-                    url: '/mywishlist/mywl',
-                    type: 'get',
-                    success: function (data) {console.log(data);
-                        dust.render("awishlist", data, function(err, out) {
-
-                            $("#wishlistdiv").html(out);
-                        });
-                    }
-                });
+		var app = {
+			initialize: function () {
+				// Your code here
 
 
-            });
-        }
-    };
+				$(document).ready(function () {
+					$(window).load(function() {$(".loader").fadeOut("slow");});
 
-    app.initialize();
-    });
+					$.ajax({
+						       url: '/mywishlist/mywl',
+						       type: 'get',
+						       success: function (data) {console.log(data);
+							       dust.render("awishlist", data, function(err, out) {
+
+								       $("#wishlistdiv").html(out);
+							       });
+						       }
+					       });
+
+
+				});
+			}
+		};
+
+		app.initialize();
+	});
 
 });
 

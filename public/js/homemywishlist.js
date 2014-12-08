@@ -276,7 +276,7 @@ function deleteProduct(asin) {
     console.log(asin);
 
     $.ajax({
-        url: '/products/deleteproduct',
+        url: '/wishes/deleteproduct',
         method: 'DELETE',
         cache: false,
         data: {"asin": asin}
@@ -456,7 +456,7 @@ $(document).on("click", ".add-to-wishlist", function () {
         });
     }
     $.ajax({
-        url: '/products/addtowishlist',
+        url: '/wishes/addtowishlist',
         method: 'POST',
         cache: false,
         data: item_obj

@@ -1,0 +1,26 @@
+{#address1}
+    <address>
+        <strong>{name}</strong>
+        <br>
+        {address1}
+        <br>
+        {address2}
+        <br>
+        {city}
+        <br>
+        {state}
+        <br>
+        {country} - {pincode}
+        <br>
+        <button type="button" data-toggle="modal" data-target="#addressModal" id="updateaddress" class="btn btn-primary btn-sm pull-right"><i class="fa fa-pencil-square-o"></i> Update
+        </button>
+        <br>
+    </address>
+{:else}
+
+    <address>
+        <button type="button" data-toggle="modal" data-target="#addressModal" id="updateaddress" class="btn btn-primary btn-sm" style="margin-left: 33%;"><i class="fa fa-pencil-square-o"></i> Update
+        </button>
+    </address>
+
+{/address1}

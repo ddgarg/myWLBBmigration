@@ -1,34 +1,18 @@
-define(["jquery","underscore","backbone","dustcore"], function($, _, Backbone){
+define(['jquery', 'backbone','templates/upcomingBirthdays'], function($, Backbone){
 
-    var BdayView = Backbone.View.extend({
+    return Backbone.View.extend({
 
-        tagName     : "li",
-
-//        events: {
-//
-//            "click button.deleteProduct" : "showDeleteProductConfirmation"
-//        },
-
-//        showDeleteProductConfirmation: function(e) {
-//
-//            e.preventDefault();
-//            $("#deleteConfirmationModal").modal();
-//
-//        },
-
+        tagName     : 'li',
 
         initialize: function(){
             this.render();
         },
         render: function(){
             var self = this;
-            dust.render("upcomingbirthday", this.model.toJSON(), function(err, out){
+            dust.render('upcomingBirthdays', this.model.toJSON(), function(err, out){
                 self.$el.html(out);
             });
         }
     });
-
-    return BdayView;
-
 });
 

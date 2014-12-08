@@ -1,22 +1,43 @@
 {>"layouts/master" /}
-
 {<body}
+    <div id="fb-root"></div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+                <div class="loginBox">
+                    <fieldset class="main-box">
+                        <legend>Login</legend>
+                        <div class="col-md-4">
+                            <a onclick="fbLogin();">
+                                <div id="facebook"><i class="fa-facebook fa"
+                                                      style="color: hsl(0, 100%, 100%); font-size: 7em; display: block;"></i>
 
-    <div class="login-page">
-        <div class="row">
-            <fieldset class="main-box">
-                <legend>Login</legend>
-                <div class="login-box" >
-                    <div id="fb-root"></div>
-                    <a onclick="fbLogin();"><div id="facebook"><i class="fa-facebook fa" style="color: hsl(0, 100%, 100%); font-size: 7em; display: block;"></i><div id="connect">Connect with Facebook</div></div></a>
-                    <div id="mainlogin">
-                        <div id="or"><i class="glyphicon glyphicon-plus white"></i></div>
-                        <h1>Welcome to GiftnWish</h1>
-                        <div id="note"><a href="#">Login with your Facebook account to create your wish list.</a></div>
-                    </div>
+                                    <div id="connect">Connect with Facebook</div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-8">
+
+                            <div id="mainlogin">
+                                <div id="or"><i class="fa fa-2x fa-gift"></i></div>
+                                <h2>Welcome to GiftnWish</h2>
+
+                                <div id="note">
+                                    <h4>Login with your Facebook account to create your wish
+                                    list.
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
                 </div>
-            </fieldset>
+            </div>
+
+            {!</div>!}
+            <div class="col-md-4">
+            </div>
         </div>
-    </div>
-    <script data-main="/scripts/js/loginapp" src="/components/requirejs/require.js"></script>
+        </div>
 {/body}

@@ -1,0 +1,14 @@
+<legend>Hello, {.firstName}!</legend>
+<div class="well well-sm">
+    <div class="media">
+        <a class="thumbnail profile-card pull-left" href="#">
+            <img class="media-object" src="https://graph.facebook.com/{.userId}/picture?type=normal">
+        </a>
+        <div class="media-body">
+            <h4 class="media-heading">{.firstName} {.lastName}</h4>
+            <p>
+                <span class="label label-primary">{.birthday}</span>
+            </p>
+        </div>
+    </div>
+</div>

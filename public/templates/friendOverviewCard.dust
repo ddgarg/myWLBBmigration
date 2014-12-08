@@ -1,0 +1,22 @@
+<div class="well well-sm nice-transparent-background">
+    <div class="media">
+        <a class="thumbnail profile-card pull-left" href="https://wwww.facebook.com/{.id}" target="_blank">
+            {#picture.data.is_silhouette}
+                <i class="fa fa-9x fa-smile-o"></i>
+            {:else}
+                <img class="media-object" src="https://graph.facebook.com/{.id}/picture?type=normal">
+            {/picture.data.is_silhouette}
+        </a>
+        <div class="media-body">
+            <h4 class="media-heading">{.name}</h4>
+            {#birthday}
+                <span class="label label-primary">{.}</span></p>
+            {:else}
+                <span class="label label-primary">Not shared</span></p>
+            {/birthday}
+            <p>
+                <a href="#friendWL/{.id}" class="btn btn-sm btn-primary pull-right"><span class="fa fa-2x fa-gift"></span> {.first_name}'s wish list</a>
+            </p>
+        </div>
+    </div>
+</div>

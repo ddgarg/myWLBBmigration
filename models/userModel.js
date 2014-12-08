@@ -1,6 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose');
+var moment  = require('moment');
 
 var userSchema = mongoose.Schema({
 
@@ -38,29 +39,68 @@ var userSchema = mongoose.Schema({
         type:String,
         default:''
     },
-    postalAddress : {
-        name: {
-            type: String
-        },
-        address1: {
-            type: String
-        },
-        address2: {
-            type: String
-        },
-        city: {
-            type: String
-        },
-        state: {
-            type: String
-        },
-        country: {
-            type: String
-        },
-        pincode: {
-            type: String
-        }
-    },
+    deliveryAddress :
+         [
+            {
+                name: {
+                    type: String,
+                    default:''
+                },
+                kind: {
+                    type:String
+                },
+                address1: {
+                    type: String
+                },
+                address2: {
+                    type: String
+                },
+                city: {
+                    type: String
+                },
+                state: {
+                    type: String
+                },
+                country: {
+                    type: String
+                },
+                pincode: {
+                    type: String
+                }
+            }
+        ],
+//    deliveryAddress : {
+//        type:Array,
+//        default: [
+//            {
+//                name: {
+//                    type: String,
+//                    default:''
+//                },
+//                kind: {
+//                    type:String
+//                },
+//                address1: {
+//                    type: String
+//                },
+//                address2: {
+//                    type: String
+//                },
+//                city: {
+//                    type: String
+//                },
+//                state: {
+//                    type: String
+//                },
+//                country: {
+//                    type: String
+//                },
+//                pincode: {
+//                    type: String
+//                }
+//            }
+//        ]
+//    },
     phoneNo : {
         type: Number
     },
@@ -82,7 +122,12 @@ var fillUser = function (req) {
     user.firstName  = req.firstName;
     user.lastName   = req.lastName;
     user.emailId    = req.emailId;
-    user.postalAddress = req.postalAddress;
+    user.fblink     = req.fblink;
+    user.gender     = req.gender;
+    user.email    = req.email;
+    user.birthday   = moment(req.birthday).format('Do MMM');
+    user.deliveryAddress = [];
+    user.deliveryAddress.push(req.deliveryAddress | {}) ;
     user.phoneNo    = req.phoneNo;
     user.timeCreated= new Date();
 
