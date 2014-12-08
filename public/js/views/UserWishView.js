@@ -1,4 +1,4 @@
-define(['jquery', 'backbone','templates/userWishCard'], function($, Backbone){
+define(['jquery', 'backbone','../../templates/US/en/userWishCard'], function($, Backbone){
 
     return Backbone.View.extend({
 

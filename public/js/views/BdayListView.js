@@ -6,7 +6,6 @@ define(['jquery', 'backbone', 'views/BdayView'], function($, Backbone, BdayView)
         className   : 'upcomingbdays',
 
         initialize: function(){
-				//this.activatevticker();
             this.collection.on('reset', this.render, this);
         },
 
@@ -20,6 +19,7 @@ define(['jquery', 'backbone', 'views/BdayView'], function($, Backbone, BdayView)
         },
         render: function(){
             this.addAll();
+            this.activatevticker();
         },
         activatevticker: function(){
             $('.upcomingbdaysdiv').vTicker('init',

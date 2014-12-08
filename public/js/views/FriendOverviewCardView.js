@@ -1,4 +1,4 @@
-define(['jquery','backbone', 'templates/friendOverviewCard'], function($,Backbone){
+define(['jquery','backbone', '../../templates/US/en/friendOverviewCard'], function($,Backbone){
 
     return Backbone.View.extend({
 

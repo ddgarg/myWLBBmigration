@@ -1,5 +1,5 @@
 requirejs.config({
-    baseUrl: "scripts",
+    baseUrl: "./js",
     paths: {
         jquery: "//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min",
         jqueryui: "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min",
@@ -14,8 +14,8 @@ requirejs.config({
         essentials: "./featurejs/essentials",
         growl: "./featurejs/bootstrap-growl.min",
         growlfn: "./featurejs/growl-notification",
-        loadModules: "./js/loadModules",
-        app: "./js/app"
+        loadModules: "./loadModules",
+        app: "./app"
     },
     shim: {
         jqueryui: {
@@ -53,7 +53,7 @@ requirejs.config({
     }
 });
 
-require(["jquery", "backbone", "dustcore", "bootstrap","typeahead"], function ($, Backbone, dust) {
+require(["jquery", "backbone", "dustcore", "bootstrap","typeahead", "vticker"], function ($, Backbone, dust) {
     require(["loadModules"], function () {
         require(["app"], function (App) {
             window.app = new App();

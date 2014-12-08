@@ -1,4 +1,4 @@
-define(['jquery', 'backbone','templates/userProfileCard'], function($, Backbone){
+define(['jquery', 'backbone','../../templates/US/en/userProfileCard'], function($, Backbone){
 
     return UserProfileCardView = Backbone.View.extend({
 

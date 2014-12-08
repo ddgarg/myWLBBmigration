@@ -1,39 +1,20 @@
-'use strict';
+define(["backbone","routers/AppRouter"], function(Backbone, AppRouter){
 
-require(["./common"], function (common) {
+    return App = Backbone.View.extend({
 
-	require(["jquery"], function(){
+        el: $('body'),
 
-		var app = {
-			initialize: function () {
-				// Your code here
+        createCommonComponents: function(){
+            userAddressModel.fetch({"success": function(){
+                $("#addressdiv").html(userAddressInModalView.el);
+            }});
 
-
-				$(document).ready(function () {
-					$(window).load(function() {$(".loader").fadeOut("slow");});
-
-					$.ajax({
-						       url: '/mywishlist/mywl',
-						       type: 'get',
-						       success: function (data) {console.log(data);
-							       dust.render("awishlist", data, function(err, out) {
-
-								       $("#wishlistdiv").html(out);
-							       });
-						       }
-					       });
-
-
-				});
-			}
-		};
-
-		app.initialize();
-	});
+        },
+        start: function () {
+            this.createCommonComponents();
+            new AppRouter();
+            Backbone.history.start();
+        }
+    });
 
 });
-
-//require(["upcomingbirthday", "awishlist"], function()
-//{
-//
-//});

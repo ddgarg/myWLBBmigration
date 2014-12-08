@@ -1,4 +1,4 @@
-define(['jquery','backbone', 'templates/userFriends'], function($, Backbone){
+define(['jquery','backbone', '../../templates/US/en/userFriends'], function($, Backbone){
 
     return Backbone.View.extend({
 

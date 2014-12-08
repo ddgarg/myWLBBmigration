@@ -1,4 +1,4 @@
-define(['jquery', 'backbone','formvalidate','templates/userAddressInModal'], function ($, Backbone) {
+define(['jquery', 'backbone','formvalidate','../../templates/US/en/userAddressInModal'], function ($, Backbone) {
 
     return Backbone.View.extend({
 
