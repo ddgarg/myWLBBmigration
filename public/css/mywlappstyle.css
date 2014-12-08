@@ -1042,3 +1042,8 @@ h4.media-heading{
 .typeahead, .tt-query, .tt-hint {
     padding: 0px 22px !important;
 }
+
+.profile-card > img.media-object {
+    max-height: 100px;
+    max-width: 100px;
+}
