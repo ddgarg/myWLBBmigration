@@ -645,7 +645,7 @@ h1 {
 /*}*/
 
 .loginBox{
-    margin-top: 50px;
+    margin-top: 200px;
 }
 
 #note a {
@@ -719,7 +719,7 @@ a {
 
 #or {
     position: absolute;
-    left: -25px;
+    left: -20px;
     top: 10px;
     background: #222222;
     text-shadow: 0 2px 0px #121212;

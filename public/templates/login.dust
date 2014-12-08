@@ -3,14 +3,26 @@
     <div id="fb-root"></div>
     <div class="row">
         <div class="col-md-12">
-            <div class="col-md-4">
+            <div class="col-md-3">
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="loginBox">
                     <fieldset class="main-box">
                         <legend>Login</legend>
                         <div class="col-md-6">
-                            <a onclick="fbLogin();">
+
+                            <div id="mainlogin">
+                                <h2>Welcome to GiftnWish</h2>
+
+                                <div id="note">
+                                    <h4>Login with your Facebook account to create your wish
+                                        list.
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="or"><i class="fa fa-2x fa-gift"></i></div><a onclick="fbLogin();">
                                 <div id="facebook"><i class="fa-facebook fa"
                                                       style="color: hsl(0, 100%, 100%); font-size: 7em; display: block;"></i>
 
@@ -18,25 +30,13 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="col-md-6">
 
-                            <div id="mainlogin">
-                                <div id="or"><i class="fa fa-2x fa-gift"></i></div>
-                                <h2>Welcome to GiftnWish</h2>
-
-                                <div id="note">
-                                    <h4>Login with your Facebook account to create your wish
-                                    list.
-                                    </h4>
-                                </div>
-                            </div>
-                        </div>
                     </fieldset>
                 </div>
             </div>
 
             {!</div>!}
-            <div class="col-md-4">
+            <div class="col-md-3">
             </div>
         </div>
         </div>
