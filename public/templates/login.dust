@@ -9,7 +9,7 @@
                 <div class="loginBox">
                     <fieldset class="main-box">
                         <legend>Login</legend>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <a onclick="fbLogin();">
                                 <div id="facebook"><i class="fa-facebook fa"
                                                       style="color: hsl(0, 100%, 100%); font-size: 7em; display: block;"></i>
@@ -18,7 +18,7 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-6">
 
                             <div id="mainlogin">
                                 <div id="or"><i class="fa fa-2x fa-gift"></i></div>
